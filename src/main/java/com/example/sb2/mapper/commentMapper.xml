@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sb2.mapper.commentMapper">
+  <resultMap id="BaseResultMap" type="com.example.sb2.entity.Comment">
+    <id column="com_id" jdbcType="INTEGER" property="comId" />
+    <result column="ans_id" jdbcType="INTEGER" property="ansId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="com_time" jdbcType="TIMESTAMP" property="comTime" />
+    <result column="com_state" jdbcType="BIT" property="comState" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Comment">
+    <result column="com_content" jdbcType="LONGVARCHAR" property="comContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    com_id, ans_id, user_id, com_time, com_state
+  </sql>
+  <sql id="Blob_Column_List">
+    com_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where com_id = #{comId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectComsByAnsId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+     from comment
+     where ans_id = #{ansId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where com_id = #{comId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.example.sb2.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="comId != null">
+        com_id,
+      </if>
+      <if test="ansId != null">
+        ans_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="comTime != null">
+        com_time,
+      </if>
+      <if test="comState != null">
+        com_state,
+      </if>
+      <if test="comContent != null">
+        com_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="comId != null">
+        #{comId,jdbcType=INTEGER},
+      </if>
+      <if test="ansId != null">
+        #{ansId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="comTime != null">
+        #{comTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comState != null">
+        #{comState,jdbcType=BIT},
+      </if>
+      <if test="comContent != null">
+        #{comContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.sb2.entity.Comment">
+    update comment
+    <set>
+      <if test="ansId != null">
+        ans_id = #{ansId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="comTime != null">
+        com_time = #{comTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comState != null">
+        com_state = #{comState,jdbcType=BIT},
+      </if>
+      <if test="comContent != null">
+        com_content = #{comContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where com_id = #{comId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.sb2.entity.Comment">
+    update comment
+    set ans_id = #{ansId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      com_time = #{comTime,jdbcType=TIMESTAMP},
+      com_state = #{comState,jdbcType=BIT},
+      com_content = #{comContent,jdbcType=LONGVARCHAR}
+    where com_id = #{comId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.sb2.entity.Comment">
+    update comment
+    set ans_id = #{ansId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      com_time = #{comTime,jdbcType=TIMESTAMP},
+      com_state = #{comState,jdbcType=BIT}
+    where com_id = #{comId,jdbcType=INTEGER}
+  </update>
+</mapper>

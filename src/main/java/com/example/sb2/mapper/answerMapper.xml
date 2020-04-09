@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sb2.mapper.answerMapper">
+  <resultMap id="BaseResultMap" type="com.example.sb2.entity.Answer">
+    <id column="ans_id" jdbcType="INTEGER" property="ansId" />
+    <result column="ques_id" jdbcType="INTEGER" property="quesId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ans_time" jdbcType="TIMESTAMP" property="ansTime" />
+    <result column="ans_state" jdbcType="BIT" property="ansState" />
+    <result column="good_count" jdbcType="INTEGER" property="goodCount" />
+    <result column="bad_count" jdbcType="INTEGER" property="badCount" />
+    <result column="best_answer" jdbcType="BIT" property="bestAnswer" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Answer">
+    <result column="ans_content" jdbcType="LONGVARCHAR" property="ansContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ans_id, ques_id, user_id, ans_time, ans_state, good_count, bad_count, best_answer
+  </sql>
+  <sql id="Blob_Column_List">
+    ans_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where ans_id = #{ansId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAnssByQuesId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where ques_id = #{quesId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from answer
+    where ans_id = #{ansId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.example.sb2.entity.Answer">
+    insert into answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ansId != null">
+        ans_id,
+      </if>
+      <if test="quesId != null">
+        ques_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="ansTime != null">
+        ans_time,
+      </if>
+      <if test="ansState != null">
+        ans_state,
+      </if>
+      <if test="goodCount != null">
+        good_count,
+      </if>
+      <if test="badCount != null">
+        bad_count,
+      </if>
+      <if test="bestAnswer != null">
+        best_answer,
+      </if>
+      <if test="ansContent != null">
+        ans_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ansId != null">
+        #{ansId,jdbcType=INTEGER},
+      </if>
+      <if test="quesId != null">
+        #{quesId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ansTime != null">
+        #{ansTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ansState != null">
+        #{ansState,jdbcType=BIT},
+      </if>
+      <if test="goodCount != null">
+        #{goodCount,jdbcType=INTEGER},
+      </if>
+      <if test="badCount != null">
+        #{badCount,jdbcType=INTEGER},
+      </if>
+      <if test="bestAnswer != null">
+        #{bestAnswer,jdbcType=BIT},
+      </if>
+      <if test="ansContent != null">
+        #{ansContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.sb2.entity.Answer">
+    update answer
+    <set>
+      <if test="quesId != null">
+        ques_id = #{quesId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ansTime != null">
+        ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ansState != null">
+        ans_state = #{ansState,jdbcType=BIT},
+      </if>
+      <if test="goodCount != null">
+        good_count = #{goodCount,jdbcType=INTEGER},
+      </if>
+      <if test="badCount != null">
+        bad_count = #{badCount,jdbcType=INTEGER},
+      </if>
+      <if test="bestAnswer != null">
+        best_answer = #{bestAnswer,jdbcType=BIT},
+      </if>
+      <if test="ansContent != null">
+        ans_content = #{ansContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ans_id = #{ansId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.sb2.entity.Answer">
+    update answer
+    set ques_id = #{quesId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      ans_state = #{ansState,jdbcType=BIT},
+      good_count = #{goodCount,jdbcType=INTEGER},
+      bad_count = #{badCount,jdbcType=INTEGER},
+      best_answer = #{bestAnswer,jdbcType=BIT},
+      ans_content = #{ansContent,jdbcType=LONGVARCHAR}
+    where ans_id = #{ansId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.sb2.entity.Answer">
+    update answer
+    set ques_id = #{quesId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      ans_state = #{ansState,jdbcType=BIT},
+      good_count = #{goodCount,jdbcType=INTEGER},
+      bad_count = #{badCount,jdbcType=INTEGER},
+      best_answer = #{bestAnswer,jdbcType=BIT}
+    where ans_id = #{ansId,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

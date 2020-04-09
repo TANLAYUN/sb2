@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sb2.mapper.questionMapper">
+  <resultMap id="BaseResultMap" type="com.example.sb2.entity.Question">
+    <id column="ques_id" jdbcType="INTEGER" property="quesId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ques_time" jdbcType="TIMESTAMP" property="quesTime" />
+    <result column="ques_ans_state" jdbcType="BIT" property="quesAnsState" />
+    <result column="ques_state" jdbcType="BIT" property="quesState" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Question">
+    <result column="ques_title" jdbcType="LONGVARCHAR" property="quesTitle" />
+    <result column="ques_content" jdbcType="LONGVARCHAR" property="quesContent" />
+    <result column="ques_col_num" jdbcType="INTEGER" property="quesColNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ques_id, user_id, ques_time, ques_ans_state, ques_state
+  </sql>
+  <sql id="Blob_Column_List">
+    ques_title, ques_content,ques_col_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where ques_id = #{quesId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectQuessByUserId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByState" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where ques_state = #{quesState,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByUserAndState" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where user_id = #{userId,jdbcType=INTEGER} and ques_state = #{quesState,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByQuesAnsState" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where ques_ans_state = #{quesAnsState,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByUserAndQuesAnsState" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where user_id = #{userId,jdbcType=INTEGER} and ques_ans_state = #{quesAnsState,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+  </select>
+
+  <select id="selectAllByUser" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from question
+    where ques_id = #{quesId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.example.sb2.entity.Question">
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="quesId != null">
+        ques_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="quesTime != null">
+        ques_time,
+      </if>
+      <if test="quesAnsState != null">
+        ques_ans_state,
+      </if>
+      <if test="quesState != null">
+        ques_state,
+      </if>
+      <if test="quesTitle != null">
+        ques_title,
+      </if>
+      <if test="quesContent != null">
+        ques_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="quesId != null">
+        #{quesId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="quesTime != null">
+        #{quesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quesAnsState != null">
+        #{quesAnsState,jdbcType=BIT},
+      </if>
+      <if test="quesState != null">
+        #{quesState,jdbcType=BIT},
+      </if>
+      <if test="quesTitle != null">
+        #{quesTitle,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="quesContent != null">
+        #{quesContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.sb2.entity.Question">
+    update question
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="quesTime != null">
+        ques_time = #{quesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quesAnsState != null">
+        ques_ans_state = #{quesAnsState,jdbcType=BIT},
+      </if>
+      <if test="quesState != null">
+        ques_state = #{quesState,jdbcType=BIT},
+      </if>
+      <if test="quesTitle != null">
+        ques_title = #{quesTitle,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="quesContent != null">
+        ques_content = #{quesContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ques_id = #{quesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.sb2.entity.Question">
+    update question
+    set user_id = #{userId,jdbcType=INTEGER},
+      ques_time = #{quesTime,jdbcType=TIMESTAMP},
+      ques_ans_state = #{quesAnsState,jdbcType=BIT},
+      ques_state = #{quesState,jdbcType=BIT},
+      ques_title = #{quesTitle,jdbcType=LONGVARCHAR},
+      ques_content = #{quesContent,jdbcType=LONGVARCHAR}
+    where ques_id = #{quesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.sb2.entity.Question">
+    update question
+    set user_id = #{userId,jdbcType=INTEGER},
+      ques_time = #{quesTime,jdbcType=TIMESTAMP},
+      ques_ans_state = #{quesAnsState,jdbcType=BIT},
+      ques_state = #{quesState,jdbcType=BIT}
+    where ques_id = #{quesId,jdbcType=INTEGER}
+  </update>
+</mapper>

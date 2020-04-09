@@ -1,0 +1,27 @@
+server:
+  port: 8080
+spring:
+  devtools:
+    restart:
+      enabled: true   #热部署
+  datasource:
+    #   数据源基本配置
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/online_answer?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    # type: com.alibaba.druid.pool.DruidDataSource
+    #   数据源其他配置
+    initialSize: 5    #连接池初始数量
+    minIdle: 5        #最大空闲数，数据库连接的最大空闲时间。超过空闲时间，数据库连接将被标记为不可用，然后被释放。设为0表示无限制。
+    maxActive: 20     #最大连接数
+    maxWait: 60000    #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示
+    testWhileIdle: true #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+    testOnBorrow: false #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 默认true
+    testOnReturn: false #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+    poolPreparedStatements: false #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+
+    # mybatis
+    mybatis:
+      mapper-locations: classpath:com.example.sb2.mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+      type-aliases-package: com.example.sb2.entity  # 注意：对应实体类的路径
