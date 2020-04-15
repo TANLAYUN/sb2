@@ -47,7 +47,7 @@ public class UserController {
             str.append(random.nextInt(10));
         }
         String confirmCode = str.toString();
-        System.out.println(confirmCode);
+        System.out.println("mailCon的："+confirmCode);
         String content = "欢迎注册在线问答系统，您的验证码是“" + confirmCode + "”,请将验证码填写至注册页面。若非本人操作，请忽略此邮件。";
         boolean succeed = sendMail.sendingMail(mail, mail, content);
         if (succeed) {
@@ -56,8 +56,8 @@ public class UserController {
             baseResponse.setResult(ResultCodeEnum.CONFIRMCODE_SEND_FAILURE);
         }
         mailCode.put(mail, confirmCode);
-        System.out.println(mailCode.get(mail));
-        System.out.println(mailCode);
+        System.out.println("mailCon的：mail"+mailCode.get(mail));
+        System.out.println("mailCon的：mailCode"+mailCode);
         return baseResponse;
     }
 
@@ -66,12 +66,15 @@ public class UserController {
 
         BaseResponse baseResponse = new BaseResponse();
 
+        System.out.println(mail);
         String realCode = mailCode.get(mail);
-        System.out.println(mailCode);
+        System.out.println("register的：mailCode"+mailCode);
         mailCode.remove(mail);
-        System.out.println(mailCode);
-        System.out.println(realCode);
-        if (realCode.equals(confirmCode)) {
+        System.out.println("register的：mailCode"+mailCode);
+        System.out.println("register的：realCode"+realCode);
+        if(realCode == null){
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_SYSTEM_ERROR);
+        } else if (realCode.equals(confirmCode)) {
             baseResponse = userService.register(mail, name, pwd);
         } else {
             baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_CONFIRMCODE_ERROR);

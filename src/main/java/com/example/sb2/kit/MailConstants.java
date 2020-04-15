@@ -1,6 +1,6 @@
 package com.example.sb2.kit;
 
-public class Constant {
+public class MailConstants {
 
     // 邮箱相关信息
     public static final String SMTPHOST = "smtp.qq.com";

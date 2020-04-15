@@ -1,4 +1,4 @@
-package com.example.sb2.kit;
+package com.example.sb2.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;

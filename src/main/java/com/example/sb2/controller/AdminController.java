@@ -1,6 +1,5 @@
 package com.example.sb2.controller;
 
-import com.example.sb2.entity.Comment;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.service.*;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 @RestController
 @RequestMapping("/online_answer/admin") //映射到controller
@@ -44,7 +41,7 @@ public class AdminController {
         try {
             //生产验证码字符串并保存到session中
             String createText = defaultKaptcha.createText();
-            httpServletRequest.getSession().setAttribute("vrifyCode", createText);
+            httpServletRequest.getSession().setAttribute("verifyCode", createText);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = defaultKaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
@@ -70,13 +67,14 @@ public class AdminController {
     @RequestMapping("/imgvrifyControllerDefaultKaptcha")//
     public BaseResponse imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
-        String mail = (String)httpServletRequest.getAttribute("mail");
+        String mail = (String)httpServletRequest.getParameter("mail");
         String pwd = (String)httpServletRequest.getAttribute("pwd");
         //真正的验证码
         String captchaId = (String) httpServletRequest.getSession().getAttribute("verifyCode");
         //传递的验证码
-        String parameter = httpServletRequest.getParameter("verifyCode");
-        System.out.println("Session  verifyCode "+captchaId+" form verifyCode "+parameter);
+        String parameter = httpServletRequest.getParameter("confirmCode");
+        System.out.println(mail);
+        System.out.println("Session  verifyCode "+captchaId+" true confirmCode "+parameter);
 
         BaseResponse baseResponse=adminService.login(mail,pwd);
         if (baseResponse.getResultCode().equals(4000) && !captchaId.equals(parameter)) {

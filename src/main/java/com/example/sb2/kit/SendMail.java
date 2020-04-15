@@ -15,7 +15,7 @@ public class SendMail extends HttpServlet {
     private Properties properties; // 系统属性
     private Session mailSession; // 邮件会话对象
     private MimeMessage mimeMessage; // MIME邮件对象
-    private String mailFromString = Constant.MAILNAME;
+    private String mailFromString = MailConstants.MAILNAME;
     private String mailToString;
     private String mailBodyString;
     private String mailCopyToString = null;
@@ -24,10 +24,10 @@ public class SendMail extends HttpServlet {
 
     public SendMail() {
 
-        String sMTPHostString = Constant.SMTPHOST;
-        String portString = Constant.MAILPORT;
-        String mailUsernameString = Constant.MAILNAME;
-        String mailPasswordString = Constant.MAILPSW;
+        String sMTPHostString = MailConstants.SMTPHOST;
+        String portString = MailConstants.MAILPORT;
+        String mailUsernameString = MailConstants.MAILNAME;
+        String mailPasswordString = MailConstants.MAILPSW;
         Auth auth = new Auth(mailUsernameString, mailPasswordString);
 
         // 设置系统属性
