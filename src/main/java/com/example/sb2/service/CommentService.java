@@ -10,6 +10,9 @@ public interface CommentService {
     //用户评论
     BaseResponse comment(Integer userId, Integer ansId, String comContent);
 
+    //查看评论
+    BaseResponse searchCommentsByUserId(Integer userId);
+
     //删除评论
     BaseResponse deletePersonalComment(Integer comId);
 

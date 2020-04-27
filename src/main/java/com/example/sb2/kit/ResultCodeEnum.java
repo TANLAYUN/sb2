@@ -58,9 +58,9 @@ public enum ResultCodeEnum
     ANSWER_DELETE_FAILURE_NOT_EXIST("2026","回答删除失败_不存在"),
 
     //
-    COMMENT_DELETE_SUCCESS("2021","评论删除成功"),
-    COMMENT_DELETE_FAILURE_DB_ERROR("2022","评论删除失败_数据库删除失败"),
-    COMMENT_DELETE_FAILURE_NOT_EXIST("2033","评论删除失败_不存在"),
+    COMMENT_DELETE_SUCCESS("2027","评论删除成功"),
+    COMMENT_DELETE_FAILURE_DB_ERROR("2028","评论删除失败_数据库删除失败"),
+    COMMENT_DELETE_FAILURE_NOT_EXIST("2029","评论删除失败_不存在"),
 
     //
     ANSWER_UPDATE_SUCCESS("2034","回答更新成功"),
@@ -71,6 +71,10 @@ public enum ResultCodeEnum
     COMMENT_UPDATE_SUCCESS("2037","评论更新成功"),
     COMMENT_UPDATE_FAILURE_DB_ERROR("2038","评论更新失败_数据库更新失败"),
     COMMENT_UPDATE_FAILURE_NOT_EXIST("2039","评论更新失败_不存在"),
+
+    //
+    ANSWER_FIND_FAILURE_NO_USER("2040","回答查找失败，没有该用户"),
+    COMMENT_FIND_FAILURE_NO_USER("2041","评论查找失败，没有该用户"),
 
     //
     COLLECTION_ADD_SUCCESS("2040","收藏成功"),

@@ -30,6 +30,8 @@ public interface answerMapper {
     //@Select("select * from answer where ques_id=#{quesId}")
     List<Answer> selectAnssByQuesId(Integer quesId);
 
+    List<Answer> selectAnssByUserId(Integer userId);
+
     //update
     @Update("update answer set ans_state=#{ansState} where ans_id=#{ansId}")
     int updateAnsStateByAnsId(Integer ansId, Integer ansState);

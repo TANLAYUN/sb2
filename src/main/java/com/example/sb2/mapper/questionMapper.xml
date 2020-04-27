@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.example.sb2.entity.Question">
     <id column="ques_id" jdbcType="INTEGER" property="quesId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="ques_time" jdbcType="TIMESTAMP" property="quesTime" />
+    <result column="ques_time" jdbcType="DATE" property="quesTime" />
     <result column="ques_ans_state" jdbcType="BIT" property="quesAnsState" />
     <result column="ques_state" jdbcType="BIT" property="quesState" />
   </resultMap>
@@ -20,7 +20,7 @@
     ques_title, ques_content,ques_col_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -128,7 +128,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="quesTime != null">
-        #{quesTime,jdbcType=TIMESTAMP},
+        #{quesTime,jdbcType=DATE},
       </if>
       <if test="quesAnsState != null">
         #{quesAnsState,jdbcType=BIT},
@@ -151,7 +151,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="quesTime != null">
-        ques_time = #{quesTime,jdbcType=TIMESTAMP},
+        ques_time = #{quesTime,jdbcType=DATE},
       </if>
       <if test="quesAnsState != null">
         ques_ans_state = #{quesAnsState,jdbcType=BIT},
@@ -171,7 +171,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.sb2.entity.Question">
     update question
     set user_id = #{userId,jdbcType=INTEGER},
-      ques_time = #{quesTime,jdbcType=TIMESTAMP},
+      ques_time = #{quesTime,jdbcType=DATE},
       ques_ans_state = #{quesAnsState,jdbcType=BIT},
       ques_state = #{quesState,jdbcType=BIT},
       ques_title = #{quesTitle,jdbcType=LONGVARCHAR},
@@ -181,7 +181,7 @@
   <update id="updateByPrimaryKey" parameterType="com.example.sb2.entity.Question">
     update question
     set user_id = #{userId,jdbcType=INTEGER},
-      ques_time = #{quesTime,jdbcType=TIMESTAMP},
+      ques_time = #{quesTime,jdbcType=DATE},
       ques_ans_state = #{quesAnsState,jdbcType=BIT},
       ques_state = #{quesState,jdbcType=BIT}
     where ques_id = #{quesId,jdbcType=INTEGER}

@@ -6,7 +6,7 @@
         <id column="col_id" jdbcType="INTEGER" property="colId" />
         <result column="col_user_id" jdbcType="INTEGER" property="colUserId" />
         <result column="col_ques_id" jdbcType="INTEGER" property="colQuesId" />
-        <result column="col_time" jdbcType="TIMESTAMP" property="colTime" />
+        <result column="col_time" jdbcType="DATE" property="colTime" />
     </resultMap>
 
     <sql id="Base_Column_List">

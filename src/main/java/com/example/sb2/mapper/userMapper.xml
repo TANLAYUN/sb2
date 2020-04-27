@@ -7,13 +7,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="pwd" jdbcType="VARCHAR" property="pwd" />
     <result column="state" jdbcType="BIT" property="state" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="add_time" jdbcType="DATE" property="addTime" />
   </resultMap>
   <sql id="Base_Column_List">
     mail, user_id, name, pwd, state, add_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where mail = #{mail,jdbcType=VARCHAR}

@@ -5,7 +5,7 @@
     <id column="com_id" jdbcType="INTEGER" property="comId" />
     <result column="ans_id" jdbcType="INTEGER" property="ansId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="com_time" jdbcType="TIMESTAMP" property="comTime" />
+    <result column="com_time" jdbcType="DATE" property="comTime" />
     <result column="com_state" jdbcType="BIT" property="comState" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Comment">
@@ -18,7 +18,7 @@
     com_content
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -31,8 +31,17 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-     from comment
-     where ans_id = #{ansId,jdbcType=INTEGER}
+    from comment
+    where ans_id = #{ansId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectComsByUserId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -73,7 +82,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="comTime != null">
-        #{comTime,jdbcType=TIMESTAMP},
+        #{comTime,jdbcType=DATE},
       </if>
       <if test="comState != null">
         #{comState,jdbcType=BIT},
@@ -93,7 +102,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="comTime != null">
-        com_time = #{comTime,jdbcType=TIMESTAMP},
+        com_time = #{comTime,jdbcType=DATE},
       </if>
       <if test="comState != null">
         com_state = #{comState,jdbcType=BIT},
@@ -108,7 +117,7 @@
     update comment
     set ans_id = #{ansId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      com_time = #{comTime,jdbcType=TIMESTAMP},
+      com_time = #{comTime,jdbcType=DATE},
       com_state = #{comState,jdbcType=BIT},
       com_content = #{comContent,jdbcType=LONGVARCHAR}
     where com_id = #{comId,jdbcType=INTEGER}
@@ -117,7 +126,7 @@
     update comment
     set ans_id = #{ansId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      com_time = #{comTime,jdbcType=TIMESTAMP},
+      com_time = #{comTime,jdbcType=DATE},
       com_state = #{comState,jdbcType=BIT}
     where com_id = #{comId,jdbcType=INTEGER}
   </update>

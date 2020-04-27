@@ -3,10 +3,12 @@ package com.example.sb2.service.impl;
 import com.example.sb2.entity.Answer;
 import com.example.sb2.entity.Comment;
 import com.example.sb2.entity.Question;
+import com.example.sb2.entity.User;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.answerMapper;
 import com.example.sb2.mapper.commentMapper;
+import com.example.sb2.mapper.userMapper;
 import com.example.sb2.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class AnswerServiceImpl implements AnswerService {
     private answerMapper answermapper;
     @Autowired
     private commentMapper commentmapper;
+    @Autowired
+    private userMapper usermapper;
 
     public BaseResponse modifyAnswerState(Integer ansId, Integer ansState){
             BaseResponse baseResponse = new BaseResponse();
@@ -84,6 +88,26 @@ public class AnswerServiceImpl implements AnswerService {
         return baseResponse;
     }
 
+
+    //查看回答
+    public BaseResponse searchAnswersByUserId(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        User user = usermapper.selectByUserId(userId);
+        if(user != null){
+            List<Answer> answers = answermapper.selectAnssByUserId(userId);
+            if(answers.size() != 0){
+                baseResponse.setData(answers);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else if(answers.size()==0){
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }else if(user == null){
+            baseResponse.setResult(ResultCodeEnum.ANSWER_FIND_FAILURE_NO_USER);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
 
     //删除回答
     public BaseResponse deletePersonalAnswer(Integer ansId){

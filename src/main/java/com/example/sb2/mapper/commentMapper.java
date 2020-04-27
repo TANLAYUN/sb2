@@ -37,6 +37,8 @@ public interface commentMapper {
     //@Select("select * from comment where ans_id={ansId}")
     List<Comment> selectComsByAnsId(Integer ansId);
 
+    List<Comment> selectComsByUserId(Integer userId);
+
     //insert
     @Insert("insert into comment(user_id,ans_id,com_content) values( #{userId}, #{ansId}, #{comContent} )")
     int insert(Integer userId, Integer ansId, String comContent);

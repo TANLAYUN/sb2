@@ -3,13 +3,17 @@ package com.example.sb2.service.impl;
 import com.example.sb2.entity.Answer;
 import com.example.sb2.entity.Comment;
 import com.example.sb2.entity.Question;
+import com.example.sb2.entity.User;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.commentMapper;
+import com.example.sb2.mapper.userMapper;
 import com.example.sb2.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,6 +21,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private commentMapper commentmapper;
+    @Autowired
+    private userMapper usermapper;
 
     //修改评论状态
     public BaseResponse modifyCommentState(Integer comId, Integer comState){
@@ -61,6 +67,25 @@ public class CommentServiceImpl implements CommentService {
         return baseResponse;
     }
 
+    //查看评论
+    public BaseResponse searchCommentsByUserId(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        User user = usermapper.selectByUserId(userId);
+        if(user != null){
+            List<Comment> comments = commentmapper.selectComsByUserId(userId);
+            if(comments.size() != 0){
+                baseResponse.setData(comments);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else if(comments.size()==0){
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }else if(user == null){
+            baseResponse.setResult(ResultCodeEnum.COMMENT_FIND_FAILURE_NO_USER);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
     //删除评论
     public BaseResponse deletePersonalComment(Integer comId){
         BaseResponse baseResponse = new BaseResponse();

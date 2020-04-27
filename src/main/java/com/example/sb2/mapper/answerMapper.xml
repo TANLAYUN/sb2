@@ -5,7 +5,7 @@
     <id column="ans_id" jdbcType="INTEGER" property="ansId" />
     <result column="ques_id" jdbcType="INTEGER" property="quesId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="ans_time" jdbcType="TIMESTAMP" property="ansTime" />
+    <result column="ans_time" jdbcType="DATE" property="ansTime" />
     <result column="ans_state" jdbcType="BIT" property="ansState" />
     <result column="good_count" jdbcType="INTEGER" property="goodCount" />
     <result column="bad_count" jdbcType="INTEGER" property="badCount" />
@@ -21,7 +21,7 @@
     ans_content
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -36,6 +36,15 @@
     <include refid="Blob_Column_List" />
     from answer
     where ques_id = #{quesId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAnssByUserId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -85,7 +94,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="ansTime != null">
-        #{ansTime,jdbcType=TIMESTAMP},
+        #{ansTime,jdbcType=DATE},
       </if>
       <if test="ansState != null">
         #{ansState,jdbcType=BIT},
@@ -114,7 +123,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="ansTime != null">
-        ans_time = #{ansTime,jdbcType=TIMESTAMP},
+        ans_time = #{ansTime,jdbcType=DATE},
       </if>
       <if test="ansState != null">
         ans_state = #{ansState,jdbcType=BIT},
@@ -138,7 +147,7 @@
     update answer
     set ques_id = #{quesId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      ans_time = #{ansTime,jdbcType=DATE},
       ans_state = #{ansState,jdbcType=BIT},
       good_count = #{goodCount,jdbcType=INTEGER},
       bad_count = #{badCount,jdbcType=INTEGER},
@@ -150,7 +159,7 @@
     update answer
     set ques_id = #{quesId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      ans_time = #{ansTime,jdbcType=DATE},
       ans_state = #{ansState,jdbcType=BIT},
       good_count = #{goodCount,jdbcType=INTEGER},
       bad_count = #{badCount,jdbcType=INTEGER},

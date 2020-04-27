@@ -137,6 +137,20 @@ public class UserController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "searchAnswersByUserId", method = RequestMethod.POST)
+    public BaseResponse searchAnswersByUserId(Integer userId){
+        BaseResponse baseResponse;
+        baseResponse = answerService.searchAnswersByUserId(userId);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchCommentsByUserId", method = RequestMethod.POST)
+    public BaseResponse searchCommentsByUserId(Integer userId){
+        BaseResponse baseResponse;
+        baseResponse = commentService.searchCommentsByUserId(userId);
+        return baseResponse;
+    }
+
     @RequestMapping(value = "question", method = RequestMethod.POST)
     public BaseResponse question(Integer userId, String quesTitle, String quesContent){
         BaseResponse baseResponse;
