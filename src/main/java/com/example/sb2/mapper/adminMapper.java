@@ -13,7 +13,7 @@ public interface adminMapper {
     //select
     Admin selectByPrimaryKey(String mail);
 
-    @Select("select * from admin where admin_id=#{adminId}")
+    //@Select("select * from admin where admin_id=#{adminId}")
     Admin selectByAdminId(Integer adminId);
 
     int deleteByPrimaryKey(String mail);

@@ -93,6 +93,14 @@ public class AdminController {
         return baseResponse;//baseResponse.objtoString();
     }
 
+    @RequestMapping(value = "searchAdminInfoByAdminId", method = RequestMethod.POST) //
+    public BaseResponse searchAdminInfoByAdminId(Integer adminId){
+        BaseResponse baseResponse;
+        baseResponse = adminService.searchAdminInfoByAdminId(adminId);
+        return baseResponse;//baseResponse.objtoString();
+    }
+
+
     @RequestMapping(value = "modifyAdminInfo", method = RequestMethod.POST) //
     public BaseResponse modifyAdminInfo(Integer adminId, String mail,String name,String pwd, String newPwd){
         BaseResponse baseResponse;

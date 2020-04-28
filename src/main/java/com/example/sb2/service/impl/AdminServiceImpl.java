@@ -45,6 +45,22 @@ public class AdminServiceImpl implements AdminService {
         return baseResponse;
     }
 
+    //根据管理员id得到信息
+    public BaseResponse searchAdminInfoByAdminId(Integer adminId){
+        BaseResponse baseResponse = new BaseResponse();
+        Admin admin = adminmapper.selectByAdminId(adminId);
+        if(admin != null){
+            baseResponse.setData(admin);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        }else if(admin == null){
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+
+        return baseResponse;
+    }
+
     //修改管理员信息
     public BaseResponse modifyAdminInfo(Integer adminId, String mail, String name, String pwd,String newPwd){
 

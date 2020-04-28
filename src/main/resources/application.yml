@@ -1,6 +1,14 @@
 server:
   port: 8080
+prop:
+  upload-folder: C:/Users/18777/Desktop/test/  #E:/test/
+
 spring:
+  # 配置SpringMVC文件上传限制，默认1M。注意MB要大写，不然报错。SpringBoot版本不同，配置项不同
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   devtools:
     restart:
       enabled: true   #热部署

@@ -20,6 +20,13 @@
     where mail = #{mail,jdbcType=VARCHAR}
   </select>
 
+  <select id="selectByAdminId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from admin
     where mail = #{mail,jdbcType=VARCHAR}

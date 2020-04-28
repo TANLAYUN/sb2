@@ -8,11 +8,10 @@ import com.example.sb2.service.QuestionService;
 import com.example.sb2.service.UserService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -22,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/online_answer/common") //映射到controller
@@ -109,6 +109,43 @@ public class CommonController {
         return baseResponse;
     }
 
+//    @Value("${prop.upload-folder}")
+//    private String UPLOAD_FOLDER;
+//
+//
+//
+//    @PostMapping("/upload")
+//    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
+//        BaseResponse baseResponse = new BaseResponse();
+//        if (file == null) {
+//            return baseResponse.setResult(ResultCodeEnum.);
+//        }
+//        if (file.getSize() > 1024 * 1024 * 10) {
+//            return ResultUtil.error(0, "文件大小不能大于10M");
+//        }
+//        //获取文件后缀
+//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
+//        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+//            return ResultUtil.error(0, "请选择jpg,jpeg,gif,png格式的图片");
+//        }
+//        String savePath = UPLOAD_FOLDER;
+//        File savePathFile = new File(savePath);
+//        if (!savePathFile.exists()) {
+//            //若不存在该目录，则创建目录
+//            savePathFile.mkdir();
+//        }
+//        //通过UUID生成唯一文件名
+//        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+//        try {
+//            //将文件保存指定目录
+//            file.transferTo(new File(savePath + filename));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResultUtil.error(0, "保存文件异常");
+//        }
+//        //返回文件名称
+//        return ResultUtil.success(ResultEnum.SUCCESS, filename, request);
+//    }
 
 
 }

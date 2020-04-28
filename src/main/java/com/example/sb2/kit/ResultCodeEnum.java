@@ -77,12 +77,12 @@ public enum ResultCodeEnum
     COMMENT_FIND_FAILURE_NO_USER("2041","评论查找失败，没有该用户"),
 
     //
-    COLLECTION_ADD_SUCCESS("2040","收藏成功"),
-    COLLECTION_ADD_FAILURE("2041","收藏失败"),
-    COLLECTION_EXISTED("2042","收藏失败，您已收藏了本条知识"),
+    COLLECTION_ADD_SUCCESS("2042","收藏成功"),
+    COLLECTION_ADD_FAILURE("2043","收藏失败"),
+    COLLECTION_EXISTED("2044","收藏失败，您已收藏了本条知识"),
 
     //
-    QUES_ANS_STATE_UPDATE_SUCCESS("2043","问题解决状态更新成功"),
+    QUES_ANS_STATE_UPDATE_SUCCESS("20","问题解决状态更新成功"),
     QUES_ANS_STATE_UPDATE_FAILURE_DB_ERROR("2043","问题解决状态更新失败_数据库更新失败"),
     QUES_ANS_STATE_UPDATE_FAILURE_NOT_EXIST("2043","问题解决状态更新失败_不存在"),
     QUES_ANS_STATE_UPDATE_FAILURE_WRONG_STATE("2043","问题解决状态更新失败_错误的问题解决状态"),
