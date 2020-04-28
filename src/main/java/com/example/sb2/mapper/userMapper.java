@@ -30,7 +30,7 @@ public interface userMapper {
     int modifyUserState(Integer userId, Integer userState);
 
     //修改用户信息
-    @Update("update admin set mail=#{mail},name=#{name},pwd=#{newPwd} where user_id=#{userId}")
+//    @Update("update admin set mail=#{mail},name=#{name},pwd=#{newPwd} where user_id=#{userId}")
     int modifyUserInfo(Integer userId, String mail, String name, String newPwd);
 
     int deleteByPrimaryKey(String mail);

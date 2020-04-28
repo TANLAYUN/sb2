@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
@@ -109,43 +110,47 @@ public class CommonController {
         return baseResponse;
     }
 
-//    @Value("${prop.upload-folder}")
-//    private String UPLOAD_FOLDER;
-//
-//
-//
-//    @PostMapping("/upload")
-//    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
-//        BaseResponse baseResponse = new BaseResponse();
-//        if (file == null) {
-//            return baseResponse.setResult(ResultCodeEnum.);
-//        }
-//        if (file.getSize() > 1024 * 1024 * 10) {
-//            return ResultUtil.error(0, "文件大小不能大于10M");
-//        }
-//        //获取文件后缀
-//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
-//        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
-//            return ResultUtil.error(0, "请选择jpg,jpeg,gif,png格式的图片");
-//        }
-//        String savePath = UPLOAD_FOLDER;
-//        File savePathFile = new File(savePath);
-//        if (!savePathFile.exists()) {
-//            //若不存在该目录，则创建目录
-//            savePathFile.mkdir();
-//        }
-//        //通过UUID生成唯一文件名
-//        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
-//        try {
-//            //将文件保存指定目录
-//            file.transferTo(new File(savePath + filename));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResultUtil.error(0, "保存文件异常");
-//        }
-//        //返回文件名称
-//        return ResultUtil.success(ResultEnum.SUCCESS, filename, request);
-//    }
+    @Value("${prop.upload-folder}")
+    private String UPLOAD_FOLDER;
+
+    @PostMapping("/upload")
+    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
+        BaseResponse baseResponse = new BaseResponse();
+        if (file == null) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
+            return baseResponse;
+        }
+        if (file.getSize() > 1024 * 1024 * 10) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FILE_TOO_BIG);//上传失败_文件大小不能大于10M
+            return baseResponse;
+        }
+        //获取文件后缀
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
+        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FORMAT_ERROR);//上传失败_请选择jpg,jpeg,gif,png格式的图片
+            return baseResponse;
+        }
+        String savePath = UPLOAD_FOLDER;
+        File savePathFile = new File(savePath);
+        if (!savePathFile.exists()) {
+            //若不存在该目录，则创建目录
+            savePathFile.mkdir();
+        }
+        //通过UUID生成唯一文件名
+        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+        try {
+            //将文件保存指定目录
+            file.transferTo(new File(savePath + filename));
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
+        }
+        baseResponse.setData(filename);
+        baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
+        //return ResultUtil.success(ResultEnum.SUCCESS, filename, request);
+        return baseResponse;
+    }
+
 
 
 }

@@ -111,4 +111,14 @@
       state = #{state,jdbcType=BIT}
     where mail = #{mail,jdbcType=VARCHAR}
   </update>
+
+  <update id="modifyUserInfo" parameterType="com.example.sb2.entity.User">
+    update user
+    <set>
+        mail = #{mail,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      pwd = #{newPwd,jdbcType=VARCHAR},
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
 </mapper>
