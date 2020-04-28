@@ -15,7 +15,7 @@ public interface userMapper {
     //select
     User selectByPrimaryKey(String mail);
 
-    @Select("select * from user where user_id=#{userId}")
+    //@Select("select * from user where user_id=#{userId}")
     User selectByUserId(Integer userId);
 
     List<User> selectAll();

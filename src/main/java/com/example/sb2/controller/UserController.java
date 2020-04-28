@@ -123,6 +123,13 @@ public class UserController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "searchUserInfoByUserId", method = RequestMethod.POST)
+    public BaseResponse searchUserByUserId(Integer userId){
+        BaseResponse baseResponse;
+        baseResponse = userService.searchUserByUserId(userId);
+        return baseResponse;
+    }
+
     @RequestMapping(value = "searchQuestionsByState", method = RequestMethod.POST)
     public BaseResponse searchQuestionsByState(Integer userId, Integer quesState){
         BaseResponse baseResponse;

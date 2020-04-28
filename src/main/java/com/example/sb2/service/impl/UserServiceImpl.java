@@ -147,6 +147,21 @@ public class UserServiceImpl implements UserService {
         return baseResponse;
     }
 
+    //根据用户Id选取用户
+    public BaseResponse searchUserByUserId(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        User user = usermapper.selectByUserId(userId);
+        if(user != null){
+            baseResponse.setData(user);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        }else if(user == null){
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+
+        return baseResponse;
+    }
     //根据状态选取用户
     public BaseResponse searchUsersByState(Integer userState){
 
