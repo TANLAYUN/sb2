@@ -42,12 +42,14 @@
     delete from user
     where mail = #{mail,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.example.sb2.entity.User">
-    insert into user (mail, user_id, name, 
-      pwd, state)
-    values (#{mail,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{pwd,jdbcType=VARCHAR}, #{state,jdbcType=BIT})
+
+  <insert id="insert">
+    insert into user (mail, name, pwd, add_time)
+    values (#{mail,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+     #{pwd,jdbcType=VARCHAR},#{addTime,jdbcType=DATE}
+    )
   </insert>
+
   <insert id="insertSelective" parameterType="com.example.sb2.entity.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">

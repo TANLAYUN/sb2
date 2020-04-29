@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,8 +23,6 @@ public interface userMapper {
 
     List<User> selectByState(Integer userState);
 
-
-
     //update
     //修改用户状态
     @Update("update user set state=#{userState} where user_id=#{userId}")
@@ -35,7 +34,7 @@ public interface userMapper {
 
     int deleteByPrimaryKey(String mail);
 
-    int insert(User record);
+    int insert(String mail, String name, String pwd, String addTime);
 
     int insertSelective(User record);
 

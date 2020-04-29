@@ -66,18 +66,21 @@ public class UserController {
 
         BaseResponse baseResponse = new BaseResponse();
 
-        System.out.println(mail);
         String realCode = mailCode.get(mail);
         System.out.println("register的：mailCode"+mailCode);
+
+        //移除mail
         mailCode.remove(mail);
         System.out.println("register的：mailCode"+mailCode);
         System.out.println("register的：realCode"+realCode);
+
+
         if(realCode == null){
-            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_SYSTEM_ERROR);
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_NOT_APPLYED_MAILCODE);//没有申请验证码
         } else if (realCode.equals(confirmCode)) {
             baseResponse = userService.register(mail, name, pwd);
         } else {
-            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_CONFIRMCODE_ERROR);
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_CONFIRMCODE_ERROR);//验证码错误
         }
         return baseResponse;
     }

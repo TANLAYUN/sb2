@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -196,17 +198,29 @@ public class UserServiceImpl implements UserService {
     public BaseResponse register(String mail, String name,String pwd){
 
         BaseResponse baseResponse = new BaseResponse();
-
         User user = usermapper.selectByPrimaryKey(mail);
 
-        if(user!=null){
-            baseResponse.setResult(ResultCodeEnum.USER_ADD_FAILURE_MAIL_EXISTED);//邮箱被占用了
+        if(user != null){
+
+            if(user.getState().equals(0)){
+                baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_USER_UNCHECKED);//用户待审核
+            }else if(user.getState().equals(1) || user.getState().equals(2)) {
+                baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_USER_MAIL_EXIST);//邮箱被占用了
+            }
+
         }else{
-            int a = usermapper.insert(user);
+            //向数据库中添加用户信息
+
+            //获取系统时间
+            Date now = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+            String addTime = dateFormat.format(now);
+
+            int a = usermapper.insert(mail,name,pwd,addTime);
             if(a == 1){
-                baseResponse.setResult(ResultCodeEnum.USER_ADD_SUCCESS);
+                baseResponse.setResult(ResultCodeEnum.REGISTER_SUCCESS);
             }else{
-                baseResponse.setResult(ResultCodeEnum.USER_ADD_FAILURE);
+                baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_DB_ERROR);
             }
 
         }
@@ -258,7 +272,7 @@ public class UserServiceImpl implements UserService {
                         baseResponse.setData(user);
                         baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCESS); // 信息修改成功
                     }else{
-                        baseResponse.setResult(ResultCodeEnum.USER_ADD_FAILURE);
+                        baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);
                     }
 
                 }else{
@@ -272,7 +286,7 @@ public class UserServiceImpl implements UserService {
                             baseResponse.setData(user);
                             baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCESS); // 信息修改成功
                         }else{
-                            baseResponse.setResult(ResultCodeEnum.USER_ADD_FAILURE);
+                            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);
                         }
                     }else{
                         baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_USER_MAIL_EXIST);//邮箱被使用

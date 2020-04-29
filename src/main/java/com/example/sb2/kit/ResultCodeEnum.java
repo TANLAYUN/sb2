@@ -31,11 +31,6 @@ public enum ResultCodeEnum
     DB_WORNING_NULL("2011","请求参数为空"),
 
     //
-    USER_ADD_SUCCESS("2012","添加用户成功"),
-    USER_ADD_FAILURE_MAIL_EXISTED("2013","添加用户失败_该邮箱已经存在"),
-    USER_ADD_FAILURE("2014","添加用户失败"),
-
-    //
     QUESTION_ADD_SUCCESS("2015","问题添加成功"),
     QUESTION_ADD_FAILURE("2016","问题添加失败"),
 
@@ -151,8 +146,10 @@ public enum ResultCodeEnum
     //
     REGISTER_SUCCESS("8000", "注册成功"),
     REGISTER_FAILURE_USER_MAIL_EXIST("8001","注册失败_用户邮箱已经存在"),
+    REGISTER_FAILURE_USER_UNCHECKED("8002","注册失败_用户待审核"),
+    REGISTER_FAILURE_DB_ERROR("8002","注册失败_数据库错误"),
     REGISTER_FAILURE_CONFIRMCODE_ERROR("8005","注册失败_验证码错误"),
-    REGISTER_FAILURE_SYSTEM_ERROR("8006","注册失败_系统错误");
+    REGISTER_FAILURE_NOT_APPLYED_MAILCODE("8006","注册失败_没有获取邮箱验证码");
     //
 
     private String code;
