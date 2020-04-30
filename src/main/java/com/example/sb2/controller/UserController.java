@@ -237,8 +237,8 @@ public class UserController {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
             return baseResponse;
         }
-        if (file.getSize() > 1024 * 1024 * 10) {
-            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FILE_TOO_BIG);//上传失败_文件大小不能大于10M
+        if (file.getSize() > 1024 * 1024 * 2) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FILE_TOO_BIG);//上传失败_文件大小不能大于2M
             return baseResponse;
         }
         //获取文件后缀
@@ -257,26 +257,18 @@ public class UserController {
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
         try {
-            //将文件保存指定目录
-            file.transferTo(new File(savePath + filename));
-            if(userService.upload(userId,savePath+filename).getResultCode().equals(3005)){
-                //用户不存在
-                baseResponse.setData(filename);
-                baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
-                System.out.println("存储路径："+savePath+"+文件名："+filename);
-                //return ResultUtil.success(ResultEnum.SUCCESS, filename, request);
-                return baseResponse;
-            }else{
+            baseResponse = userService.upload(userId,savePath+filename);
+            if(baseResponse.getResultCode().equals(3000)){
+                //将文件保存指定目录
+                file.transferTo(new File(savePath + filename));
                 baseResponse = userService.upload(userId,savePath+filename);
                 return baseResponse;
             }
         } catch (Exception e) {
             e.printStackTrace();
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
-            return  baseResponse;
         }
-
-
+        return  baseResponse;
     }
 
 

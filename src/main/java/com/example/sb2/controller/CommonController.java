@@ -141,6 +141,7 @@ public class CommonController {
         try {
             //将文件保存指定目录
             file.transferTo(new File(savePath + filename));
+            System.out.println("savepath:"+savePath+"filename:"+filename);
         } catch (Exception e) {
             e.printStackTrace();
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
