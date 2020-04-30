@@ -28,6 +28,10 @@ public interface userMapper {
     @Update("update user set state=#{userState} where user_id=#{userId}")
     int modifyUserState(Integer userId, Integer userState);
 
+    //上传用户头像
+    @Update("update user set image=#{image} where user_id=#{userId}")
+    int upload(Integer userId, String image);
+
     //修改用户信息
 //    @Update("update admin set mail=#{mail},name=#{name},pwd=#{newPwd} where user_id=#{userId}")
     int modifyUserInfo(Integer userId, String mail, String name, String newPwd);

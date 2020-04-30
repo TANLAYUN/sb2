@@ -95,7 +95,6 @@ public class CommonController {
         return baseResponse;
     }
 
-
     @RequestMapping(value = "viewUserInfo", method = RequestMethod.POST)
     public BaseResponse viewUserInfo(String mail){
         BaseResponse baseResponse = new BaseResponse();
@@ -110,11 +109,12 @@ public class CommonController {
         return baseResponse;
     }
 
+    //文件上传
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;
 
     @PostMapping("/upload")
-    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
+    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file/*, HttpServletRequest request*/) {
         BaseResponse baseResponse = new BaseResponse();
         if (file == null) {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在

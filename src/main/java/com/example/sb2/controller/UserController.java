@@ -7,14 +7,15 @@ import com.example.sb2.service.*;
 import net.sf.json.JSONObject;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -224,6 +225,59 @@ public class UserController {
         return baseResponse;
     }
 
+    //文件上传
+    @Value("${prop.upload-folder}")
+    private String UPLOAD_FOLDER;
+
+    @PostMapping("/upload")
+    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, Integer userId) {
+        BaseResponse baseResponse = new BaseResponse();
+
+        if (file == null) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
+            return baseResponse;
+        }
+        if (file.getSize() > 1024 * 1024 * 10) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FILE_TOO_BIG);//上传失败_文件大小不能大于10M
+            return baseResponse;
+        }
+        //获取文件后缀
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
+        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FORMAT_ERROR);//上传失败_请选择jpg,jpeg,gif,png格式的图片
+            return baseResponse;
+        }
+        String savePath = UPLOAD_FOLDER;
+        File savePathFile = new File(savePath);
+        if (!savePathFile.exists()) {
+            //若不存在该目录，则创建目录
+            savePathFile.mkdir();
+        }
+
+        //通过UUID生成唯一文件名
+        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+        try {
+            //将文件保存指定目录
+            file.transferTo(new File(savePath + filename));
+            if(userService.upload(userId,savePath+filename).getResultCode().equals(3005)){
+                //用户不存在
+                baseResponse.setData(filename);
+                baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
+                System.out.println("存储路径："+savePath+"+文件名："+filename);
+                //return ResultUtil.success(ResultEnum.SUCCESS, filename, request);
+                return baseResponse;
+            }else{
+                baseResponse = userService.upload(userId,savePath+filename);
+                return baseResponse;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
+            return  baseResponse;
+        }
+
+
+    }
 
 
 

@@ -23,4 +23,7 @@ public interface UserService {
 
     //查看用户详细信息
     BaseResponse viewUserInfo(String mail);
+
+    //上传用户图片
+    BaseResponse upload(Integer userId, String image);
 }

@@ -93,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
                             baseResponse.setData(admin);
                             baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCESS); // 信息修改成功
                         }else{
-                            baseResponse.setResult(ResultCodeEnum.USER_ADD_FAILURE);
+                            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);
                         }
                     }else{
                         baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_USER_MAIL_EXIST);//邮箱被使用

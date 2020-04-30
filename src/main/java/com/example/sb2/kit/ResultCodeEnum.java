@@ -98,6 +98,9 @@ public enum ResultCodeEnum
     UPLOAD_FAILURE_FILE_TOO_BIG("3002","上传失败_文件大小不能大于10M"),
     UPLOAD_FAILURE_FORMAT_ERROR("3003","上传失败_请选择jpg,jpeg,gif,png格式的图片"),
     UPLOAD_FAILURE_SAVE_ERROR("3004","上传失败_保存文件失败"),
+    UPLOAD_FAILURE_NO_USER("3005","上传失败_用户不存在"),
+    UPLOAD_FAILURE_DB_ERROR("3006","上传失败_数据库错误"),
+
     //
     LOGIN_SUCCESS("4000","登录成功"),
     LOGIN_FAILURE_PWD_ERROR("4001","登录失败_密码错误"),

@@ -320,4 +320,22 @@ public class UserServiceImpl implements UserService {
         return baseResponse;
     }
 
+    //上传用户头像
+    public BaseResponse upload(Integer userId, String image){
+        BaseResponse baseResponse = new BaseResponse();
+        User user = usermapper.selectByUserId(userId);
+        if(user == null){
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_USER);//没有此用户
+        }else if(user != null){
+            if(image != null){
+                int a = usermapper.upload(userId,image);
+                if(a == 1){
+                    baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_DB_ERROR);
+                }
+            }
+        }
+        return baseResponse;
+    }
 }

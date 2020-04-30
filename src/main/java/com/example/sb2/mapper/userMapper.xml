@@ -8,9 +8,10 @@
     <result column="pwd" jdbcType="VARCHAR" property="pwd" />
     <result column="state" jdbcType="BIT" property="state" />
     <result column="add_time" jdbcType="DATE" property="addTime" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
   </resultMap>
   <sql id="Base_Column_List">
-    mail, user_id, name, pwd, state, add_time
+    mail, user_id, name, pwd, state, add_time, image
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
