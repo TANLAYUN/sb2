@@ -138,6 +138,7 @@ public class AnswerServiceImpl implements AnswerService {
         if(answer != null){
             int a = answermapper.updateAnsByAnsId(ansId,ansContent);
             if(a == 1){
+                baseResponse.setData(answermapper.selectByPrimaryKey(ansId));
                 baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_SUCCESS);//更新成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_DB_ERROR);

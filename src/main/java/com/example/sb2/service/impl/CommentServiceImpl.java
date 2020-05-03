@@ -106,7 +106,7 @@ public class CommentServiceImpl implements CommentService {
         return baseResponse;
     }
 
-    //修改回答
+    //修改评论
     public BaseResponse modifyPersonalComment(Integer comId, String comContent){
         BaseResponse baseResponse = new BaseResponse();
         Comment comment = commentmapper.selectByPrimaryKey(comId);
@@ -114,6 +114,7 @@ public class CommentServiceImpl implements CommentService {
         if(comment != null){
             int a = commentmapper.updateComByComId(comId,comContent);
             if(a == 1){
+                baseResponse.setData(commentmapper.selectByPrimaryKey(comId));
                 baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_SUCCESS);//更新成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_FAILURE_DB_ERROR);
