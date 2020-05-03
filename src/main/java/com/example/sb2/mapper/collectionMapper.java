@@ -27,4 +27,7 @@ public interface collectionMapper {
     //delete
     @Delete("delete from collection where col_id=#{colId}")
     int deleteByPrimaryKey(Integer colId);
+
+    @Delete("delete from collection where col_user_id=#{colUserId} and col_ques_id=#{colQuesId}")
+    int deleteByUserIdAndQuesId(Integer colUserId,Integer colQuesId);
 }

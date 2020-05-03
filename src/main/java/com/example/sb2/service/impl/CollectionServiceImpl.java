@@ -76,15 +76,15 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     //用户取消收藏
-    public BaseResponse deleteCollections(Integer colId, Integer colQuesId){
+    public BaseResponse deleteCollections(Integer colUserId, Integer colQuesId){
 
         BaseResponse baseResponse = new BaseResponse();
-        Collection collection = collectionmapper.selectByPrimaryKey(colId);
+        Collection collection = collectionmapper.selectByUserIdAndQuesId(colUserId,colQuesId);
         Question question = questionmapper.selectByPrimaryKey(colQuesId);
 
         if(collection != null && question != null){
             int ques_col_num = question.getQuesColNum();
-            int a = collectionmapper.deleteByPrimaryKey(colId);
+            int a = collectionmapper.deleteByUserIdAndQuesId(colUserId,colQuesId);
             int b = questionmapper.updateQuesColNumByQuesId(colQuesId,ques_col_num-1);
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.COLLECTION_DELETE_SUCCESS);
