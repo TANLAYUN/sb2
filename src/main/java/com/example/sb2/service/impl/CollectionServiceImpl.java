@@ -83,9 +83,12 @@ public class CollectionServiceImpl implements CollectionService {
         Question question = questionmapper.selectByPrimaryKey(colQuesId);
 
         if(collection != null && question != null){
+            System.out.println("问题&收藏不是空");
             int ques_col_num = question.getQuesColNum();
+            System.out.println("问题的收藏数据："+ques_col_num);
             int a = collectionmapper.deleteByUserIdAndQuesId(colUserId,colQuesId);
             int b = questionmapper.updateQuesColNumByQuesId(colQuesId,ques_col_num-1);
+            System.out.println("收藏删除情况："+a+"+问题收藏数减一情况:"+b);
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.COLLECTION_DELETE_SUCCESS);
             }else{
