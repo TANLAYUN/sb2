@@ -114,9 +114,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "deleteCollections", method = RequestMethod.POST)
-    public BaseResponse deleteCollections(Integer colId, Integer colQuesId){
+    public BaseResponse deleteCollections(Integer colUserId, Integer colQuesId){
         BaseResponse baseResponse;
-        baseResponse = collectionService.deleteCollections(colId,colQuesId);
+        baseResponse = collectionService.deleteCollections(colUserId,colQuesId);
         return baseResponse;
     }
 
