@@ -7,6 +7,8 @@ import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.*;
 import com.example.sb2.service.QuestionService;
 import com.sun.mail.imap.ResyncData;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,9 +105,23 @@ public class QuestionServiceImpl implements QuestionService {
         if(quesState.equals(3)){
 
             List<Question> questions = questionmapper.selectAll();
+            Question question;
+            User user;
+            List<JSONObject> jsonObjects = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
 
             if(questions.size()!= 0){
-                baseResponse.setData(questions);
+                int i;
+                for(i=0;i<questions.size();i++){
+                    question = questions.get(i);
+                    user = usermapper.selectByUserId(question.getUserId());
+                    jsonObject.put(("question"+i),question);
+                    System.out.println("question"+i+"的标题"+question.getQuesTitle());
+                    jsonObject.put(("user_name"+i),user.getName());
+                    System.out.println("user_name"+i+"的内容"+user.getName());
+                    jsonObjects.add(i,jsonObject);
+                }
+                baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
