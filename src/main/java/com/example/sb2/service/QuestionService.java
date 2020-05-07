@@ -19,7 +19,7 @@ public interface QuestionService {
     BaseResponse searchQuestionsByQuesAnsState(Integer userId, Integer quesAnsState);
 
     //用户提问
-    BaseResponse question(Integer userId, String quesTitle, String quesContent);
+    BaseResponse question(Integer userId, String quesTitle, String quesContent,Integer quesReward);
 
     //删除问题
     BaseResponse deletePersonalQuestion(Integer quesId);

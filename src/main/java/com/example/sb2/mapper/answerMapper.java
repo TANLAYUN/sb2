@@ -32,6 +32,9 @@ public interface answerMapper {
 
     List<Answer> selectAnssByUserId(Integer userId);
 
+    @Select("select user_Id from answer where ans_id=#{ansId}")
+    int selectUserIdByAnsId(Integer ansId);
+
     //update
     @Update("update answer set ans_state=#{ansState} where ans_id=#{ansId}")
     int updateAnsStateByAnsId(Integer ansId, Integer ansState);
@@ -40,7 +43,7 @@ public interface answerMapper {
     int updateAnsByAnsId(Integer ansId, String ansContent);
 
     //insert
-    @Insert("insert into answer(user_id,ques_id,ans_content) values( #{userId}, #{quesId}, #{ansContent} )")
-    int insert(Integer userId, Integer quesId, String ansContent);
+    @Insert("insert into answer(user_id,ques_id,ans_content,ans_time) values( #{userId}, #{quesId}, #{ansContent},#{ansTime} )")
+    int insert(Integer userId, Integer quesId, String ansContent,String ansTime);
 
 }

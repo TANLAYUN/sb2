@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,7 +79,12 @@ public class AnswerServiceImpl implements AnswerService {
     //用户回答
     public BaseResponse answer(Integer userId, Integer quesId, String ansContent){
         BaseResponse baseResponse = new BaseResponse();
-        int a = answermapper.insert(userId,quesId,ansContent);
+
+        //获取系统时间
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+        String ansTime = dateFormat.format(now);
+        int a = answermapper.insert(userId,quesId,ansContent,ansTime);
         if(a == 1){
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);
         }else if(a != 1){
@@ -145,6 +152,27 @@ public class AnswerServiceImpl implements AnswerService {
             }
         }else if(answer == null){
             baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_NOT_EXIST);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+
+        return baseResponse;
+    }
+
+    //设成最佳答案
+    public BaseResponse modifyBestAns(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+
+        if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_ANS_NOT_EXIST);
+        }else if(answer != null){
+            User user = usermapper.selectByUserId(answermapper.selectUserIdByAnsId(ansId));
+            if(user == null){
+                baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_USER_NOT_EXIST);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_SUCCESS);
+            }
         }else{
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }

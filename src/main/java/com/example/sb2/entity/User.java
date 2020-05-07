@@ -10,6 +10,15 @@ public class User {
     private String pwd;
     private Integer state;
     private Date addTime;
+    private Integer capital;
+
+    public Integer getCapital() {
+        return capital;
+    }
+
+    public void setCapital(Integer capital) {
+        this.capital = capital;
+    }
 
     public String getMail() {
         return mail;

@@ -30,7 +30,13 @@ public enum ResultCodeEnum
     DB_DELETE_FAILURE("2010","数据删除失败"),
     DB_WORNING_NULL("2011","请求参数为空"),
 
+
+    BESTANS_UPDATE_SUCCESS("2008","最佳答案修改成功"),
+    BESTANS_UPDATE_FAILURE_USER_NOT_EXIST("2009","最佳答案修改失败_用户不存在"),
+    BESTANS_UPDATE_FAILURE_ANS_NOT_EXIST("2010","最佳答案修改失败_回答不存在"),
+
     //
+    QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL("2014","问题添加失败_积分不足"),
     QUESTION_ADD_SUCCESS("2015","问题添加成功"),
     QUESTION_ADD_FAILURE("2016","问题添加失败"),
 

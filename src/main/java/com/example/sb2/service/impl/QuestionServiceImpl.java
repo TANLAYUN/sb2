@@ -4,10 +4,7 @@ import com.example.sb2.entity.*;
 import com.example.sb2.entity.Question;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
-import com.example.sb2.mapper.answerMapper;
-import com.example.sb2.mapper.collectionMapper;
-import com.example.sb2.mapper.commentMapper;
-import com.example.sb2.mapper.questionMapper;
+import com.example.sb2.mapper.*;
 import com.example.sb2.service.QuestionService;
 import com.sun.mail.imap.ResyncData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private commentMapper commentmapper;
     @Autowired
-    private collectionMapper collectionmapper;
+    private userMapper usermapper;
 
     //修改问题状态
     public BaseResponse modifyQuestionState(Integer quesId, Integer quesState){
@@ -194,17 +191,24 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     //用户提问
-    public BaseResponse question(Integer userId, String quesTitle, String quesContent){
+    public BaseResponse question(Integer userId, String quesTitle, String quesContent, Integer quesReward){
 
         BaseResponse baseResponse = new BaseResponse();
-        int a = questionmapper.insert(userId,quesTitle,quesContent);
-        if(a == 1){
-            baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);
-        }else if(a != 1){
-            baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE);
+        User user = usermapper.selectByUserId(userId);
+        if(user.getCapital() < quesReward){
+            baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL);
         }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+            int a = questionmapper.insert(userId,quesTitle,quesContent);
+            int b = usermapper.updateUserCapital(userId,quesReward);
+            if(a == 1 && b == 1){
+                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);
+            }else if(a != 1 || b != 1){
+                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+            }
         }
+
 
         return baseResponse;
     }

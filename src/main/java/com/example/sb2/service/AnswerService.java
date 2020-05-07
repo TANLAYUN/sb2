@@ -17,4 +17,7 @@ public interface AnswerService {
 
     //修改回答
     BaseResponse modifyPersonalAnswer(Integer ansId, String ansContent);
+
+    //设成最佳答案
+    BaseResponse modifyBestAns(Integer ansId);
 }

@@ -163,9 +163,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "question", method = RequestMethod.POST)
-    public BaseResponse question(Integer userId, String quesTitle, String quesContent){
+    public BaseResponse question(Integer userId, String quesTitle, String quesContent,Integer quesReward){
         BaseResponse baseResponse;
-        baseResponse = questionService.question(userId,quesTitle,quesContent);
+        baseResponse = questionService.question(userId,quesTitle,quesContent,quesReward);
         return baseResponse;
     }
 
@@ -222,6 +222,13 @@ public class UserController {
     public BaseResponse modifyQuesAnsState(Integer quesId, Integer quesAnsState){
         BaseResponse baseResponse;
         baseResponse = questionService.modifyQuesAnsState(quesId,quesAnsState);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "modifyBestAns", method = RequestMethod.POST)
+    public BaseResponse modifyBestAns(Integer ansId){
+        BaseResponse baseResponse;
+        baseResponse = answerService.modifyBestAns(ansId);
         return baseResponse;
     }
 
