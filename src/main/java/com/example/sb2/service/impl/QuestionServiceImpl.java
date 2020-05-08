@@ -115,9 +115,9 @@ public class QuestionServiceImpl implements QuestionService {
                 for(i=0;i<questions.size();i++){
                     question = questions.get(i);
                     user = usermapper.selectByUserId(question.getUserId());
-                    jsonObject.put(("question"),question);
+                    jsonObject.put(("question"+i),question);
                     System.out.println("question"+i+"的标题"+question.getQuesTitle());
-                    jsonObject.put(("user_name"),user.getName());
+                    jsonObject.put(("user_name"+i),user.getName());
                     System.out.println("user_name"+i+"的内容"+user.getName());
                 }
                 baseResponse.setData(jsonObject);
