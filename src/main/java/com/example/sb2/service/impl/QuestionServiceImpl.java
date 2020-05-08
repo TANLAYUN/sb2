@@ -115,12 +115,13 @@ public class QuestionServiceImpl implements QuestionService {
                 for(i=0;i<questions.size();i++){
                     question = questions.get(i);
                     user = usermapper.selectByUserId(question.getUserId());
-                    jsonObject.put(("question"+i),question);
+                    jsonObject.put(("question"),question);
                     System.out.println("question"+i+"的标题"+question.getQuesTitle());
-                    jsonObject.put(("user_name"+i),user.getName());
+                    jsonObject.put(("user_name"),user.getName());
                     System.out.println("user_name"+i+"的内容"+user.getName());
+                    jsonObjects.add(i,jsonObject);
                 }
-                baseResponse.setData(jsonObject);
+                baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
