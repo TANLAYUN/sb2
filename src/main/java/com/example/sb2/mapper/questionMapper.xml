@@ -7,6 +7,7 @@
     <result column="ques_time" jdbcType="DATE" property="quesTime" />
     <result column="ques_ans_state" jdbcType="BIT" property="quesAnsState" />
     <result column="ques_state" jdbcType="BIT" property="quesState" />
+    <result column="ques_reward" jdbcType="INTEGER" property="quesReward" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Question">
     <result column="ques_title" jdbcType="LONGVARCHAR" property="quesTitle" />
@@ -14,7 +15,7 @@
     <result column="ques_col_num" jdbcType="INTEGER" property="quesColNum" />
   </resultMap>
   <sql id="Base_Column_List">
-    ques_id, user_id, ques_time, ques_ans_state, ques_state
+    ques_id, user_id, ques_time, ques_ans_state, ques_state, ques_reward
   </sql>
   <sql id="Blob_Column_List">
     ques_title, ques_content,ques_col_num

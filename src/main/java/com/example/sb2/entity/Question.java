@@ -13,6 +13,16 @@ public class Question {
     private String quesContent;
     private Integer quesColNum;
 
+    public Integer getQuesReward() {
+        return quesReward;
+    }
+
+    public void setQuesReward(Integer quesReward) {
+        this.quesReward = quesReward;
+    }
+
+    private Integer quesReward;
+
     public Integer getQuesId() {
         return quesId;
     }

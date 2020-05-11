@@ -214,8 +214,8 @@ public class QuestionServiceImpl implements QuestionService {
         if(user.getCapital() < quesReward){
             baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL);
         }else{
-            int a = questionmapper.insert(userId,quesTitle,quesContent);
-            int b = usermapper.updateUserCapital(userId,quesReward);
+            int a = questionmapper.insert(userId,quesTitle,quesContent,quesReward);
+            int b = usermapper.updateUserCapital(userId,(user.getCapital()-quesReward));
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);
             }else if(a != 1 || b != 1){
