@@ -29,7 +29,7 @@ public interface userMapper {
     int modifyUserState(Integer userId, Integer userState);
 
     //修改用户的capital
-    @Update("update user set capital=#{capital} where use_id=#{userId}")
+    @Update("update user set capital=#{capital} where user_id=#{userId}")
     int updateUserCapital(Integer userId,Integer capital);
 
     //上传用户头像
