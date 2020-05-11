@@ -6,7 +6,7 @@ public class Collection {
     private Integer colId;
     private Integer colUserId;
     private Integer colQuesId;
-    private Date colTime;
+    private String colTime;
 
     public Integer getColId() {
         return colId;
@@ -32,11 +32,11 @@ public class Collection {
         this.colQuesId = colQuesId;
     }
 
-    public Date getColTime() {
+    public String getColTime() {
         return colTime;
     }
 
-    public void setColTime(Date colTime) {
+    public void setColTime(String colTime) {
         this.colTime = colTime;
     }
 }

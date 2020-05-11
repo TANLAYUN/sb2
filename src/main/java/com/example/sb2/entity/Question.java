@@ -1,12 +1,14 @@
 package com.example.sb2.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Question {
 
     private Integer quesId;
     private Integer userId;
-    private Date quesTime;
+    private String quesTime;
     private Integer quesAnsState;
     private Integer quesState;
     private String quesTitle;
@@ -39,11 +41,11 @@ public class Question {
         this.userId = userId;
     }
 
-    public Date getQuesTime() {
+    public String getQuesTime() {
         return quesTime;
     }
 
-    public void setQuesTime(Date quesTime) {
+    public void setQuesTime(String quesTime) {
         this.quesTime = quesTime;
     }
 

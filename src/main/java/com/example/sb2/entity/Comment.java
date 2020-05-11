@@ -7,7 +7,7 @@ public class Comment {
     private Integer comId;
     private Integer ansId;
     private Integer userId;
-    private Date comTime;
+    private String comTime;
     private Integer comState;
     private String comContent;
 
@@ -35,11 +35,11 @@ public class Comment {
         this.userId = userId;
     }
 
-    public Date getComTime() {
+    public String getComTime() {
         return comTime;
     }
 
-    public void setComTime(Date comTime) {
+    public void setComTime(String comTime) {
         this.comTime = comTime;
     }
 

@@ -6,14 +6,12 @@ import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.*;
 import com.example.sb2.service.QuestionService;
-import com.sun.mail.imap.ResyncData;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.transform.Result;
 import java.util.List;
 
 @Service
@@ -115,11 +113,12 @@ public class QuestionServiceImpl implements QuestionService {
                 for(i=0;i<questions.size();i++){
                     question = questions.get(i);
                     user = usermapper.selectByUserId(question.getUserId());
-                    jsonObject.put(("question"),question);
-                    System.out.println("question"+i+"的标题"+question.getQuesTitle());
-                    jsonObject.put(("user_name"),user.getName());
-                    System.out.println("user_name"+i+"的内容"+user.getName());
-                    jsonObjects.add(i,jsonObject);
+                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                    if(question != null){
+                        jsonObject.put(("question"),question);
+                        jsonObject.put(("user_name"),user.getName());
+                        jsonObjects.add(i,jsonObject);
+                    }
                 }
                 baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功

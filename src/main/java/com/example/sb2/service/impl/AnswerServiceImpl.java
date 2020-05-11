@@ -84,6 +84,7 @@ public class AnswerServiceImpl implements AnswerService {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
         String ansTime = dateFormat.format(now);
+        System.out.println("回答的时间："+ansTime);
         int a = answermapper.insert(userId,quesId,ansContent,ansTime);
         if(a == 1){
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);

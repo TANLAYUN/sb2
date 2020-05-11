@@ -26,7 +26,7 @@
     ,
     <include refid="Blob_Column_List" />
     from answer
-    where ans_id = #{ansId,jdbcType=INTEGER}
+    where ans_id = #{ansId,jdbcType=INTEGER} order by ans_time desc
   </select>
 
   <select id="selectAnssByQuesId" resultMap="ResultMapWithBLOBs">
@@ -35,7 +35,7 @@
     ,
     <include refid="Blob_Column_List" />
     from answer
-    where ques_id = #{quesId,jdbcType=INTEGER}
+    where ques_id = #{quesId,jdbcType=INTEGER} order by ans_time desc
   </select>
 
   <select id="selectAnssByUserId" resultMap="ResultMapWithBLOBs">
@@ -44,7 +44,7 @@
     ,
     <include refid="Blob_Column_List" />
     from answer
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER} order by ans_time desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

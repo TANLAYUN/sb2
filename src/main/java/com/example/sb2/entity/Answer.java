@@ -7,7 +7,7 @@ public class Answer {
     private Integer ansId;
     private Integer quesId;
     private Integer userId;
-    private Date ansTime;
+    private String ansTime;
     private Integer ansState;
     private Integer goodCount;
     private Integer badCount;
@@ -38,11 +38,11 @@ public class Answer {
         this.userId = userId;
     }
 
-    public Date getAnsTime() {
+    public String getAnsTime() {
         return ansTime;
     }
 
-    public void setAnsTime(Date ansTime) {
+    public void setAnsTime(String ansTime) {
         this.ansTime = ansTime;
     }
 

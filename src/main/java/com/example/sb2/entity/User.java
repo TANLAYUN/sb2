@@ -9,7 +9,7 @@ public class User {
     private String name;
     private String pwd;
     private Integer state;
-    private Date addTime;
+    private String addTime;
     private Integer capital;
 
     public Integer getCapital() {
@@ -60,11 +60,11 @@ public class User {
         this.state = state;
     }
 
-    public Date getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 }
