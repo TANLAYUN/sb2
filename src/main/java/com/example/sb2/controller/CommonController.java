@@ -4,6 +4,7 @@ import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.kit.SendMail;
 import com.example.sb2.service.AdminService;
+import com.example.sb2.service.AnswerService;
 import com.example.sb2.service.QuestionService;
 import com.example.sb2.service.UserService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -32,6 +33,8 @@ public class CommonController {
     private UserService userService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private AnswerService answerService;
     @Autowired
     private DefaultKaptcha defaultKaptcha;
     @Autowired
@@ -153,5 +156,11 @@ public class CommonController {
     }
 
 
+    @RequestMapping(value = "selectAnssByGoodCount", method = RequestMethod.POST)
+    public BaseResponse selectAnssByGoodCount(Integer quesId) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = answerService.sortByGoodCount(quesId);
+        return baseResponse;
+    }
 
 }

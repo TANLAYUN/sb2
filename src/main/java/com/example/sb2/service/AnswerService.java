@@ -20,4 +20,7 @@ public interface AnswerService {
 
     //设成最佳答案
     BaseResponse modifyBestAns(Integer ansId);
+
+    //根据点赞个数排序
+    BaseResponse sortByGoodCount(Integer quesId);
 }

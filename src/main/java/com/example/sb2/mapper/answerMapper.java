@@ -30,6 +30,8 @@ public interface answerMapper {
     //@Select("select * from answer where ques_id=#{quesId}")
     List<Answer> selectAnssByQuesId(Integer quesId);
 
+    List<Answer> sortByGoodCount(Integer quesId);
+
     List<Answer> selectAnssByUserId(Integer userId);
 
     @Select("select user_Id from answer where ans_id=#{ansId}")

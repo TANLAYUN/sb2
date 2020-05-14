@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -174,6 +175,25 @@ public class AnswerServiceImpl implements AnswerService {
             }else{
                 baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_SUCCESS);
             }
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+
+        return baseResponse;
+    }
+
+
+
+    //根据点赞个数排序
+    public BaseResponse sortByGoodCount(Integer quesId){
+        BaseResponse baseResponse = new BaseResponse();
+        List<Answer> answers = answermapper.sortByGoodCount(quesId);
+
+        if(answers.size() != 0){
+            baseResponse.setData(answers);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        }else if(answers.size() == 0){
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
         }else{
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }

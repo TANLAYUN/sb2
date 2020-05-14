@@ -38,6 +38,15 @@
     where ques_id = #{quesId,jdbcType=INTEGER} order by ans_time desc
   </select>
 
+  <select id="sortByGoodCount" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where ques_id = #{quesId,jdbcType=INTEGER} order by good_count desc,ans_time desc
+  </select>
+
   <select id="selectAnssByUserId" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
