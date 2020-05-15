@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -99,21 +100,22 @@ public class QuestionServiceImpl implements QuestionService {
     public BaseResponse searchQuestionsByState(Integer quesState){
 
         BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        List<Question> questions;
+        Question question;
+        User user;
 
         if(quesState.equals(3)){
 
-            List<Question> questions = questionmapper.selectAll();
-            Question question;
-            User user;
-            List<JSONObject> jsonObjects = new JSONArray();
-            JSONObject jsonObject = new JSONObject();
+            questions = questionmapper.selectAll();
 
             if(questions.size()!= 0){
                 int i;
                 for(i=0;i<questions.size();i++){
                     question = questions.get(i);
                     user = usermapper.selectByUserId(question.getUserId());
-                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                     if(question != null){
                         jsonObject.put(("question"),question);
                         jsonObject.put(("user_name"),user.getName());
@@ -127,10 +129,21 @@ public class QuestionServiceImpl implements QuestionService {
             }
 
         }else{
-            List<Question> questions = questionmapper.selectByState(quesState);
+            questions = questionmapper.selectByState(quesState);
 
             if(questions.size()!= 0){
-                baseResponse.setData(questions);
+                int i;
+                for(i=0;i<questions.size();i++){
+                    question = questions.get(i);
+                    user = usermapper.selectByUserId(question.getUserId());
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                    if(question != null){
+                        jsonObject.put(("question"),question);
+                        jsonObject.put(("user_name"),user.getName());
+                        jsonObjects.add(i,jsonObject);
+                    }
+                }
+                baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
@@ -145,11 +158,25 @@ public class QuestionServiceImpl implements QuestionService {
     public BaseResponse searchQuestionsByQuesAnsState(Integer quesAnsState){
 
         BaseResponse baseResponse = new BaseResponse();
-
+        List<JSONObject> jsonObjects = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        Question question;
+        User user;
         List<Question> questions = questionmapper.selectByQuesAnsState(quesAnsState);
 
         if(questions.size()!= 0){
-            baseResponse.setData(questions);
+            int i;
+            for(i=0;i<questions.size();i++){
+                question = questions.get(i);
+                user = usermapper.selectByUserId(question.getUserId());
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                if(question != null){
+                    jsonObject.put(("question"),question);
+                    jsonObject.put(("user_name"),user.getName());
+                    jsonObjects.add(i,jsonObject);
+                }
+            }
+            baseResponse.setData(jsonObjects);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
         }else{
             baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
@@ -162,23 +189,51 @@ public class QuestionServiceImpl implements QuestionService {
     //根据状态选取问题_用户
     public BaseResponse searchQuestionsByState(Integer userId, Integer quesState){
         BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        List<Question> questions;
+        Question question;
+        User user;
 
         if(quesState.equals(3)){
 
-            List<Question> questions = questionmapper.selectAllByUser(userId);
+            questions = questionmapper.selectAllByUser(userId);
+
 
             if(questions.size()!= 0){
-                baseResponse.setData(questions);
+                int i;
+                for(i=0;i<questions.size();i++){
+                    question = questions.get(i);
+                    user = usermapper.selectByUserId(userId);
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                    if(question != null){
+                        jsonObject.put(("question"),question);
+                        jsonObject.put(("user_name"),user.getName());
+                        jsonObjects.add(i,jsonObject);
+                    }
+                }
+                baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
             }
 
         }else{
-            List<Question> questions = questionmapper.selectByUserAndState(userId,quesState);
+            questions = questionmapper.selectByUserAndState(userId,quesState);
 
             if(questions.size()!= 0){
-                baseResponse.setData(questions);
+                int i;
+                for(i=0;i<questions.size();i++){
+                    question = questions.get(i);
+                    user = usermapper.selectByUserId(userId);
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                    if(question != null){
+                        jsonObject.put(("question"),question);
+                        jsonObject.put(("user_name"),user.getName());
+                        jsonObjects.add(i,jsonObject);
+                    }
+                }
+                baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
@@ -192,11 +247,26 @@ public class QuestionServiceImpl implements QuestionService {
     public BaseResponse searchQuestionsByQuesAnsState(Integer userId, Integer quesAnsState){
 
         BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        Question question;
+        User user;
 
         List<Question> questions = questionmapper.selectByUserAndQuesAnsState(userId,quesAnsState);
 
         if(questions.size()!= 0){
-            baseResponse.setData(questions);
+            int i;
+            for(i=0;i<questions.size();i++){
+                question = questions.get(i);
+                user = usermapper.selectByUserId(userId);
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                if(question != null){
+                    jsonObject.put(("question"),question);
+                    jsonObject.put(("user_name"),user.getName());
+                    jsonObjects.add(i,jsonObject);
+                }
+            }
+            baseResponse.setData(jsonObjects);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
         }else{
             baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
@@ -280,9 +350,15 @@ public class QuestionServiceImpl implements QuestionService {
     //查看问题详情
     public BaseResponse viewQuestionInfo(Integer quesId){
         BaseResponse baseResponse = new BaseResponse();
+        JSONObject jsonObject = new JSONObject();
+        User user;
         Question question = questionmapper.selectByPrimaryKey(quesId);
+
         if(question != null){
-            baseResponse.setData(question);
+            user = usermapper.selectByUserId(question.getUserId());
+            jsonObject.put("question",question);
+            jsonObject.put("user_name",user.getName());
+            baseResponse.setData(jsonObject);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
         }else if(question == null){
             baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
