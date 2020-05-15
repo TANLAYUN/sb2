@@ -12,6 +12,16 @@ public class User {
     private String addTime;
     private Integer capital;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    private String image;
+
     public Integer getCapital() {
         return capital;
     }

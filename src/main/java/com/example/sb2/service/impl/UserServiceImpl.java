@@ -335,6 +335,8 @@ public class UserServiceImpl implements UserService {
                     baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_DB_ERROR);
                 }
             }
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
         return baseResponse;
     }

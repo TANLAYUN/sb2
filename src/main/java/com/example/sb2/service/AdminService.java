@@ -12,6 +12,7 @@ public interface AdminService {
      //修改信息
      BaseResponse modifyAdminInfo(Integer adminId, String mail, String name, String pwd,String newPwd);
 
-
+     //上传管理员图片
+     BaseResponse upload(Integer adminId, String image);
 
 }

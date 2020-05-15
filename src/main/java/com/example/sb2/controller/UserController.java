@@ -8,6 +8,7 @@ import net.sf.json.JSONObject;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -236,24 +237,33 @@ public class UserController {
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;
 
+    @Transactional
     @PostMapping("/upload")
     public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, Integer userId) {
         BaseResponse baseResponse = new BaseResponse();
-
+        System.out.println("我是一次请求~~~");
+        System.out.println("文件："+file);
+        System.out.println("userId："+userId);
+        Integer userid = 1;
         if (file == null) {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
+            System.out.println(baseResponse.getResultDesc());
             return baseResponse;
         }
         if (file.getSize() > 1024 * 1024 * 2) {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FILE_TOO_BIG);//上传失败_文件大小不能大于2M
+            System.out.println(baseResponse.getResultDesc());
             return baseResponse;
         }
+
         //获取文件后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
         if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FORMAT_ERROR);//上传失败_请选择jpg,jpeg,gif,png格式的图片
+            System.out.println(baseResponse.getResultDesc());
             return baseResponse;
         }
+
         String savePath = UPLOAD_FOLDER;
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
@@ -263,19 +273,28 @@ public class UserController {
 
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+        String image = savePath+filename;
         try {
-            baseResponse = userService.upload(userId,savePath+filename);
-            if(baseResponse.getResultCode().equals(3000)){
+            baseResponse = userService.upload(userid,"/static/"+filename);
+            if(baseResponse.getResultCode() == "3000"){
                 //将文件保存指定目录
                 file.transferTo(new File(savePath + filename));
-                baseResponse = userService.upload(userId,savePath+filename);
+                System.out.println("savepath+filename:"+savePath+filename);
+                System.out.println("我存好了");
+                System.out.println(baseResponse.getResultDesc());
                 return baseResponse;
             }
+            System.out.println(baseResponse.getResultDesc());
+            return baseResponse;
         } catch (Exception e) {
             e.printStackTrace();
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
+            System.out.println("文件保存失败了："+baseResponse.getResultDesc());
+            return baseResponse;
         }
-        return  baseResponse;
+//        System.out.println("我最终上传成功了："+baseResponse.getResultDesc());
+//        return  baseResponse;
+
     }
 
 

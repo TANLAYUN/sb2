@@ -1,6 +1,7 @@
 package com.example.sb2.service.impl;
 
 import com.example.sb2.entity.Admin;
+import com.example.sb2.entity.User;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.adminMapper;
@@ -112,6 +113,26 @@ public class AdminServiceImpl implements AdminService {
         return baseResponse;
     }
 
+    //上传管理员头像
+    public BaseResponse upload(Integer adminId, String image){
+        BaseResponse baseResponse = new BaseResponse();
+        Admin admin = adminmapper.selectByAdminId(adminId);
+        if(admin == null){
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_USER);//没有此用户
+        }else if(admin != null){
+            if(image != null){
+                int a = adminmapper.upload(adminId,image);
+                if(a == 1){
+                    baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_DB_ERROR);
+                }
+            }
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
 
 
 }

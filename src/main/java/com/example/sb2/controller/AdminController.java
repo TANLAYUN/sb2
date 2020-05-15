@@ -5,9 +5,12 @@ import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.service.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -15,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/online_answer/admin") //映射到controller
@@ -100,7 +105,6 @@ public class AdminController {
         return baseResponse;//baseResponse.objtoString();
     }
 
-
     @RequestMapping(value = "modifyAdminInfo", method = RequestMethod.POST) //
     public BaseResponse modifyAdminInfo(Integer adminId, String mail,String name,String pwd, String newPwd){
         BaseResponse baseResponse;
@@ -155,6 +159,51 @@ public class AdminController {
         BaseResponse baseResponse;
         baseResponse = questionService.searchQuestionsByQuesAnsState(quesAnsState);
         return baseResponse;
+    }
+
+    //文件上传
+    @Value("${prop.upload-folder}")
+    private String UPLOAD_FOLDER;
+
+    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, Integer adminId) {
+        BaseResponse baseResponse = new BaseResponse();
+
+        if (file == null) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
+            return baseResponse;
+        }
+        if (file.getSize() > 1024 * 1024 * 2) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FILE_TOO_BIG);//上传失败_文件大小不能大于2M
+            return baseResponse;
+        }
+        //获取文件后缀
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
+        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_FORMAT_ERROR);//上传失败_请选择jpg,jpeg,gif,png格式的图片
+            return baseResponse;
+        }
+        String savePath = UPLOAD_FOLDER;
+        File savePathFile = new File(savePath);
+        if (!savePathFile.exists()) {
+            //若不存在该目录，则创建目录
+            savePathFile.mkdir();
+        }
+
+        //通过UUID生成唯一文件名
+        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+        String image = savePath+filename;
+        try {
+            //将文件保存指定目录
+            file.transferTo(new File(savePath + filename));
+            baseResponse = adminService.upload(adminId,image);
+            System.out.println("savepath+filename:"+savePath+filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
+            return baseResponse;
+        }
+        baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
+        return  baseResponse;
     }
 
 

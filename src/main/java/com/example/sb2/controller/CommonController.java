@@ -117,7 +117,7 @@ public class CommonController {
     private String UPLOAD_FOLDER;
 
     @PostMapping("/upload")
-    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file/*, HttpServletRequest request*/) {
+    public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, Integer userId/*, HttpServletRequest request*/) {
         BaseResponse baseResponse = new BaseResponse();
         if (file == null) {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
@@ -141,17 +141,18 @@ public class CommonController {
         }
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+        String image = savePath+filename;
         try {
             //将文件保存指定目录
             file.transferTo(new File(savePath + filename));
-            System.out.println("savepath:"+savePath+"filename:"+filename);
+            baseResponse = userService.upload(userId,image);
+            System.out.println("savepath+filename:"+savePath+filename);
         } catch (Exception e) {
             e.printStackTrace();
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
+            return baseResponse;
         }
-        baseResponse.setData(filename);
         baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
-        //return ResultUtil.success(ResultEnum.SUCCESS, filename, request);
         return baseResponse;
     }
 
