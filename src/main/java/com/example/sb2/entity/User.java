@@ -11,6 +11,7 @@ public class User {
     private Integer state;
     private String addTime;
     private Integer capital;
+    private String image;
 
     public String getImage() {
         return image;
@@ -19,8 +20,6 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
-
-    private String image;
 
     public Integer getCapital() {
         return capital;

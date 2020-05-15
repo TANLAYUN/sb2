@@ -44,8 +44,12 @@ public interface questionMapper {
 
     @Update("update question set ques_col_num=#{quesColNum} where ques_id=#{quesId}")
     int updateQuesColNumByQuesId(Integer quesId,Integer quesColNum);
+
+    @Update("update question set ques_ans_num=#{quesAnsNum} where ques_id=#{quesId}")
+    int updateQuesAnsNumByQuesId(Integer quesId,Integer quesAnsNum);
+
     //insert
-    @Insert("insert into question(user_id,ques_title,ques_content,ques_reward) values( #{userId}, #{quesTitle}, #{quesContent}, #{quesReward} )")
-    int insert(Integer userId, String quesTitle, String quesContent, Integer quesReward);
+    @Insert("insert into question(user_id,ques_title,ques_content,ques_reward,ques_time) values( #{userId}, #{quesTitle}, #{quesContent}, #{quesReward}, #{quesTime} )")
+    int insert(Integer userId, String quesTitle, String quesContent, Integer quesReward, String quesTime);
 
 }

@@ -14,6 +14,15 @@ public class Question {
     private String quesTitle;
     private String quesContent;
     private Integer quesColNum;
+    private Integer quesAnsNum;
+
+    public Integer getQuesAnsNum() {
+        return quesAnsNum;
+    }
+
+    public void setQuesAnsNum(Integer quesAnsNum) {
+        this.quesAnsNum = quesAnsNum;
+    }
 
     public Integer getQuesReward() {
         return quesReward;

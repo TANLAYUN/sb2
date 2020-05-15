@@ -74,10 +74,6 @@ public enum ResultCodeEnum
     COMMENT_UPDATE_FAILURE_NOT_EXIST("2039","评论更新失败_不存在"),
 
     //
-    ANSWER_FIND_FAILURE_NO_USER("2040","回答查找失败_没有该用户"),
-    COMMENT_FIND_FAILURE_NO_USER("2041","评论查找失败_没有该用户"),
-
-    //
     COLLECTION_ADD_SUCCESS("2042","收藏成功"),
     COLLECTION_ADD_FAILURE("2043","收藏失败"),
     COLLECTION_EXISTED("2044","收藏失败_您已收藏了本条知识"),
@@ -92,6 +88,13 @@ public enum ResultCodeEnum
     COLLECTION_DELETE_SUCCESS("2050","收藏删除成功"),
     COLLECTION_DELETE_FAILURE("2051","收藏删除失败"),
     COLLECTION_NO_EXIST("2052","收藏删除失败_您没有收藏过"),
+
+    //
+    ANSWER_FIND_FAILURE_NO_USER("2060","回答查找失败_没有该用户"),
+    ANSWER_FIND_FAILURE_NO_QUES("2062","回答查找失败_没有该问题"),
+    COMMENT_FIND_FAILURE_NO_USER("2063","评论查找失败_没有该用户"),
+    COMMENT_FIND_FAILURE_NO_ANS("2064","评论查找失败_没有该回答"),
+
 
     USER_DELETE_SUCCESS("2027","用户删除成功"),
     USER_DELETE_FAILURE_DB_ERROR("2028","用户删除失败_数据库错误"),

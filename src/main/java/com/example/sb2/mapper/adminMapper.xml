@@ -7,10 +7,11 @@
     <result column="admin_id" jdbcType="INTEGER" property="adminId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    mail, admin_id, name, pwd
+    mail, admin_id, name, pwd, image
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

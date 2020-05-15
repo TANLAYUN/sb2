@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -283,7 +285,11 @@ public class QuestionServiceImpl implements QuestionService {
         if(user.getCapital() < quesReward){
             baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL);
         }else{
-            int a = questionmapper.insert(userId,quesTitle,quesContent,quesReward);
+            //获取系统时间
+            Date now = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+            String quesTime = dateFormat.format(now);
+            int a = questionmapper.insert(userId,quesTitle,quesContent,quesReward,quesTime);
             int b = usermapper.updateUserCapital(userId,(user.getCapital()-quesReward));
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);

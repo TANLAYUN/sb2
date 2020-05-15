@@ -6,13 +6,16 @@ import com.example.sb2.entity.Question;
 import com.example.sb2.entity.User;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
+import com.example.sb2.mapper.answerMapper;
 import com.example.sb2.mapper.commentMapper;
 import com.example.sb2.mapper.userMapper;
 import com.example.sb2.service.CommentService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +26,8 @@ public class CommentServiceImpl implements CommentService {
     private commentMapper commentmapper;
     @Autowired
     private userMapper usermapper;
+    @Autowired
+    private answerMapper answermapper;
 
     //修改评论状态
     public BaseResponse modifyCommentState(Integer comId, Integer comState){
@@ -56,9 +61,10 @@ public class CommentServiceImpl implements CommentService {
     public BaseResponse comment(Integer userId, Integer ansId, String comContent){
         BaseResponse baseResponse = new BaseResponse();
         int a = commentmapper.insert(userId,ansId,comContent);
-        if(a == 1){
+        int b = answermapper.updateAnsComNumByAnsId(ansId,answermapper.selectByPrimaryKey(ansId).getAnsComNum()+1);
+        if(a == 1 && b == 1){
             baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_SUCCESS);
-        }else if(a != 1){
+        }else if(a != 1 || b != 1){
             baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_FAILURE);
         }else{
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
@@ -67,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
         return baseResponse;
     }
 
-    //查看评论
+    //根据用户id查看评论
     public BaseResponse searchCommentsByUserId(Integer userId){
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByUserId(userId);
@@ -86,13 +92,45 @@ public class CommentServiceImpl implements CommentService {
         }
         return baseResponse;
     }
+
+    //根据回答id查看评论
+    public BaseResponse selectComsByQuesId(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        if(answer != null){
+            List<Comment> comments = commentmapper.selectComsByAnsId(ansId);
+            if(comments.size() != 0){
+                int i=0;
+                for(i=0;i<comments.size();i++){
+                    User user = usermapper.selectByUserId(comments.get(i).getUserId());
+                    jsonObject.put("comment",comments.get(i));
+                    jsonObject.put("user_name",user.getName());
+                    jsonObjects.add(i,jsonObject);
+                }
+                baseResponse.setData(jsonObjects);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else if(comments.size()==0){
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }else if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.COMMENT_FIND_FAILURE_NO_ANS);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
+
     //删除评论
     public BaseResponse deletePersonalComment(Integer comId){
         BaseResponse baseResponse = new BaseResponse();
         Comment comment = commentmapper.selectByPrimaryKey(comId);
         if(comment != null){
+            Answer answer = answermapper.selectByPrimaryKey(comment.getAnsId());
             int a = commentmapper.deleteByPrimaryKey(comId);
-            if(a == 1){
+            int b = answermapper.updateAnsComNumByAnsId(answer.getAnsId(),answer.getAnsComNum()-1);
+            if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.COMMENT_DELETE_SUCCESS);//删除成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.COMMENT_DELETE_FAILURE_DB_ERROR);

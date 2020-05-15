@@ -8,8 +8,10 @@ import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.answerMapper;
 import com.example.sb2.mapper.commentMapper;
+import com.example.sb2.mapper.questionMapper;
 import com.example.sb2.mapper.userMapper;
 import com.example.sb2.service.AnswerService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class AnswerServiceImpl implements AnswerService {
     private commentMapper commentmapper;
     @Autowired
     private userMapper usermapper;
+    @Autowired
+    private questionMapper questionmapper;
 
     public BaseResponse modifyAnswerState(Integer ansId, Integer ansState){
             BaseResponse baseResponse = new BaseResponse();
@@ -80,16 +84,17 @@ public class AnswerServiceImpl implements AnswerService {
     //用户回答
     public BaseResponse answer(Integer userId, Integer quesId, String ansContent){
         BaseResponse baseResponse = new BaseResponse();
-
+        Question question = questionmapper.selectByPrimaryKey(quesId);
         //获取系统时间
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
         String ansTime = dateFormat.format(now);
-        System.out.println("回答的时间："+ansTime);
+//        System.out.println("回答的时间："+ansTime);
         int a = answermapper.insert(userId,quesId,ansContent,ansTime);
-        if(a == 1){
+        int b = questionmapper.updateQuesAnsNumByQuesId(quesId,question.getQuesAnsNum()+1);
+        if(a == 1 && b == 1){
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);
-        }else if(a != 1){
+        }else if(a != 1 || b != 1){
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_FAILURE);
         }else{
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
@@ -98,7 +103,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
 
-    //查看回答
+    //根据用户id查看回答
     public BaseResponse searchAnswersByUserId(Integer userId){
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByUserId(userId);
@@ -118,13 +123,43 @@ public class AnswerServiceImpl implements AnswerService {
         return baseResponse;
     }
 
+    //根据问题id查看回答
+    public BaseResponse selectAnssByQuesId(Integer quesId){
+        BaseResponse baseResponse = new BaseResponse();
+        Question question = questionmapper.selectByPrimaryKey(quesId);
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject();
+        if(question != null){
+            List<Answer> answers = answermapper.selectAnssByQuesId(quesId);
+            if(answers.size() != 0){
+                int i=0;
+                for(i=0;i<answers.size();i++){
+                    jsonObject.put("answer",answers.get(i));
+                    jsonObject.put("user_name",usermapper.selectByUserId(answers.get(i).getUserId()).getName());
+                    jsonObjects.add(i,jsonObject);
+                }
+                baseResponse.setData(jsonObjects);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else if(answers.size()==0){
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }else if(question == null){
+            baseResponse.setResult(ResultCodeEnum.ANSWER_FIND_FAILURE_NO_QUES);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
+
     //删除回答
     public BaseResponse deletePersonalAnswer(Integer ansId){
         BaseResponse baseResponse = new BaseResponse();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
         if(answer != null){
+            Question question = questionmapper.selectByPrimaryKey(answer.getQuesId());
             int a = answermapper.deleteByPrimaryKey(ansId);
-            if(a == 1){
+            int b = questionmapper.updateQuesAnsNumByQuesId(question.getQuesId(),question.getQuesAnsNum()-1);
+            if(a == 1 && b ==1){
                 baseResponse.setResult(ResultCodeEnum.ANSWER_DELETE_SUCCESS);//删除成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.ANSWER_DELETE_FAILURE_DB_ERROR);

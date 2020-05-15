@@ -7,6 +7,16 @@ public class Admin {
     private String name;
     private String pwd;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    private String image;
+
     public String getMail() {
         return mail;
     }

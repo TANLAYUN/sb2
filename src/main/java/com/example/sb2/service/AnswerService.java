@@ -9,8 +9,11 @@ public interface AnswerService {
     //用户回答
     BaseResponse answer(Integer userId, Integer quesId, String ansContent);
 
-    //查看回答
+    //根据用户id查看回答
     BaseResponse searchAnswersByUserId(Integer userId);
+
+    //根据问题id查看回答
+    BaseResponse selectAnssByQuesId(Integer quesId);
 
     //删除回答
     BaseResponse deletePersonalAnswer(Integer ansId);

@@ -32,6 +32,6 @@ public interface adminMapper {
     int modifyAdminInfo(Integer adminId, String mail, String name, String newPwd);
 
     //上传管理员头像
-    @Update("update user set image=#{image} where user_id=#{adminId}")
+    @Update("update admin set image=#{image} where admin_id=#{adminId}")
     int upload(Integer adminId, String image);
 }

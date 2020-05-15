@@ -41,6 +41,9 @@ public interface answerMapper {
     @Update("update answer set ans_state=#{ansState} where ans_id=#{ansId}")
     int updateAnsStateByAnsId(Integer ansId, Integer ansState);
 
+    @Update("update answer set ans_com_num=#{ansComNum} where ans_id=#{ansId}")
+    int updateAnsComNumByAnsId(Integer ansId, Integer ansComNum);
+
     @Update("update answer set ans_content=#{ansContent} where ans_id=#{ansId}")
     int updateAnsByAnsId(Integer ansId, String ansContent);
 

@@ -13,6 +13,15 @@ public class Answer {
     private Integer badCount;
     private Integer bestAnswer;
     private String ansContent;
+    private Integer ansComNum;
+
+    public Integer getAnsComNum() {
+        return ansComNum;
+    }
+
+    public void setAnsComNum(Integer ansComNum) {
+        this.ansComNum = ansComNum;
+    }
 
     public Integer getAnsId() {
         return ansId;
