@@ -36,7 +36,7 @@
     ,
     <include refid="Blob_Column_List" />
     from question
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER} order by ques_time desc
   </select>
 
   <select id="selectByState" resultMap="ResultMapWithBLOBs">
@@ -45,7 +45,7 @@
     ,
     <include refid="Blob_Column_List" />
     from question
-    where ques_state = #{quesState,jdbcType=INTEGER}
+    where ques_state = #{quesState,jdbcType=INTEGER} order by ques_time desc
   </select>
 
   <select id="selectByUserAndState" resultMap="ResultMapWithBLOBs">
@@ -54,7 +54,7 @@
     ,
     <include refid="Blob_Column_List" />
     from question
-    where user_id = #{userId,jdbcType=INTEGER} and ques_state = #{quesState,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER} and ques_state = #{quesState,jdbcType=INTEGER} order by ques_time desc
   </select>
 
   <select id="selectByQuesAnsState" resultMap="ResultMapWithBLOBs">
@@ -63,7 +63,7 @@
     ,
     <include refid="Blob_Column_List" />
     from question
-    where ques_ans_state = #{quesAnsState,jdbcType=INTEGER}
+    where ques_ans_state = #{quesAnsState,jdbcType=INTEGER} order by ques_time desc
   </select>
 
   <select id="selectByUserAndQuesAnsState" resultMap="ResultMapWithBLOBs">
@@ -72,7 +72,7 @@
     ,
     <include refid="Blob_Column_List" />
     from question
-    where user_id = #{userId,jdbcType=INTEGER} and ques_ans_state = #{quesAnsState,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER} and ques_ans_state = #{quesAnsState,jdbcType=INTEGER} order by ques_time desc
   </select>
 
   <select id="selectAll" resultMap="ResultMapWithBLOBs">
@@ -88,7 +88,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from question where user_id = #{userId,jdbcType=INTEGER}
+    from question where user_id = #{userId,jdbcType=INTEGER} order by ques_time desc
   </select>
 
 

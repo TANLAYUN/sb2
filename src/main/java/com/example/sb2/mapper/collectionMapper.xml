@@ -24,13 +24,13 @@
         select
         <include refid="Base_Column_List" />
         from collection
-        where col_user_id = #{colUserId,jdbcType=INTEGER} and col_ques_id = #{colQuesId,jdbcType=INTEGER}
+        where col_user_id = #{colUserId,jdbcType=INTEGER} and col_ques_id = #{colQuesId,jdbcType=INTEGER} order by col_time desc
     </select>
 
     <select id="selectByColUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from collection
-        where col_user_id = #{colUserId,jdbcType=INTEGER}
+        where col_user_id = #{colUserId,jdbcType=INTEGER} order by col_time desc
     </select>
 </mapper>

@@ -94,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     //根据回答id查看评论
-    public BaseResponse selectComsByQuesId(Integer ansId){
+    public BaseResponse selectComsByAnsId(Integer ansId){
         BaseResponse baseResponse = new BaseResponse();
         List<JSONObject> jsonObjects = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();

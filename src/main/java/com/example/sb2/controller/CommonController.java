@@ -3,10 +3,7 @@ package com.example.sb2.controller;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.kit.SendMail;
-import com.example.sb2.service.AdminService;
-import com.example.sb2.service.AnswerService;
-import com.example.sb2.service.QuestionService;
-import com.example.sb2.service.UserService;
+import com.example.sb2.service.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +36,8 @@ public class CommonController {
     private DefaultKaptcha defaultKaptcha;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private CommentService commentService;
 
     @RequestMapping("/captcha.jpg")
     public String captcha(HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -157,11 +156,26 @@ public class CommonController {
     }
 
 
+    @RequestMapping(value = "selectAnssByQuesId", method = RequestMethod.POST)
+    public BaseResponse selectAnssByQuesId(Integer quesId) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = answerService.selectAnssByQuesId(quesId);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchCommentsByAnsId", method = RequestMethod.POST)
+    public BaseResponse searchCommentsByAnsId(Integer ansId) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = commentService.selectComsByAnsId(ansId);
+        return baseResponse;
+    }
+
     @RequestMapping(value = "selectAnssByGoodCount", method = RequestMethod.POST)
     public BaseResponse selectAnssByGoodCount(Integer quesId) {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse = answerService.sortByGoodCount(quesId);
         return baseResponse;
     }
+
 
 }

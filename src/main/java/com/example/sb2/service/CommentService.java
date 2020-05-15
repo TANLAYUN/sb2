@@ -14,7 +14,7 @@ public interface CommentService {
     BaseResponse searchCommentsByUserId(Integer userId);
 
     //根据回答id查看评论
-    BaseResponse selectComsByQuesId(Integer ansId);
+    BaseResponse selectComsByAnsId(Integer ansId);
 
     //删除评论
     BaseResponse deletePersonalComment(Integer comId);
