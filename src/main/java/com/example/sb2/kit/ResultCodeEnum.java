@@ -95,12 +95,15 @@ public enum ResultCodeEnum
     COMMENT_FIND_FAILURE_NO_USER("2063","评论查找失败_没有该用户"),
     COMMENT_FIND_FAILURE_NO_ANS("2064","评论查找失败_没有该回答"),
 
+    GOOD_SUCCESS("2070","点赞成功"),
+    GOOD_FAILURE_ANS_NOT_EXIST("2071","点赞失败_回答不存在"),
+    GOOD_CANCEL_SUCCESS("2072","取消点赞成功"),
+    GOOD_CANCEL_FAILURE_ANS_NOT_EXIST("2073","取消点赞失败_回答不存在"),
 
-    USER_DELETE_SUCCESS("2027","用户删除成功"),
-    USER_DELETE_FAILURE_DB_ERROR("2028","用户删除失败_数据库错误"),
-    USER_DELETE_FAILURE_USER_NOT_EXIST("2029","用户删除失败_用户不存在"),
-    //
-    SORT_WAY_ERROR("2030","错误的排序方式"),
+    BAD_SUCCESS("2075","踩成功"),
+    BAD_FAILURE_ANS_NOT_EXIST("2076","踩失败_回答不存在"),
+    BAD_CANCEL_SUCCESS("2077","取消踩成功"),
+    BAD_CANCEL_FAILURE_ANS_NOT_EXIST("2078","取消踩失败_回答不存在"),
 
     UPLOAD_SUCCESS("3000","上传成功"),
     UPLOAD_FAILURE_NO_FILE("3001","上传失败_文件不存在"),

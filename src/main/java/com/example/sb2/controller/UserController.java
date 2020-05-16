@@ -297,6 +297,31 @@ public class UserController {
 
     }
 
+    @RequestMapping(value = "good", method = RequestMethod.POST)
+    public BaseResponse good(Integer ansId){
+        BaseResponse baseResponse;
+        baseResponse = answerService.good(ansId);
+        return baseResponse;
+    }
 
+    @RequestMapping(value = "cancelGood", method = RequestMethod.POST)
+    public BaseResponse cancelGood(Integer ansId){
+        BaseResponse baseResponse;
+        baseResponse = answerService.cancelGood(ansId);
+        return baseResponse;
+    }
 
+    @RequestMapping(value = "bad", method = RequestMethod.POST)
+    public BaseResponse bad(Integer ansId){
+        BaseResponse baseResponse;
+        baseResponse = answerService.bad(ansId);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "cancelGood", method = RequestMethod.POST)
+    public BaseResponse cancelBad(Integer ansId){
+        BaseResponse baseResponse;
+        baseResponse = answerService.cancelBad(ansId);
+        return baseResponse;
+    }
 }

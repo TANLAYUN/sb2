@@ -26,4 +26,16 @@ public interface AnswerService {
 
     //根据点赞个数排序
     BaseResponse sortByGoodCount(Integer quesId);
+
+    //点赞
+    BaseResponse good(Integer ansId);
+
+    //取消点赞
+    BaseResponse cancelGood(Integer ansId);
+
+    //踩
+    BaseResponse bad(Integer ansId);
+
+    //取消踩
+    BaseResponse cancelBad(Integer ansId);
 }

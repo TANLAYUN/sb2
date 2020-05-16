@@ -235,4 +235,90 @@ public class AnswerServiceImpl implements AnswerService {
 
         return baseResponse;
     }
+
+    //点赞
+    public BaseResponse good(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        if(answer != null){
+            int a = answermapper.updateGoodByAnsId(ansId,answer.getGoodCount()+1);
+            if(a == 1){
+                baseResponse.setResult(ResultCodeEnum.GOOD_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+            }
+        }else if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.GOOD_FAILURE_ANS_NOT_EXIST);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
+
+    //取消点赞
+    public BaseResponse cancelGood(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        if(answer != null){
+            if(answer.getGoodCount() >= 1){
+                int a = answermapper.updateGoodByAnsId(ansId,answer.getGoodCount()-1);
+                if(a == 1){
+                    baseResponse.setResult(ResultCodeEnum.GOOD_CANCEL_SUCCESS);
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+                }
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_SYS_ERROR);
+            }
+
+        }else if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.GOOD_CANCEL_FAILURE_ANS_NOT_EXIST);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
+
+    //踩
+    public BaseResponse bad(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        if(answer != null){
+            int a = answermapper.updateBadByAnsId(ansId,answer.getBadCount()+1);
+            if(a == 1){
+                baseResponse.setResult(ResultCodeEnum.BAD_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+            }
+        }else if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.BAD_FAILURE_ANS_NOT_EXIST);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
+
+    //取消踩
+    public BaseResponse cancelBad(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        if(answer != null){
+            if(answer.getBadCount() >= 1){
+                int a = answermapper.updateBadByAnsId(ansId,answer.getBadCount()-1);
+                if(a == 1){
+                    baseResponse.setResult(ResultCodeEnum.BAD_CANCEL_SUCCESS);
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+                }
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_SYS_ERROR);
+            }
+
+        }else if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.BAD_CANCEL_FAILURE_ANS_NOT_EXIST);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+        return baseResponse;
+    }
 }

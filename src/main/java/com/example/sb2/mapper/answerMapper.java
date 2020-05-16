@@ -47,6 +47,12 @@ public interface answerMapper {
     @Update("update answer set ans_content=#{ansContent} where ans_id=#{ansId}")
     int updateAnsByAnsId(Integer ansId, String ansContent);
 
+    @Update("update answer set good_count=#{goodCount} where ans_id=#{ansId}")
+    int updateGoodByAnsId(Integer ansId, Integer goodCount);
+
+    @Update("update answer set bad_count=#{badCount} where ans_id=#{ansId}")
+    int updateBadByAnsId(Integer ansId, Integer badCount);
+
     //insert
     @Insert("insert into answer(user_id,ques_id,ans_content,ans_time) values( #{userId}, #{quesId}, #{ansContent},#{ansTime} )")
     int insert(Integer userId, Integer quesId, String ansContent,String ansTime);
