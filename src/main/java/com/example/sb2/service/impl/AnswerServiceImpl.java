@@ -128,12 +128,12 @@ public class AnswerServiceImpl implements AnswerService {
         BaseResponse baseResponse = new BaseResponse();
         Question question = questionmapper.selectByPrimaryKey(quesId);
         List<JSONObject> jsonObjects = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject();
         if(question != null){
             List<Answer> answers = answermapper.selectAnssByQuesId(quesId);
             if(answers.size() != 0){
-                int i=0;
+                int i;
                 for(i=0;i<answers.size();i++){
+                    JSONObject jsonObject = new JSONObject();
                     jsonObject.put("answer",answers.get(i));
                     jsonObject.put("user_name",usermapper.selectByUserId(answers.get(i).getUserId()).getName());
                     jsonObjects.add(i,jsonObject);

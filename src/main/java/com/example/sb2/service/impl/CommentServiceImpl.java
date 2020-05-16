@@ -97,7 +97,6 @@ public class CommentServiceImpl implements CommentService {
     public BaseResponse selectComsByAnsId(Integer ansId){
         BaseResponse baseResponse = new BaseResponse();
         List<JSONObject> jsonObjects = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
         if(answer != null){
             List<Comment> comments = commentmapper.selectComsByAnsId(ansId);
@@ -105,6 +104,7 @@ public class CommentServiceImpl implements CommentService {
                 int i=0;
                 for(i=0;i<comments.size();i++){
                     User user = usermapper.selectByUserId(comments.get(i).getUserId());
+                    JSONObject jsonObject = new JSONObject();
                     jsonObject.put("comment",comments.get(i));
                     jsonObject.put("user_name",user.getName());
                     jsonObjects.add(i,jsonObject);
