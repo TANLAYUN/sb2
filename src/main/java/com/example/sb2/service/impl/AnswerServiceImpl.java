@@ -131,12 +131,38 @@ public class AnswerServiceImpl implements AnswerService {
         if(question != null){
             List<Answer> answers = answermapper.selectAnssByQuesId(quesId);
             if(answers.size() != 0){
-                int i;
+                int i,j;
                 for(i=0;i<answers.size();i++){
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("answer",answers.get(i));
-                    jsonObject.put("user_name",usermapper.selectByUserId(answers.get(i).getUserId()).getName());
-                    jsonObjects.add(i,jsonObject);
+                    User ans_user = usermapper.selectByUserId(answers.get(i).getUserId());
+                    JSONObject jsonObject1 = new JSONObject();
+                    jsonObject1.put("answer",answers.get(i));
+                    jsonObject1.put("ans_user_name",ans_user.getName());
+
+                    //添加评论
+                    List<JSONObject> comJsonObjs = new ArrayList<>();
+                    if( answers.get(i) != null) {
+                        System.out.println("answer"+i+"不是空");
+                        List<Comment> comments = commentmapper.selectComsByAnsId(answers.get(i).getAnsId());
+                        if (comments.size() != 0) {
+                            System.out.println("comments不是空");
+                            for (j = 0; j < comments.size(); j++) {
+                                System.out.println("comment" + j + "不是空");
+                                User user = usermapper.selectByUserId(comments.get(j).getUserId());
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("comment", comments.get(j));
+                                System.out.println("ans" + i + "的comment" + j + "内容：" + comments.get(j).getComContent());
+                                jsonObject.put("com_user_name", user.getName());
+                                System.out.println("对应的作者名字：" + user.getName());
+                                comJsonObjs.add(j, jsonObject);
+                                System.out.println("我是jsonObject" + jsonObject.toString());
+                            }
+                        }
+                    }else{
+                        System.out.println("answer"+i+"是空");
+                        comJsonObjs = null;
+                    }
+                    jsonObject1.put("comments",comJsonObjs);
+                    jsonObjects.add(i,jsonObject1);
                 }
                 baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);

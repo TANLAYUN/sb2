@@ -318,7 +318,7 @@ public class UserController {
         return baseResponse;
     }
 
-    @RequestMapping(value = "cancelGood", method = RequestMethod.POST)
+    @RequestMapping(value = "cancelBad", method = RequestMethod.POST)
     public BaseResponse cancelBad(Integer ansId){
         BaseResponse baseResponse;
         baseResponse = answerService.cancelBad(ansId);
