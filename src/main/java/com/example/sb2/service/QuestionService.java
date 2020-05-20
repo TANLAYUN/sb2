@@ -29,4 +29,7 @@ public interface QuestionService {
 
     //查看问题详情
     BaseResponse viewQuestionInfo(Integer quesId);
+
+    //根据问题收藏数目查询所有问题
+    BaseResponse selectAllByColNum();
 }

@@ -25,6 +25,8 @@ public interface questionMapper {
 
     List<Question> selectAll();
 
+    List<Question> selectAllByColNum();
+
     List<Question> selectAllByUser(Integer userId);
 
     List<Question> selectByState(Integer quesState);

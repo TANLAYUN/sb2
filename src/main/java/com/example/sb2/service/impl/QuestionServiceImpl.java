@@ -374,4 +374,29 @@ public class QuestionServiceImpl implements QuestionService {
         return baseResponse;
     }
 
+    //根据问题收藏数目查询所有问题
+    public BaseResponse selectAllByColNum(){
+        BaseResponse baseResponse = new BaseResponse();
+        List<Question> questions = questionmapper.selectAllByColNum();
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        if(questions.size() != 0){
+            int i;
+            for(i=0;i<questions.size();i++){
+                Question question = questions.get(i);
+                User user = usermapper.selectByUserId(question.getUserId());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("question",question);
+                jsonObject.put("user_name",user.getName());
+                jsonObjects.add(i,jsonObject);
+            }
+            baseResponse.setData(jsonObjects);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        }else if(questions.size() == 0){
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }
+
+        return baseResponse;
+    }
 }

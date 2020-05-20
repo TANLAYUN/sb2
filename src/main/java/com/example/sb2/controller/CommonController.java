@@ -177,5 +177,12 @@ public class CommonController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "selectAllByColNum", method = RequestMethod.POST)
+    public BaseResponse selectAllByColNum() {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = questionService.selectAllByColNum();
+        return baseResponse;
+    }
+
 
 }

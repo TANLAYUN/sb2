@@ -83,6 +83,14 @@
     from question order by ques_time desc
   </select>
 
+  <select id="selectAllByColNum" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question order by ques_col_num desc,ques_time desc
+  </select>
+
   <select id="selectAllByUser" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
