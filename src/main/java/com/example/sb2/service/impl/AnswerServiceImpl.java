@@ -131,10 +131,19 @@ public class AnswerServiceImpl implements AnswerService {
                 for (i = 0; i < answers.size(); i++) {
                     User ans_user = usermapper.selectByUserId(answers.get(i).getUserId());
                     List<LikeOrNot> likeOrNots = likeOrNotmapper.selectByAnsAndUser(answers.get(i).getAnsId(),answers.get(i).getUserId());
+                    LikeOrNot likeOrNot;
                     JSONObject jsonObject1 = new JSONObject();
                     jsonObject1.put("answer", answers.get(i));
                     jsonObject1.put("ans_user_name", ans_user.getName());
-                    jsonObject1.put("likeOrNot",likeOrNots.get(0));
+                    if(likeOrNots.size() == 0){
+                        likeOrNot = null;
+                        System.out.println("likeOrNot是空");
+                    }else{
+                        likeOrNot = likeOrNots.get(0);
+                        System.out.println("likeOrNot的id："+likeOrNot.getId());
+                    }
+                    jsonObject1.put("likeOrNot", likeOrNot);
+
                     //添加评论
                     List<JSONObject> comJsonObjs = new ArrayList<>();
                     if (answers.get(i) != null) {
