@@ -34,55 +34,55 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private questionMapper questionmapper;
 
-    public BaseResponse modifyAnswerState(Integer ansId, Integer ansState){
-            BaseResponse baseResponse = new BaseResponse();
-            Answer answer = answermapper.selectByPrimaryKey(ansId);
-            List<Comment> comments = commentmapper.selectComsByAnsId(ansId);
-            if(answer != null){
-                if(answer.getAnsState().equals(ansState)){
-                    //请求无变化
-                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_CHANGE);
-                }else if(ansState.equals(0)){
-                    //管理员解除拉黑
-                    int i;
-                    answermapper.updateAnsStateByAnsId(ansId, ansState);
-                    //评论修改状态
-                    if(comments.size()!=0){
-                        for(i=0;i<comments.size();i++){
-                            if(comments.get(i).getComState().equals(4)){
-                                commentmapper.updateComStateByComId(comments.get(i).getComId(),0);
-                                System.out.println("评论"+i+"解除拉黑完成");
-                            }
+    public BaseResponse modifyAnswerState(Integer ansId, Integer ansState) {
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        List<Comment> comments = commentmapper.selectComsByAnsId(ansId);
+        if (answer != null) {
+            if (answer.getAnsState().equals(ansState)) {
+                //请求无变化
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_CHANGE);
+            } else if (ansState.equals(0)) {
+                //管理员解除拉黑
+                int i;
+                answermapper.updateAnsStateByAnsId(ansId, ansState);
+                //评论修改状态
+                if (comments.size() != 0) {
+                    for (i = 0; i < comments.size(); i++) {
+                        if (comments.get(i).getComState().equals(4)) {
+                            commentmapper.updateComStateByComId(comments.get(i).getComId(), 0);
+                            System.out.println("评论" + i + "解除拉黑完成");
                         }
                     }
-                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
-                }else if(ansState.equals(1)){
-                    //管理员拉黑
-                    int i;
-                    answermapper.updateAnsStateByAnsId(ansId, ansState);
-                    //评论修改状态
-                    if(comments.size()!=0){
-                        for(i=0;i<comments.size();i++){
-                            if(comments.get(i).getComState().equals(0)){
-                                commentmapper.updateComStateByComId(comments.get(i).getComId(),4);
-                                System.out.println("评论"+i+"拉黑完成");
-                            }
-                        }
-                    }
-                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
-                }else{
-                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
                 }
-            }else if(answer == null){
-                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_EXIST_ANSWER);//回答不存在
-            }else {
-                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
+            } else if (ansState.equals(1)) {
+                //管理员拉黑
+                int i;
+                answermapper.updateAnsStateByAnsId(ansId, ansState);
+                //评论修改状态
+                if (comments.size() != 0) {
+                    for (i = 0; i < comments.size(); i++) {
+                        if (comments.get(i).getComState().equals(0)) {
+                            commentmapper.updateComStateByComId(comments.get(i).getComId(), 4);
+                            System.out.println("评论" + i + "拉黑完成");
+                        }
+                    }
+                }
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
+            } else {
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
             }
-            return baseResponse;
+        } else if (answer == null) {
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_EXIST_ANSWER);//回答不存在
+        } else {
+            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
+        return baseResponse;
+    }
 
     //用户回答
-    public BaseResponse answer(Integer userId, Integer quesId, String ansContent){
+    public BaseResponse answer(Integer userId, Integer quesId, String ansContent) {
         BaseResponse baseResponse = new BaseResponse();
         Question question = questionmapper.selectByPrimaryKey(quesId);
         //获取系统时间
@@ -90,13 +90,13 @@ public class AnswerServiceImpl implements AnswerService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
         String ansTime = dateFormat.format(now);
 //        System.out.println("回答的时间："+ansTime);
-        int a = answermapper.insert(userId,quesId,ansContent,ansTime);
-        int b = questionmapper.updateQuesAnsNumByQuesId(quesId,question.getQuesAnsNum()+1);
-        if(a == 1 && b == 1){
+        int a = answermapper.insert(userId, quesId, ansContent, ansTime);
+        int b = questionmapper.updateQuesAnsNumByQuesId(quesId, question.getQuesAnsNum() + 1);
+        if (a == 1 && b == 1) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);
-        }else if(a != 1 || b != 1){
+        } else if (a != 1 || b != 1) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_FAILURE);
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
         return baseResponse;
@@ -104,44 +104,44 @@ public class AnswerServiceImpl implements AnswerService {
 
 
     //根据用户id查看回答
-    public BaseResponse searchAnswersByUserId(Integer userId){
+    public BaseResponse searchAnswersByUserId(Integer userId) {
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByUserId(userId);
-        if(user != null){
+        if (user != null) {
             List<Answer> answers = answermapper.selectAnssByUserId(userId);
-            if(answers.size() != 0){
+            if (answers.size() != 0) {
                 baseResponse.setData(answers);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
-            }else if(answers.size()==0){
+            } else if (answers.size() == 0) {
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
             }
-        }else if(user == null){
+        } else if (user == null) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_FIND_FAILURE_NO_USER);
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
         return baseResponse;
     }
 
     //根据问题id查看回答
-    public BaseResponse selectAnssByQuesId(Integer quesId){
+    public BaseResponse selectAnssByQuesId(Integer quesId) {
         BaseResponse baseResponse = new BaseResponse();
         Question question = questionmapper.selectByPrimaryKey(quesId);
         List<JSONObject> jsonObjects = new ArrayList<>();
-        if(question != null){
+        if (question != null) {
             List<Answer> answers = answermapper.selectAnssByQuesId(quesId);
-            if(answers.size() != 0){
-                int i,j;
-                for(i=0;i<answers.size();i++){
+            if (answers.size() != 0) {
+                int i, j;
+                for (i = 0; i < answers.size(); i++) {
                     User ans_user = usermapper.selectByUserId(answers.get(i).getUserId());
                     JSONObject jsonObject1 = new JSONObject();
-                    jsonObject1.put("answer",answers.get(i));
-                    jsonObject1.put("ans_user_name",ans_user.getName());
+                    jsonObject1.put("answer", answers.get(i));
+                    jsonObject1.put("ans_user_name", ans_user.getName());
 
                     //添加评论
                     List<JSONObject> comJsonObjs = new ArrayList<>();
-                    if( answers.get(i) != null) {
-                        System.out.println("answer"+i+"不是空");
+                    if (answers.get(i) != null) {
+                        System.out.println("answer" + i + "不是空");
                         List<Comment> comments = commentmapper.selectComsByAnsId(answers.get(i).getAnsId());
                         if (comments.size() != 0) {
                             System.out.println("comments不是空");
@@ -157,42 +157,42 @@ public class AnswerServiceImpl implements AnswerService {
                                 System.out.println("我是jsonObject" + jsonObject.toString());
                             }
                         }
-                    }else{
-                        System.out.println("answer"+i+"是空");
+                    } else {
+                        System.out.println("answer" + i + "是空");
                         comJsonObjs = null;
                     }
-                    jsonObject1.put("comments",comJsonObjs);
-                    jsonObjects.add(i,jsonObject1);
+                    jsonObject1.put("comments", comJsonObjs);
+                    jsonObjects.add(i, jsonObject1);
                 }
                 baseResponse.setData(jsonObjects);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
-            }else if(answers.size()==0){
+            } else if (answers.size() == 0) {
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
             }
-        }else if(question == null){
+        } else if (question == null) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_FIND_FAILURE_NO_QUES);
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
         return baseResponse;
     }
 
     //删除回答
-    public BaseResponse deletePersonalAnswer(Integer ansId){
+    public BaseResponse deletePersonalAnswer(Integer ansId) {
         BaseResponse baseResponse = new BaseResponse();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
-        if(answer != null){
+        if (answer != null) {
             Question question = questionmapper.selectByPrimaryKey(answer.getQuesId());
             int a = answermapper.deleteByPrimaryKey(ansId);
-            int b = questionmapper.updateQuesAnsNumByQuesId(question.getQuesId(),question.getQuesAnsNum()-1);
-            if(a == 1 && b ==1){
+            int b = questionmapper.updateQuesAnsNumByQuesId(question.getQuesId(), question.getQuesAnsNum() - 1);
+            if (a == 1 && b == 1) {
                 baseResponse.setResult(ResultCodeEnum.ANSWER_DELETE_SUCCESS);//删除成功
-            }else{
+            } else {
                 baseResponse.setResult(ResultCodeEnum.ANSWER_DELETE_FAILURE_DB_ERROR);
             }
-        }else if(answer == null){
+        } else if (answer == null) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_DELETE_FAILURE_NOT_EXIST);
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
 
@@ -200,22 +200,22 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     //修改回答
-    public BaseResponse modifyPersonalAnswer(Integer ansId, String ansContent){
+    public BaseResponse modifyPersonalAnswer(Integer ansId, String ansContent) {
 
         BaseResponse baseResponse = new BaseResponse();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
 
-        if(answer != null){
-            int a = answermapper.updateAnsByAnsId(ansId,ansContent);
-            if(a == 1){
+        if (answer != null) {
+            int a = answermapper.updateAnsByAnsId(ansId, ansContent);
+            if (a == 1) {
                 baseResponse.setData(answermapper.selectByPrimaryKey(ansId));
                 baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_SUCCESS);//更新成功
-            }else{
+            } else {
                 baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_DB_ERROR);
             }
-        }else if(answer == null){
+        } else if (answer == null) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_NOT_EXIST);
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
 
@@ -223,128 +223,42 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     //设成最佳答案
-    public BaseResponse modifyBestAns(Integer ansId){
+    public BaseResponse modifyBestAns(Integer ansId) {
         BaseResponse baseResponse = new BaseResponse();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
 
-        if(answer == null){
+        if (answer == null) {
             baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_ANS_NOT_EXIST);
-        }else if(answer != null){
+        } else if (answer != null) {
             User user = usermapper.selectByUserId(answermapper.selectUserIdByAnsId(ansId));
-            if(user == null){
+            if (user == null) {
                 baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_USER_NOT_EXIST);
-            }else{
+            } else {
                 baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_SUCCESS);
             }
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
 
         return baseResponse;
     }
-
 
 
     //根据点赞个数排序
-    public BaseResponse sortByGoodCount(Integer quesId){
+    public BaseResponse sortByGoodCount(Integer quesId) {
         BaseResponse baseResponse = new BaseResponse();
         List<Answer> answers = answermapper.sortByGoodCount(quesId);
 
-        if(answers.size() != 0){
+        if (answers.size() != 0) {
             baseResponse.setData(answers);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
-        }else if(answers.size() == 0){
+        } else if (answers.size() == 0) {
             baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }else{
+        } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
 
         return baseResponse;
     }
 
-    //点赞
-    public BaseResponse good(Integer ansId){
-        BaseResponse baseResponse = new BaseResponse();
-        Answer answer = answermapper.selectByPrimaryKey(ansId);
-        if(answer != null){
-            int a = answermapper.updateGoodByAnsId(ansId,answer.getGoodCount()+1);
-            if(a == 1){
-                baseResponse.setResult(ResultCodeEnum.GOOD_SUCCESS);
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
-            }
-        }else if(answer == null){
-            baseResponse.setResult(ResultCodeEnum.GOOD_FAILURE_ANS_NOT_EXIST);
-        }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
-        }
-        return baseResponse;
-    }
-
-    //取消点赞
-    public BaseResponse cancelGood(Integer ansId){
-        BaseResponse baseResponse = new BaseResponse();
-        Answer answer = answermapper.selectByPrimaryKey(ansId);
-        if(answer != null){
-            if(answer.getGoodCount() >= 1){
-                int a = answermapper.updateGoodByAnsId(ansId,answer.getGoodCount()-1);
-                if(a == 1){
-                    baseResponse.setResult(ResultCodeEnum.GOOD_CANCEL_SUCCESS);
-                }else{
-                    baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
-                }
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_SYS_ERROR);
-            }
-
-        }else if(answer == null){
-            baseResponse.setResult(ResultCodeEnum.GOOD_CANCEL_FAILURE_ANS_NOT_EXIST);
-        }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
-        }
-        return baseResponse;
-    }
-
-    //踩
-    public BaseResponse bad(Integer ansId){
-        BaseResponse baseResponse = new BaseResponse();
-        Answer answer = answermapper.selectByPrimaryKey(ansId);
-        if(answer != null){
-            int a = answermapper.updateBadByAnsId(ansId,answer.getBadCount()+1);
-            if(a == 1){
-                baseResponse.setResult(ResultCodeEnum.BAD_SUCCESS);
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
-            }
-        }else if(answer == null){
-            baseResponse.setResult(ResultCodeEnum.BAD_FAILURE_ANS_NOT_EXIST);
-        }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
-        }
-        return baseResponse;
-    }
-
-    //取消踩
-    public BaseResponse cancelBad(Integer ansId){
-        BaseResponse baseResponse = new BaseResponse();
-        Answer answer = answermapper.selectByPrimaryKey(ansId);
-        if(answer != null){
-            if(answer.getBadCount() >= 1){
-                int a = answermapper.updateBadByAnsId(ansId,answer.getBadCount()-1);
-                if(a == 1){
-                    baseResponse.setResult(ResultCodeEnum.BAD_CANCEL_SUCCESS);
-                }else{
-                    baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
-                }
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_SYS_ERROR);
-            }
-
-        }else if(answer == null){
-            baseResponse.setResult(ResultCodeEnum.BAD_CANCEL_FAILURE_ANS_NOT_EXIST);
-        }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
-        }
-        return baseResponse;
-    }
 }

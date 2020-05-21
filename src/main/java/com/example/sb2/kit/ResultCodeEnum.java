@@ -97,13 +97,18 @@ public enum ResultCodeEnum
 
     GOOD_SUCCESS("2070","点赞成功"),
     GOOD_FAILURE_ANS_NOT_EXIST("2071","点赞失败_回答不存在"),
-    GOOD_CANCEL_SUCCESS("2072","取消点赞成功"),
-    GOOD_CANCEL_FAILURE_ANS_NOT_EXIST("2073","取消点赞失败_回答不存在"),
+    GOOD_FAILURE_USER_NOT_EXIST("2072","点赞失败_用户不存在"),
+    GOOD_FAILURE_ALREADT_EXIST("2073","点赞失败_已经点过赞了或已经踩过了"),
 
-    BAD_SUCCESS("2075","踩成功"),
-    BAD_FAILURE_ANS_NOT_EXIST("2076","踩失败_回答不存在"),
-    BAD_CANCEL_SUCCESS("2077","取消踩成功"),
-    BAD_CANCEL_FAILURE_ANS_NOT_EXIST("2078","取消踩失败_回答不存在"),
+    BAD_SUCCESS("2080","踩成功"),
+    BAD_FAILURE_ANS_NOT_EXIST("2081","踩失败_回答不存在"),
+    BAD_FAILURE_USER_NOT_EXIST("2082","踩失败_用户不存在"),
+    BAD_FAILURE_ALREADT_EXIST("2083","踩失败_已经点过赞了或已经踩过了"),
+
+    CANCEL_SUCCESS("2084","取消成功"),
+    CANCEL_FAILURE_NOT_EXIST("2085","取消失败_没有点赞或者踩的记录"),
+    WRONG_LIKE_STATE("2088","点赞或踩失败_错误的状态"),
+
 
     UPLOAD_SUCCESS("3000","上传成功"),
     UPLOAD_FAILURE_NO_FILE("3001","上传失败_文件不存在"),

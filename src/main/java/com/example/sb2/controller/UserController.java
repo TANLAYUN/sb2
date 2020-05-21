@@ -35,6 +35,8 @@ public class UserController {
     private CollectionService collectionService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private LikeService likeService;
 
     public static Map<String, String> mailCode = new HashMap<String, String>();
 
@@ -244,7 +246,7 @@ public class UserController {
         System.out.println("我是一次请求~~~");
         System.out.println("文件："+file);
         System.out.println("userId："+userId);
-        Integer userid = 1;
+
         if (file == null) {
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_NO_FILE);//上传失败_文件不存在
             System.out.println(baseResponse.getResultDesc());
@@ -275,7 +277,7 @@ public class UserController {
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
         String image = savePath+filename;
         try {
-            baseResponse = userService.upload(userid,"/static/"+filename);
+            baseResponse = userService.upload(userId,"/static/"+filename);
             if(baseResponse.getResultCode() == "3000"){
                 //将文件保存指定目录
                 file.transferTo(new File(savePath + filename));
@@ -297,31 +299,18 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "good", method = RequestMethod.POST)
-    public BaseResponse good(Integer ansId){
+    @RequestMapping(value = "insertGoodOrBad", method = RequestMethod.POST)
+    public BaseResponse insertGoodOrBad(Integer ansId, Integer userId, Integer likeState){
         BaseResponse baseResponse;
-        baseResponse = answerService.good(ansId);
+        baseResponse = likeService.insert(ansId,userId,likeState);
         return baseResponse;
     }
 
-    @RequestMapping(value = "cancelGood", method = RequestMethod.POST)
-    public BaseResponse cancelGood(Integer ansId){
+    @RequestMapping(value = "cancelGoodOrBad", method = RequestMethod.POST)
+    public BaseResponse cancelGoodOrBad(Integer id){
         BaseResponse baseResponse;
-        baseResponse = answerService.cancelGood(ansId);
+        baseResponse = likeService.delete(id);
         return baseResponse;
     }
 
-    @RequestMapping(value = "bad", method = RequestMethod.POST)
-    public BaseResponse bad(Integer ansId){
-        BaseResponse baseResponse;
-        baseResponse = answerService.bad(ansId);
-        return baseResponse;
-    }
-
-    @RequestMapping(value = "cancelBad", method = RequestMethod.POST)
-    public BaseResponse cancelBad(Integer ansId){
-        BaseResponse baseResponse;
-        baseResponse = answerService.cancelBad(ansId);
-        return baseResponse;
-    }
 }
