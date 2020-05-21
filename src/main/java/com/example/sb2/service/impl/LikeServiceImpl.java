@@ -52,7 +52,7 @@ public class LikeServiceImpl implements LikeService {
                         int b = answermapper.updateGoodByAnsId(ansId,answer.getGoodCount()+1);
                         if(a == 1 && b == 1){
                             //插入成功
-                            baseResponse.setData(likeOrNotmapper.selectByAnsAndUser(ansId,userId));
+                            baseResponse.setData(likeOrNotmapper.selectByAnsAndUser(ansId,userId).get(0));
                             baseResponse.setResult(ResultCodeEnum.GOOD_SUCCESS);
                         }else{
                             baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
@@ -82,7 +82,7 @@ public class LikeServiceImpl implements LikeService {
                         int b = answermapper.updateBadByAnsId(ansId,answer.getBadCount()+1);
                         if(a == 1 && b == 1){
                             //插入成功
-                            baseResponse.setData(likeOrNotmapper.selectByAnsAndUser(ansId,userId));
+                            baseResponse.setData(likeOrNotmapper.selectByAnsAndUser(ansId,userId).get(0));
                             baseResponse.setResult(ResultCodeEnum.BAD_SUCCESS);
                         }else{
                             baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);

@@ -1,15 +1,9 @@
 package com.example.sb2.service.impl;
 
-import com.example.sb2.entity.Answer;
-import com.example.sb2.entity.Comment;
-import com.example.sb2.entity.Question;
-import com.example.sb2.entity.User;
+import com.example.sb2.entity.*;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
-import com.example.sb2.mapper.answerMapper;
-import com.example.sb2.mapper.commentMapper;
-import com.example.sb2.mapper.questionMapper;
-import com.example.sb2.mapper.userMapper;
+import com.example.sb2.mapper.*;
 import com.example.sb2.service.AnswerService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +27,8 @@ public class AnswerServiceImpl implements AnswerService {
     private userMapper usermapper;
     @Autowired
     private questionMapper questionmapper;
+    @Autowired
+    private likeOrNotMapper likeOrNotmapper;
 
     public BaseResponse modifyAnswerState(Integer ansId, Integer ansState) {
         BaseResponse baseResponse = new BaseResponse();
@@ -134,10 +130,11 @@ public class AnswerServiceImpl implements AnswerService {
                 int i, j;
                 for (i = 0; i < answers.size(); i++) {
                     User ans_user = usermapper.selectByUserId(answers.get(i).getUserId());
+                    List<LikeOrNot> likeOrNots = likeOrNotmapper.selectByAnsAndUser(answers.get(i).getAnsId(),answers.get(i).getUserId());
                     JSONObject jsonObject1 = new JSONObject();
                     jsonObject1.put("answer", answers.get(i));
                     jsonObject1.put("ans_user_name", ans_user.getName());
-
+                    jsonObject1.put("likeOrNot",likeOrNots.get(0));
                     //添加评论
                     List<JSONObject> comJsonObjs = new ArrayList<>();
                     if (answers.get(i) != null) {
