@@ -23,6 +23,8 @@ public interface likeOrNotMapper {
 //    @Select("select * from likeornot where ans_id=#{ansId} and user_id=#{userId}")
     List<LikeOrNot> selectByAnsAndUser(Integer ansId, Integer userId);
 
+    List<LikeOrNot> selectByAns(Integer ansId);
+
 //    @Select("select * from likeornot where id=#{id}")
     List<LikeOrNot> selectByPrimaryKey(Integer id);
 }

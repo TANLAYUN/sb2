@@ -130,41 +130,30 @@ public class AnswerServiceImpl implements AnswerService {
                 int i, j;
                 for (i = 0; i < answers.size(); i++) {
                     User ans_user = usermapper.selectByUserId(answers.get(i).getUserId());
-                    List<LikeOrNot> likeOrNots = likeOrNotmapper.selectByAnsAndUser(answers.get(i).getAnsId(),answers.get(i).getUserId());
-                    LikeOrNot likeOrNot;
+                    List<LikeOrNot> likeOrNots = likeOrNotmapper.selectByAns(answers.get(i).getAnsId());
                     JSONObject jsonObject1 = new JSONObject();
                     jsonObject1.put("answer", answers.get(i));
                     jsonObject1.put("ans_user_name", ans_user.getName());
+                    System.out.println("likeOrNot的size："+likeOrNots.size());
                     if(likeOrNots.size() == 0){
-                        likeOrNot = null;
-                        System.out.println("likeOrNot是空");
-                    }else{
-                        likeOrNot = likeOrNots.get(0);
-                        System.out.println("likeOrNot的id："+likeOrNot.getId());
+                        likeOrNots = null;
+                        System.out.println("likeOrNots是空");
                     }
-                    jsonObject1.put("likeOrNot", likeOrNot);
-
+                    jsonObject1.put("likeOrNots", likeOrNots);
                     //添加评论
                     List<JSONObject> comJsonObjs = new ArrayList<>();
                     if (answers.get(i) != null) {
-                        System.out.println("answer" + i + "不是空");
                         List<Comment> comments = commentmapper.selectComsByAnsId(answers.get(i).getAnsId());
                         if (comments.size() != 0) {
-                            System.out.println("comments不是空");
                             for (j = 0; j < comments.size(); j++) {
-                                System.out.println("comment" + j + "不是空");
                                 User user = usermapper.selectByUserId(comments.get(j).getUserId());
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("comment", comments.get(j));
-                                System.out.println("ans" + i + "的comment" + j + "内容：" + comments.get(j).getComContent());
                                 jsonObject.put("com_user_name", user.getName());
-                                System.out.println("对应的作者名字：" + user.getName());
                                 comJsonObjs.add(j, jsonObject);
-                                System.out.println("我是jsonObject" + jsonObject.toString());
                             }
                         }
                     } else {
-                        System.out.println("answer" + i + "是空");
                         comJsonObjs = null;
                     }
                     jsonObject1.put("comments", comJsonObjs);

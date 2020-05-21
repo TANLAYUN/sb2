@@ -25,4 +25,12 @@
         from likeornot
         where ans_id = #{ansId,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER}
     </select>
+
+    <select id="selectByAns" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from likeornot
+        where ans_id = #{ansId,jdbcType=INTEGER}
+    </select>
+
 </mapper>
