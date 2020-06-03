@@ -59,7 +59,7 @@
     ,
     <include refid="Blob_Column_List" />
     from comment
-    where com_state = #{comState,jdbcType=INTEGER} order by com_time desc
+    where com_state = #{comState,jdbcType=BIT} order by com_time desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
