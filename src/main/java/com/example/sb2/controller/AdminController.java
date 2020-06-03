@@ -152,6 +152,20 @@ public class AdminController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "searchAnswersByState", method = RequestMethod.POST)
+    public BaseResponse searchAnswersByState(Integer ansState){
+        BaseResponse baseResponse;
+        baseResponse = answerService.searchAnswersByState(ansState);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchCommentsByState", method = RequestMethod.POST)
+    public BaseResponse searchCommentsByState(Integer comState){
+        BaseResponse baseResponse;
+        baseResponse = commentService.searchCommentsByState(comState);
+        return baseResponse;
+    }
+
     @RequestMapping(value = "searchQuestionsByQuesAnsState", method = RequestMethod.POST)
     public BaseResponse searchQuestionsByQuesAnsState(Integer quesAnsState){
         BaseResponse baseResponse;

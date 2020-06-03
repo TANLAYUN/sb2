@@ -180,9 +180,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "comment", method = RequestMethod.POST)
-    public BaseResponse comment(Integer userId, Integer ansId, String comContent){
+    public BaseResponse comment(Integer userId, Integer ansId, String comContent, Integer ansComId){
         BaseResponse baseResponse;
-        baseResponse = commentService.comment(userId,ansId,comContent);
+        baseResponse = commentService.comment(userId,ansId,comContent,ansComId);
         return baseResponse;
     }
 

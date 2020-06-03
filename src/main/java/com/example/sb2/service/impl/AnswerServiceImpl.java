@@ -5,6 +5,7 @@ import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.*;
 import com.example.sb2.service.AnswerService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,7 +98,6 @@ public class AnswerServiceImpl implements AnswerService {
         }
         return baseResponse;
     }
-
 
     //根据用户id查看回答
     public BaseResponse searchAnswersByUserId(Integer userId) {
@@ -229,7 +229,14 @@ public class AnswerServiceImpl implements AnswerService {
             if (user == null) {
                 baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_USER_NOT_EXIST);
             } else {
-                baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_SUCCESS);
+                Question question = questionmapper.selectByPrimaryKey(answer.getQuesId());
+                int a = answermapper.updateBestAns(ansId);
+                int b = usermapper.updateUserCapital(user.getUserId(),user.getCapital()+question.getQuesReward());
+                if( a == 1 && b == 1){
+                    baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_SUCCESS);
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+                }
             }
         } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
@@ -237,7 +244,6 @@ public class AnswerServiceImpl implements AnswerService {
 
         return baseResponse;
     }
-
 
     //根据点赞个数排序
     public BaseResponse sortByGoodCount(Integer quesId) {
@@ -255,5 +261,63 @@ public class AnswerServiceImpl implements AnswerService {
 
         return baseResponse;
     }
+
+    //根据状态选取回答_管理员
+    public BaseResponse searchAnswersByState(Integer ansState){
+
+        BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        List<Answer> answers;
+        Answer answer;
+        User user;
+
+        if(ansState.equals(4)){
+
+            answers = answermapper.selectAll();
+
+            if(answers.size()!= 0){
+                int i;
+                for(i=0;i<answers.size();i++){
+                    answer = answers.get(i);
+                    user = usermapper.selectByUserId(answer.getUserId());
+                    if(answer != null){
+                        jsonObject.put(("answer"),answer);
+                        jsonObject.put(("user_name"),user.getName());
+                        jsonObjects.add(i,jsonObject);
+                    }
+                }
+                baseResponse.setData(jsonObjects);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
+            }
+
+        }else{
+            answers = answermapper.selectByState(ansState);
+
+            if(answers.size()!= 0){
+                int i;
+                for(i=0;i<answers.size();i++){
+                    answer = answers.get(i);
+                    user = usermapper.selectByUserId(answer.getUserId());
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+                    if(answer != null){
+                        jsonObject.put(("answer"),answer);
+                        jsonObject.put(("user_name"),user.getName());
+                        jsonObjects.add(i,jsonObject);
+                    }
+                }
+                baseResponse.setData(jsonObjects);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
+            }
+
+        }
+        return baseResponse;
+
+    }
+
 
 }

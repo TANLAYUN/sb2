@@ -45,6 +45,23 @@
     where user_id = #{userId,jdbcType=INTEGER} order by com_time desc
   </select>
 
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment order by com_time desc
+  </select>
+
+  <select id="selectByState" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where com_state = #{comState,jdbcType=INTEGER} order by com_time desc
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from comment
     where com_id = #{comId,jdbcType=INTEGER}

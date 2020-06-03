@@ -39,7 +39,11 @@ public interface commentMapper {
 
     List<Comment> selectComsByUserId(Integer userId);
 
+    List<Comment> selectAll();
+
+    List<Comment> selectByState(Integer comState);
+
     //insert
-    @Insert("insert into comment(user_id,ans_id,com_content) values( #{userId}, #{ansId}, #{comContent} )")
-    int insert(Integer userId, Integer ansId, String comContent);
+    @Insert("insert into comment(user_id,ans_id,com_content,ans_com_id) values( #{userId}, #{ansId}, #{comContent}, #{ansComId} )")
+    int insert(Integer userId, Integer ansId, String comContent, Integer ansComId);
 }

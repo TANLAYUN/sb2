@@ -34,6 +34,10 @@ public interface answerMapper {
 
     List<Answer> selectAnssByUserId(Integer userId);
 
+    List<Answer> selectAll();
+
+    List<Answer> selectByState(Integer ansState);
+
     @Select("select user_Id from answer where ans_id=#{ansId}")
     int selectUserIdByAnsId(Integer ansId);
 
@@ -52,6 +56,9 @@ public interface answerMapper {
 
     @Update("update answer set bad_count=#{badCount} where ans_id=#{ansId}")
     int updateBadByAnsId(Integer ansId, Integer badCount);
+
+    @Update("update answer set best_answer=1 where ans_id=#{ansId}")
+    int updateBestAns(Integer ansId);
 
     //insert
     @Insert("insert into answer(user_id,ques_id,ans_content,ans_time) values( #{userId}, #{quesId}, #{ansContent},#{ansTime} )")

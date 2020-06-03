@@ -27,4 +27,6 @@ public interface AnswerService {
     //根据点赞个数排序
     BaseResponse sortByGoodCount(Integer quesId);
 
+    //根据状态选取回答_管理员
+    BaseResponse searchAnswersByState(Integer ansState);
 }
