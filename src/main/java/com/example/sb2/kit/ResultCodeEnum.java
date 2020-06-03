@@ -119,6 +119,10 @@ public enum ResultCodeEnum
     UPLOAD_FAILURE_DB_ERROR("3006","上传失败_数据库错误"),
 
     //
+    REPORT_ADD_SUCCESS("3010","举报添加成功"),
+    REPORT_ADD_FAILURE("3011","举报添加失败"),
+
+    //
     LOGIN_SUCCESS("4000","登录成功"),
     LOGIN_FAILURE_PWD_ERROR("4001","登录失败_密码错误"),
     LOGIN_FAILURE_NO_EXIST_USER("4002","登录失败_用户不存在"),

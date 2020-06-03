@@ -37,6 +37,8 @@ public class UserController {
     private QuestionService questionService;
     @Autowired
     private LikeService likeService;
+    @Autowired
+    private ReportService reportService;
 
     public static Map<String, String> mailCode = new HashMap<String, String>();
 
@@ -186,6 +188,14 @@ public class UserController {
         return baseResponse;
     }
 
+
+    @RequestMapping(value = "report", method = RequestMethod.POST)
+    public BaseResponse report(Integer reportUserId, Integer reportType, Integer reportedUserId, String reportContent){
+        BaseResponse baseResponse;
+        baseResponse = reportService.report(reportUserId,reportType,reportedUserId,reportContent);
+        return baseResponse;
+    }
+
     @RequestMapping(value = "deletePersonalQuestion", method = RequestMethod.POST)
     public BaseResponse deletePersonalQuestion(Integer quesId){
         BaseResponse baseResponse;
@@ -234,6 +244,7 @@ public class UserController {
         baseResponse = answerService.modifyBestAns(ansId);
         return baseResponse;
     }
+
 
     //文件上传
     @Value("${prop.upload-folder}")
