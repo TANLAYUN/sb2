@@ -10,6 +10,15 @@ public class Comment {
     private String comTime;
     private Integer comState;
     private String comContent;
+    private Integer ansComId;
+
+    public Integer getAnsComId() {
+        return ansComId;
+    }
+
+    public void setAnsComId(Integer ansComId) {
+        this.ansComId = ansComId;
+    }
 
     public Integer getComId() {
         return comId;

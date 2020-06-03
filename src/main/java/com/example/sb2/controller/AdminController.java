@@ -6,10 +6,8 @@ import com.example.sb2.service.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -165,6 +163,8 @@ public class AdminController {
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;
 
+    @Transactional
+    @PostMapping("/upload")
     public BaseResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, Integer adminId) {
         BaseResponse baseResponse = new BaseResponse();
 
@@ -191,19 +191,25 @@ public class AdminController {
 
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
-        String image = savePath+filename;
         try {
+            baseResponse = adminService.upload(adminId,"/static/"+filename);
+            if(baseResponse.getResultCode() == "3000"){
+                file.transferTo(new File(savePath + filename));
+                System.out.println("savepath+filename:"+savePath+filename);
+                System.out.println("我存好了");
+                System.out.println(baseResponse.getResultDesc());
+                return baseResponse;
+            }
+            System.out.println(baseResponse.getResultDesc());
+            return baseResponse;
             //将文件保存指定目录
-            file.transferTo(new File(savePath + filename));
-            baseResponse = adminService.upload(adminId,image);
-            System.out.println("savepath+filename:"+savePath+filename);
         } catch (Exception e) {
             e.printStackTrace();
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
+            System.out.println("文件保存失败了："+baseResponse.getResultDesc());
             return baseResponse;
         }
-        baseResponse.setResult(ResultCodeEnum.UPLOAD_SUCCESS);
-        return  baseResponse;
+
     }
 
 

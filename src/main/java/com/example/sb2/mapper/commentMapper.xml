@@ -7,12 +7,13 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="com_time" jdbcType="DATE" property="comTime" />
     <result column="com_state" jdbcType="BIT" property="comState" />
+    <result column="ans_com_id" jdbcType="INTEGER" property="ansComId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Comment">
     <result column="com_content" jdbcType="LONGVARCHAR" property="comContent" />
   </resultMap>
   <sql id="Base_Column_List">
-    com_id, ans_id, user_id, com_time, com_state
+    com_id, ans_id, user_id, com_time, com_state, ans_com_id
   </sql>
   <sql id="Blob_Column_List">
     com_content

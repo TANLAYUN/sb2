@@ -275,7 +275,6 @@ public class UserController {
 
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
-        String image = savePath+filename;
         try {
             baseResponse = userService.upload(userId,"/static/"+filename);
             if(baseResponse.getResultCode() == "3000"){
