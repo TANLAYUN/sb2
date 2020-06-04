@@ -14,8 +14,8 @@ import java.util.Map;
 @Mapper
 public interface reportMapper {
     //insert
-    @Insert("insert into report(report_user_id,report_type,report_type_id,reported_user_id,report_content) values( #{reportUserId}, #{reportType}, #{reportTypeId}, #{reportedUserId}, #{reportContent} )")
-    int insert(Integer reportUserId, Integer reportType, Integer report_type_id, Integer reportedUserId, String reportContent);
+    @Insert("insert into report(report_user_id,report_type,report_type_id,reported_user_id,report_content,report_time) values( #{reportUserId}, #{reportType}, #{reportTypeId}, #{reportedUserId}, #{reportContent}, #{reportTime} )")
+    int insert(Integer reportUserId, Integer reportType, Integer report_type_id, Integer reportedUserId, String reportContent, String reportTime);
 
     //select
     Report selectByPrimaryKey(Integer reportId);
@@ -47,4 +47,10 @@ public interface reportMapper {
     List<Report> selectByStateByReportedUser(Integer reportedUserId, Integer reportState);
 
     List<Report> selectByTypeAndStateByReportedUser(Integer reportedUserId, Integer reportType, Integer reportState);
+
+
+    //update
+    @Update("update report set report_state = #{reportState} where report_id = #{reportId}")
+    int updateReportState(Integer reportId, Integer reportState);
+
 }

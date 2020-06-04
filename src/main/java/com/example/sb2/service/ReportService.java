@@ -15,4 +15,7 @@ public interface ReportService {
 
     //根据举报类型和处理状态选择被举报_用户
     BaseResponse searchReportedsByTypeAndState(Integer reportedUserId, Integer reportType, Integer reportState);
+
+    //修改举报处理状态
+    BaseResponse modifyReportState(Integer reportId, Integer reportState);
 }

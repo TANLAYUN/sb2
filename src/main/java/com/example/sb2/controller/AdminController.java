@@ -140,6 +140,12 @@ public class AdminController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "modifyReportState", method = RequestMethod.POST)
+    public BaseResponse modifyReportState(Integer reportId, Integer reportState){
+        BaseResponse baseResponse;
+        baseResponse = reportService.modifyReportState(reportId, reportState);
+        return baseResponse;
+    }
     @RequestMapping(value = "searchUsersByState", method = RequestMethod.POST)
     public BaseResponse searchUsersByState(Integer userState){
         BaseResponse baseResponse;
