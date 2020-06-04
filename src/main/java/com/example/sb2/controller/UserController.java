@@ -190,9 +190,9 @@ public class UserController {
 
 
     @RequestMapping(value = "report", method = RequestMethod.POST)
-    public BaseResponse report(Integer reportUserId, Integer reportType, Integer reportedUserId, String reportContent){
+    public BaseResponse report(Integer reportUserId, Integer reportType, Integer reportTypeId, Integer reportedUserId, String reportContent){
         BaseResponse baseResponse;
-        baseResponse = reportService.report(reportUserId,reportType,reportedUserId,reportContent);
+        baseResponse = reportService.report(reportUserId,reportType,reportTypeId,reportedUserId,reportContent);
         return baseResponse;
     }
 
@@ -244,7 +244,6 @@ public class UserController {
         baseResponse = answerService.modifyBestAns(ansId);
         return baseResponse;
     }
-
 
     //文件上传
     @Value("${prop.upload-folder}")

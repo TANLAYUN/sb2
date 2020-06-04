@@ -4,7 +4,8 @@ package com.example.sb2.entity;
 public class Report {
     private Integer reportId;
     private Integer reportUserId;
-    private Integer type;
+    private Integer reportType;
+    private Integer reportTypeId;
     private Integer reportedUserId;
     private String reportContent;
     private String reportTime;
@@ -26,12 +27,21 @@ public class Report {
         this.reportUserId = reportUserId;
     }
 
-    public Integer getType() {
-        return type;
+
+    public Integer getReportType() {
+        return reportType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setReportType(Integer reportType) {
+        this.reportType = reportType;
+    }
+
+    public Integer getReportTypeId() {
+        return reportTypeId;
+    }
+
+    public void setReportTypeId(Integer reportTypeId) {
+        this.reportTypeId = reportTypeId;
     }
 
     public Integer getReportedUserId() {

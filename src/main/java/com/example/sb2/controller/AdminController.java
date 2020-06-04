@@ -34,6 +34,8 @@ public class AdminController {
     @Autowired
     private UserService userService;
     @Autowired
+    private ReportService reportService;
+    @Autowired
     DefaultKaptcha defaultKaptcha;
 
     //生成验证码
@@ -163,6 +165,13 @@ public class AdminController {
     public BaseResponse searchCommentsByState(Integer comState){
         BaseResponse baseResponse;
         baseResponse = commentService.searchCommentsByState(comState);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchReportsByTypeAndState", method = RequestMethod.POST)
+    public BaseResponse searchReportsByTypeAndState(Integer reportType, Integer reportState){
+        BaseResponse baseResponse;
+        baseResponse = reportService.searchReportsByTypeAndState(reportType,reportState);
         return baseResponse;
     }
 

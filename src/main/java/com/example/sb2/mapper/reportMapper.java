@@ -13,6 +13,29 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface reportMapper {
-    @Insert("insert into report(report_user_id,report_type,reported_user_id,report_content) values( #{reportUserId}, #{reportType}, #{reportedUserId}, #{reportContent} )")
-    int insert(Integer reportUserId, Integer reportType, Integer reportedUserId, String reportContent);
+    //insert
+    @Insert("insert into report(report_user_id,report_type,report_type_id,reported_user_id,report_content) values( #{reportUserId}, #{reportType}, #{reportTypeId}, #{reportedUserId}, #{reportContent} )")
+    int insert(Integer reportUserId, Integer reportType, Integer report_type_id, Integer reportedUserId, String reportContent);
+
+    //select
+    Report selectByPrimaryKey(Integer reportId);
+
+    //管理员
+    List<Report> selectAll();
+
+    List<Report> selectByType(Integer reportType);
+
+    List<Report> selectByState(Integer reportState);
+
+    List<Report> selectByTypeAndState(Integer reportType, Integer reportState);
+
+    //用户
+    List<Report> selectAllByUser(Integer reportUserId);
+
+    List<Report> selectByTypeByUser(Integer reportUserId, Integer reportType);
+
+    List<Report> selectByStateByUser(Integer reportUserId, Integer reportState);
+
+    List<Report> selectByTypeAndStateByUser(Integer reportUserId, Integer reportType, Integer reportState);
+
 }
