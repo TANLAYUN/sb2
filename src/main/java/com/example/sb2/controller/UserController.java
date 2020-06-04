@@ -322,4 +322,17 @@ public class UserController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "searchReportsByTypeAndState", method = RequestMethod.POST)
+    public BaseResponse searchReportsByTypeAndState(Integer reportUserId, Integer reportType, Integer reportState){
+        BaseResponse baseResponse;
+        baseResponse = reportService.searchReportsByTypeAndState(reportUserId,reportType,reportState);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchReportedsByTypeAndState", method = RequestMethod.POST)
+    public BaseResponse searchReportedsByTypeAndState(Integer reportedUserId, Integer reportType, Integer reportState){
+        BaseResponse baseResponse;
+        baseResponse = reportService.searchReportedsByTypeAndState(reportedUserId,reportType,reportState);
+        return baseResponse;
+    }
 }

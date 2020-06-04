@@ -49,6 +49,34 @@
         where report_type = #{reportType,jdbcType=INTEGER} and report_state = #{reportState,jdbcType=INTEGER} order by report_time desc
     </select>
 
+    <select id="selectAllByReportedUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from report
+        where reported_user_id = #{ReportedUserId,jdbcType=INTEGER} order by report_time desc
+    </select>
+
+    <select id="selectByTypeByReportedUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from report
+        where reported_user_id = #{reportedUserId,jdbcType=INTEGER} and report_type = #{reportType,jdbcType=INTEGER} order by report_time desc
+    </select>
+
+    <select id="selectByStateByReportedUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from report
+        where reported_user_id = #{reportedUserId,jdbcType=INTEGER} and report_state = #{reportState,jdbcType=INTEGER} order by report_time desc
+    </select>
+
+    <select id="selectByTypeAndStateByReportedUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from report
+        where reported_user_id = #{reportedUserId,jdbcType=INTEGER} and report_type = #{reportType,jdbcType=INTEGER} and report_state = #{reportState,jdbcType=INTEGER} order by report_time desc
+    </select>
+
     <select id="selectAllByUser" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

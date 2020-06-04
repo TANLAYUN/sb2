@@ -38,4 +38,13 @@ public interface reportMapper {
 
     List<Report> selectByTypeAndStateByUser(Integer reportUserId, Integer reportType, Integer reportState);
 
+
+    //被举报用户
+    List<Report> selectAllByReportedUser(Integer reportedUserId);
+
+    List<Report> selectByTypeByReportedUser(Integer reportedUserId, Integer reportType);
+
+    List<Report> selectByStateByReportedUser(Integer reportedUserId, Integer reportState);
+
+    List<Report> selectByTypeAndStateByReportedUser(Integer reportedUserId, Integer reportType, Integer reportState);
 }

@@ -9,4 +9,10 @@ public interface ReportService {
 
     //根据举报类型和处理状态选择举报_管理员
     BaseResponse searchReportsByTypeAndState(Integer reportType, Integer reportState);
+
+    //根据举报类型和处理状态选择举报_用户
+    BaseResponse searchReportsByTypeAndState(Integer reportUserId, Integer reportType, Integer reportState);
+
+    //根据举报类型和处理状态选择被举报_用户
+    BaseResponse searchReportedsByTypeAndState(Integer reportedUserId, Integer reportType, Integer reportState);
 }

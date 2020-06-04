@@ -78,5 +78,95 @@ public class ReportServiceImpl implements ReportService {
         return baseResponse;
     }
 
+    //根据举报类型和处理状态选择举报_用户
+    public BaseResponse searchReportsByTypeAndState(Integer reportUserId, Integer reportType, Integer reportState){
+        BaseResponse baseResponse = new BaseResponse();
+        List<Report> reports ;
+        if(reportType.equals(4)){
+            //所有举报类型
+            if(reportState.equals(3)){
+
+                //所有处理状态
+                reports = reportmapper.selectAllByUser(reportUserId);
+
+            }else{
+                //其他处理状态
+                reports = reportmapper.selectByStateByUser(reportUserId,reportState);
+
+            }
+            if(reports.size() != 0){
+                baseResponse.setData(reports);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }else{
+            //查看问题或回答或评论
+            if(reportState.equals(3)){
+
+                //所有处理状态
+                reports = reportmapper.selectByTypeByUser(reportUserId,reportType);
+
+            }else{
+                //其他处理状态
+                reports = reportmapper.selectByTypeAndStateByUser(reportUserId,reportType,reportState);
+
+            }
+            if(reports.size() != 0){
+                baseResponse.setData(reports);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }
+
+        return baseResponse;
+    }
+
+    //根据举报类型和处理状态选择被举报_用户
+    public BaseResponse searchReportedsByTypeAndState(Integer reportedUserId, Integer reportType, Integer reportState){
+        BaseResponse baseResponse = new BaseResponse();
+        List<Report> reports ;
+        if(reportType.equals(4)){
+            //所有举报类型
+            if(reportState.equals(3)){
+
+                //所有处理状态
+                reports = reportmapper.selectAllByReportedUser(reportedUserId);
+
+            }else{
+                //其他处理状态
+                reports = reportmapper.selectByStateByReportedUser(reportedUserId,reportState);
+
+            }
+            if(reports.size() != 0){
+                baseResponse.setData(reports);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }else{
+            //查看问题或回答或评论
+            if(reportState.equals(3)){
+
+                //所有处理状态
+                reports = reportmapper.selectByTypeByReportedUser(reportedUserId,reportType);
+
+            }else{
+                //其他处理状态
+                reports = reportmapper.selectByTypeAndStateByReportedUser(reportedUserId,reportType,reportState);
+
+            }
+            if(reports.size() != 0){
+                baseResponse.setData(reports);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+            }
+        }
+
+        return baseResponse;
+    }
+
 
 }
