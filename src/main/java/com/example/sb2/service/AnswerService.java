@@ -29,4 +29,7 @@ public interface AnswerService {
 
     //根据状态选取回答_管理员
     BaseResponse searchAnswersByState(Integer ansState);
+
+    //根据状态选取回答_用户
+    BaseResponse searchAnswersByState(Integer userId, Integer ansState);
 }

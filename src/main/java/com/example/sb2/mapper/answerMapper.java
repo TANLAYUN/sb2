@@ -2,6 +2,7 @@ package com.example.sb2.mapper;
 
 import com.example.sb2.entity.Answer;
 import com.example.sb2.entity.Comment;
+import com.example.sb2.entity.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -37,6 +38,8 @@ public interface answerMapper {
     List<Answer> selectAll();
 
     List<Answer> selectByState(Integer ansState);
+
+    List<Answer> selectByUserAndState(Integer userId, Integer ansState);
 
     @Select("select user_Id from answer where ans_id=#{ansId}")
     int selectUserIdByAnsId(Integer ansId);

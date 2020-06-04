@@ -62,6 +62,15 @@
     where com_state = #{comState,jdbcType=BIT} order by com_time desc
   </select>
 
+  <select id="selectByUserAndState" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where user_id = #{userId,jdbcType=INTEGER} and com_state = #{comState,jdbcType=BIT} order by com_time desc
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from comment
     where com_id = #{comId,jdbcType=INTEGER}

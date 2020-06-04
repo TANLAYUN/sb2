@@ -10,9 +10,10 @@
     <result column="add_time" jdbcType="DATE" property="addTime" />
     <result column="capital" jdbcType="INTEGER" property="capital" />
     <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="report_num" jdbcType="INTEGER" property="reportNum" />
   </resultMap>
   <sql id="Base_Column_List">
-    mail, user_id, name, pwd, state, add_time, capital, image
+    mail, user_id, name, pwd, state, add_time, capital, image, report_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select

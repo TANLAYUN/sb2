@@ -187,7 +187,6 @@ public class QuestionServiceImpl implements QuestionService {
         return baseResponse;
     }
 
-
     //根据状态选取问题_用户
     public BaseResponse searchQuestionsByState(Integer userId, Integer quesState){
         BaseResponse baseResponse = new BaseResponse();
@@ -195,7 +194,7 @@ public class QuestionServiceImpl implements QuestionService {
         JSONObject jsonObject = new JSONObject();
         List<Question> questions;
         Question question;
-        User user;
+//        User user;
 
         if(quesState.equals(3)){
 
@@ -203,18 +202,19 @@ public class QuestionServiceImpl implements QuestionService {
 
 
             if(questions.size()!= 0){
-                int i;
-                for(i=0;i<questions.size();i++){
-                    question = questions.get(i);
-                    user = usermapper.selectByUserId(userId);
+//                int i;
+//                for(i=0;i<questions.size();i++){
+//                    question = questions.get(i);
+//                    user = usermapper.selectByUserId(userId);
 //                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
-                    if(question != null){
-                        jsonObject.put(("question"),question);
-                        jsonObject.put(("user_name"),user.getName());
-                        jsonObjects.add(i,jsonObject);
-                    }
-                }
-                baseResponse.setData(jsonObjects);
+//                    if(question != null){
+//                        jsonObject.put(("question"),question);
+//                        jsonObject.put(("user_name"),user.getName());
+//                        jsonObjects.add(i,jsonObject);
+//                    }
+//                }
+//                baseResponse.setData(jsonObjects);
+                baseResponse.setData(questions);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
@@ -224,18 +224,19 @@ public class QuestionServiceImpl implements QuestionService {
             questions = questionmapper.selectByUserAndState(userId,quesState);
 
             if(questions.size()!= 0){
-                int i;
-                for(i=0;i<questions.size();i++){
-                    question = questions.get(i);
-                    user = usermapper.selectByUserId(userId);
+//                int i;
+//                for(i=0;i<questions.size();i++){
+//                    question = questions.get(i);
+//                    user = usermapper.selectByUserId(userId);
 //                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
-                    if(question != null){
-                        jsonObject.put(("question"),question);
-                        jsonObject.put(("user_name"),user.getName());
-                        jsonObjects.add(i,jsonObject);
-                    }
-                }
-                baseResponse.setData(jsonObjects);
+//                    if(question != null){
+//                        jsonObject.put(("question"),question);
+//                        jsonObject.put(("user_name"),user.getName());
+//                        jsonObjects.add(i,jsonObject);
+//                    }
+//                }
+//                baseResponse.setData(jsonObjects);
+                baseResponse.setData(questions);
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
             }else{
                 baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录

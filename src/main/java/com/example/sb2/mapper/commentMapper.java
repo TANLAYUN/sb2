@@ -1,5 +1,6 @@
 package com.example.sb2.mapper;
 
+import com.example.sb2.entity.Answer;
 import com.example.sb2.entity.Comment;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -42,6 +43,8 @@ public interface commentMapper {
     List<Comment> selectAll();
 
     List<Comment> selectByState(Integer comState);
+
+    List<Comment> selectByUserAndState(Integer userId, Integer comState);
 
     //insert
     @Insert("insert into comment(user_id,ans_id,com_content,ans_com_id) values( #{userId}, #{ansId}, #{comContent}, #{ansComId} )")

@@ -5,10 +5,7 @@ import com.example.sb2.entity.Question;
 import com.example.sb2.entity.Report;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
-import com.example.sb2.mapper.answerMapper;
-import com.example.sb2.mapper.commentMapper;
-import com.example.sb2.mapper.questionMapper;
-import com.example.sb2.mapper.reportMapper;
+import com.example.sb2.mapper.*;
 import com.example.sb2.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +28,8 @@ public class ReportServiceImpl implements ReportService {
     private answerMapper answermapper;
     @Autowired
     private commentMapper commentmapper;
+    @Autowired
+    private userMapper usermapper;
 
     //用户举报
     public BaseResponse report(Integer reportUserId, Integer reportType,  Integer reportTypeId, Integer reportedUserId, String reportContent){
@@ -40,9 +39,11 @@ public class ReportServiceImpl implements ReportService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
         String reportTime = dateFormat.format(now);
         int a = reportmapper.insert(reportUserId,reportType,reportTypeId,reportedUserId,reportContent,reportTime);
-        if( a == 1 ){
+        User user = usermapper.selectByUserId(reportedUserId);
+        int b = usermapper.updateReportNum(user.getUserId(),user.getReportNum()+1);
+        if( a == 1 && b == 1){
             baseResponse.setResult(ResultCodeEnum.REPORT_ADD_SUCCESS);
-        }else if( a != 1){
+        }else{
             baseResponse.setResult(ResultCodeEnum.REPORT_ADD_FAILURE);
         }
         return baseResponse;

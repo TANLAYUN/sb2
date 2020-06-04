@@ -24,4 +24,7 @@ public interface CommentService {
 
     //根据状态选取回答_管理员
     BaseResponse searchCommentsByState(Integer comState);
+
+    //根据状态选取回答_用户
+    BaseResponse searchCommentsByState(Integer userId, Integer comState);
 }

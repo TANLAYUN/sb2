@@ -146,6 +146,20 @@ public class UserController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "searchAnswersByState", method = RequestMethod.POST)
+    public BaseResponse searchAnswersByState(Integer userId, Integer ansState){
+        BaseResponse baseResponse;
+        baseResponse = answerService.searchAnswersByState(userId,ansState);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchCommentsByState", method = RequestMethod.POST)
+    public BaseResponse searchCommentsByState(Integer userId, Integer comState){
+        BaseResponse baseResponse;
+        baseResponse = commentService.searchCommentsByState(userId,comState);
+        return baseResponse;
+    }
+
     @RequestMapping(value = "searchQuestionsByQuesAnsState", method = RequestMethod.POST)
     public BaseResponse searchQuestionsByQuesAnsState(Integer userId, Integer quesAnsState){
         BaseResponse baseResponse;
@@ -187,7 +201,6 @@ public class UserController {
         baseResponse = commentService.comment(userId,ansId,comContent,ansComId);
         return baseResponse;
     }
-
 
     @RequestMapping(value = "report", method = RequestMethod.POST)
     public BaseResponse report(Integer reportUserId, Integer reportType, Integer reportTypeId, Integer reportedUserId, String reportContent){

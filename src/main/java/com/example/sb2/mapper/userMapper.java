@@ -16,7 +16,6 @@ public interface userMapper {
     //select
     User selectByPrimaryKey(String mail);
 
-    //@Select("select * from user where user_id=#{userId}")
     User selectByUserId(Integer userId);
 
     List<User> selectAll();
@@ -37,18 +36,16 @@ public interface userMapper {
     int upload(Integer userId, String image);
 
     //修改用户信息
-//    @Update("update admin set mail=#{mail},name=#{name},pwd=#{newPwd} where user_id=#{userId}")
     int modifyUserInfo(Integer userId, String mail, String name, String newPwd);
 
+    @Update("update user set report_num = #{reportNum} where user_id = #{userId}")
+    int updateReportNum(Integer userId, Integer reportNum);
+
+    //delete
     int deleteByPrimaryKey(String mail);
 
+
+    //insert
     int insert(String mail, String name, String pwd, String addTime);
-
-    int insertSelective(User record);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
-
 
 }

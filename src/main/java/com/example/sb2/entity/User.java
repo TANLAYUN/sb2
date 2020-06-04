@@ -12,6 +12,15 @@ public class User {
     private String addTime;
     private Integer capital;
     private String image;
+    private Integer reportNum;
+
+    public Integer getReportNum() {
+        return reportNum;
+    }
+
+    public void setReportNum(Integer reportNum) {
+        this.reportNum = reportNum;
+    }
 
     public String getImage() {
         return image;

@@ -319,5 +319,61 @@ public class AnswerServiceImpl implements AnswerService {
 
     }
 
+    //根据状态选取回答_用户
+    public BaseResponse searchAnswersByState(Integer userId, Integer ansState){
+        BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        List<Answer> answers;
+        Answer answer;
+//        User user;
 
+        if(ansState.equals(4)){
+
+            answers = answermapper.selectAnssByUserId(userId);
+
+            if(answers.size()!= 0){
+//                int i;
+//                for(i=0;i<answers.size();i++){
+//                    answer = answers.get(i);
+//                    user = usermapper.selectByUserId(answer.getUserId());
+//                    if(answer != null){
+//                        jsonObject.put(("answer"),answer);
+//                        jsonObject.put(("user_name"),user.getName());
+//                        jsonObjects.add(i,jsonObject);
+//                    }
+//                }
+//                baseResponse.setData(jsonObjects);
+                baseResponse.setData(answers);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
+            }
+
+        }else{
+            answers = answermapper.selectByUserAndState(userId,ansState);
+
+            if(answers.size()!= 0){
+//                int i;
+//                for(i=0;i<answers.size();i++){
+//                    answer = answers.get(i);
+//                    user = usermapper.selectByUserId(answer.getUserId());
+//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
+//                    if(answer != null){
+//                        jsonObject.put(("answer"),answer);
+//                        jsonObject.put(("user_name"),user.getName());
+//                        jsonObjects.add(i,jsonObject);
+//                    }
+//                }
+//                baseResponse.setData(jsonObjects);
+                baseResponse.setData(answers);
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+            }else{
+                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
+            }
+
+        }
+        return baseResponse;
+
+    }
 }
