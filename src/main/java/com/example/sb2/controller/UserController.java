@@ -348,4 +348,11 @@ public class UserController {
         baseResponse = reportService.searchReportedsByTypeAndState(reportedUserId,reportType,reportState);
         return baseResponse;
     }
+
+    @RequestMapping(value = "searchInformation", method = RequestMethod.POST)
+    public BaseResponse searchInformation(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = userService.searchInformation(userId);
+        return baseResponse;
+    }
 }

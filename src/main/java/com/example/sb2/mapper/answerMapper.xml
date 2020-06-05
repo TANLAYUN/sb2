@@ -11,12 +11,13 @@
     <result column="bad_count" jdbcType="INTEGER" property="badCount" />
     <result column="best_answer" jdbcType="BIT" property="bestAnswer" />
     <result column="ans_com_num" jdbcType="INTEGER" property="ansComNum" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Answer">
     <result column="ans_content" jdbcType="LONGVARCHAR" property="ansContent" />
   </resultMap>
   <sql id="Base_Column_List">
-    ans_id, ques_id, user_id, ans_time, ans_state, good_count, bad_count, best_answer, ans_com_num
+    ans_id, ques_id, user_id, ans_time, ans_state, good_count, bad_count, best_answer, ans_com_num, is_read
   </sql>
   <sql id="Blob_Column_List">
     ans_content
@@ -37,6 +38,15 @@
     <include refid="Blob_Column_List" />
     from answer
     where ques_id = #{quesId,jdbcType=INTEGER} order by ans_time desc
+  </select>
+
+  <select id="selectByQuesAndRead" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where ques_id = #{quesId,jdbcType=INTEGER} and is_read = #{isRead} order by ans_time desc
   </select>
 
   <select id="sortByGoodCount" resultMap="ResultMapWithBLOBs">

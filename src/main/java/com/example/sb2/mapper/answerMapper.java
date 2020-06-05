@@ -41,6 +41,8 @@ public interface answerMapper {
 
     List<Answer> selectByUserAndState(Integer userId, Integer ansState);
 
+    List<Answer> selectByQuesAndRead(Integer quesId, Integer isRead);
+
     @Select("select user_Id from answer where ans_id=#{ansId}")
     int selectUserIdByAnsId(Integer ansId);
 

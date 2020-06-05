@@ -26,4 +26,7 @@ public interface UserService {
 
     //上传用户图片
     BaseResponse upload(Integer userId, String image);
+
+    //消息
+    BaseResponse searchInformation(Integer userId);
 }

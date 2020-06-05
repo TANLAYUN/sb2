@@ -14,6 +14,15 @@ public class Answer {
     private Integer bestAnswer;
     private String ansContent;
     private Integer ansComNum;
+    private Integer isRead;
+
+    public Integer getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Integer isRead) {
+        this.isRead = isRead;
+    }
 
     public Integer getAnsComNum() {
         return ansComNum;

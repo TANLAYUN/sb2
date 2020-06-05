@@ -8,6 +8,8 @@ import com.example.sb2.mapper.commentMapper;
 import com.example.sb2.mapper.questionMapper;
 import com.example.sb2.mapper.userMapper;
 import com.example.sb2.service.UserService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -164,6 +166,7 @@ public class UserServiceImpl implements UserService {
 
         return baseResponse;
     }
+
     //根据状态选取用户
     public BaseResponse searchUsersByState(Integer userState){
 
@@ -338,6 +341,35 @@ public class UserServiceImpl implements UserService {
         }else{
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
+        return baseResponse;
+    }
+
+    //消息
+    public BaseResponse searchInformation(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        List<JSONObject> jsonObjects = new JSONArray();
+        int i,j=0;
+        //1.查看问题的回答
+        List<Question> questions = questionmapper.selectAllByUser(userId);
+        if(questions.size() != 0){
+            for(i=0;i<questions.size();i++){
+                Question question = questions.get(i);
+                System.out.println("现在是第"+i+"个问题，"+"问题的title是"+question.getQuesTitle());
+                List<Answer> answers = answermapper.selectByQuesAndRead(question.getQuesId(),0);
+                JSONObject jsonObject = new JSONObject();
+                if(answers.size() != 0){
+                    System.out.println("现在i是:"+i+",j是:"+j);
+                    System.out.println("所以i和j相等");
+                    jsonObject.put("answer",answers);
+                    jsonObjects.add(j,jsonObject);
+                    j++;
+                }
+            }
+            baseResponse.setData(jsonObjects);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+            return baseResponse;
+        }
+        baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
         return baseResponse;
     }
 }
