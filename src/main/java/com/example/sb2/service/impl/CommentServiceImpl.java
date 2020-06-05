@@ -282,4 +282,16 @@ public class CommentServiceImpl implements CommentService {
         return baseResponse;
 
     }
+
+    //评论已读
+    public BaseResponse readComment(Integer comId){
+        BaseResponse baseResponse = new BaseResponse();
+        int a = commentmapper.readComment(comId);
+        if(a == 1){
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+        }
+        return baseResponse;
+    }
 }

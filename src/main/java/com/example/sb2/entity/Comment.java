@@ -11,6 +11,15 @@ public class Comment {
     private Integer comState;
     private String comContent;
     private Integer ansComId;
+    private Integer isRead;
+
+    public Integer getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Integer isRead) {
+        this.isRead = isRead;
+    }
 
     public Integer getAnsComId() {
         return ansComId;

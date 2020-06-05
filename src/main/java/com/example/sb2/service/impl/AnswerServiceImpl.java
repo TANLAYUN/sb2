@@ -5,6 +5,7 @@ import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.*;
 import com.example.sb2.service.AnswerService;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -375,5 +376,17 @@ public class AnswerServiceImpl implements AnswerService {
         }
         return baseResponse;
 
+    }
+
+    //回答已读
+    public BaseResponse readAnswer(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        int a = answermapper.readAnswer(ansId);
+        if(a == 1){
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+        }
+        return baseResponse;
     }
 }

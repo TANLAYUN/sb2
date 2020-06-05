@@ -8,12 +8,13 @@
     <result column="com_time" jdbcType="DATE" property="comTime" />
     <result column="com_state" jdbcType="BIT" property="comState" />
     <result column="ans_com_id" jdbcType="INTEGER" property="ansComId" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.sb2.entity.Comment">
     <result column="com_content" jdbcType="LONGVARCHAR" property="comContent" />
   </resultMap>
   <sql id="Base_Column_List">
-    com_id, ans_id, user_id, com_time, com_state, ans_com_id
+    com_id, ans_id, user_id, com_time, com_state, ans_com_id, is_read
   </sql>
   <sql id="Blob_Column_List">
     com_content
@@ -69,6 +70,24 @@
     <include refid="Blob_Column_List" />
     from comment
     where user_id = #{userId,jdbcType=INTEGER} and com_state = #{comState,jdbcType=BIT} order by com_time desc
+  </select>
+
+  <select id="selectByAnsAndRead" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where ans_id = #{ansId,jdbcType=INTEGER} and is_read = #{isRead,jdbcType=BIT} and ans_com_id = 0 order by com_time desc
+  </select>
+
+  <select id="selectByAnsComAndRead" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where ans_com_id = #{ansComId,jdbcType=INTEGER} and is_read = #{isRead,jdbcType=BIT} order by com_time desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

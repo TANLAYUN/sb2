@@ -65,6 +65,9 @@ public interface answerMapper {
     @Update("update answer set best_answer=1 where ans_id=#{ansId}")
     int updateBestAns(Integer ansId);
 
+    @Update("update answer set is_read = 1 where ans_id=#{ansId}")
+    int readAnswer(Integer ansId);
+
     //insert
     @Insert("insert into answer(user_id,ques_id,ans_content,ans_time) values( #{userId}, #{quesId}, #{ansContent},#{ansTime} )")
     int insert(Integer userId, Integer quesId, String ansContent,String ansTime);

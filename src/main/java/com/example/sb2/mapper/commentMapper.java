@@ -17,15 +17,8 @@ public interface commentMapper {
 
     int deleteByPrimaryKey(Integer comId);
 
-    int insertSelective(Comment record);
-
     Comment selectByPrimaryKey(Integer comId);
 
-    int updateByPrimaryKeySelective(Comment record);
-
-    int updateByPrimaryKeyWithBLOBs(Comment record);
-
-    int updateByPrimaryKey(Comment record);
 
     //uodate
     @Update("update comment set com_state=#{comState} where com_id=#{comId}")
@@ -33,6 +26,9 @@ public interface commentMapper {
 
     @Update("update comment set com_content=#{comContent} where com_id=#{comId}")
     int updateComByComId(Integer comId, String comContent);
+
+    @Update("update comment set is_read = 1 where com_id=#{comId}")
+    int readComment(Integer comId);
 
     //select
     //@Select("select * from comment where ans_id={ansId}")
@@ -46,6 +42,9 @@ public interface commentMapper {
 
     List<Comment> selectByUserAndState(Integer userId, Integer comState);
 
+    List<Comment> selectByAnsAndRead(Integer ansId, Integer isRead);
+
+    List<Comment> selectByAnsComAndRead(Integer ansComId, Integer isRead);
     //insert
     @Insert("insert into comment(user_id,ans_id,com_content,ans_com_id) values( #{userId}, #{ansId}, #{comContent}, #{ansComId} )")
     int insert(Integer userId, Integer ansId, String comContent, Integer ansComId);

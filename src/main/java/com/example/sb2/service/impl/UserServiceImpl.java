@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -344,32 +345,92 @@ public class UserServiceImpl implements UserService {
         return baseResponse;
     }
 
-    //消息
-    public BaseResponse searchInformation(Integer userId){
+//    //消息
+//    public BaseResponse searchInformation(Integer userId){
+//        BaseResponse baseResponse = new BaseResponse();
+//        List<JSONObject> jsonObjects = new JSONArray();
+//        int i,j=0;
+//        //1.查看问题的回答
+//        List<Question> questions = questionmapper.selectAllByUser(userId);
+//        if(questions.size() != 0){
+//            for(i=0;i<questions.size();i++){
+//                Question question = questions.get(i);
+//                System.out.println("现在是第"+i+"个问题，"+"问题的title是"+question.getQuesTitle());
+//                List<Answer> answers = answermapper.selectByQuesAndRead(question.getQuesId(),0);
+//                JSONObject jsonObject = new JSONObject();
+//                if(answers.size() != 0){
+//                    jsonObject.put("answer",answers);
+//                    jsonObjects.add(j,jsonObject);
+//                    j++;
+//                }
+//            }
+//            baseResponse.setData(jsonObjects);
+//            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+//            return baseResponse;
+//        }
+//        baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+//        return baseResponse;
+//    }
+
+    //回答
+    public BaseResponse searchAnswerInfo(Integer userId){
         BaseResponse baseResponse = new BaseResponse();
-        List<JSONObject> jsonObjects = new JSONArray();
-        int i,j=0;
+        List<Answer> answerList = new ArrayList<>();
+        int i;
         //1.查看问题的回答
         List<Question> questions = questionmapper.selectAllByUser(userId);
         if(questions.size() != 0){
             for(i=0;i<questions.size();i++){
                 Question question = questions.get(i);
-                System.out.println("现在是第"+i+"个问题，"+"问题的title是"+question.getQuesTitle());
                 List<Answer> answers = answermapper.selectByQuesAndRead(question.getQuesId(),0);
-                JSONObject jsonObject = new JSONObject();
                 if(answers.size() != 0){
-                    System.out.println("现在i是:"+i+",j是:"+j);
-                    System.out.println("所以i和j相等");
-                    jsonObject.put("answer",answers);
-                    jsonObjects.add(j,jsonObject);
-                    j++;
+                    answerList.addAll(answers);
                 }
             }
-            baseResponse.setData(jsonObjects);
+            baseResponse.setData(answerList);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
             return baseResponse;
         }
         baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
         return baseResponse;
     }
+
+    //评论
+    public BaseResponse searchCommentInfo(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        List<Comment> commentList = new ArrayList<>();
+        List<Comment> commentList2 = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject();
+        int i,j;
+        //1.查看回答的评论
+        List<Answer> Answers = answermapper.selectAnssByUserId(userId);
+        if(Answers.size() != 0){
+            for(i=0;i<Answers.size();i++){
+                Answer answer = Answers.get(i);
+                List<Comment> comments = commentmapper.selectByAnsAndRead(answer.getAnsId(),0);
+                if(comments.size() != 0){
+                    commentList.addAll(comments);
+                }
+            }
+        }
+
+        //2.查看评论的评论
+        List<Comment> Comments = commentmapper.selectComsByUserId(userId);
+        if(Comments.size() != 0){
+            for(j=0;j<Comments.size();j++){
+                Comment comment = Comments.get(j);
+                List<Comment> comments = commentmapper.selectByAnsComAndRead(comment.getComId(),0);
+                if(comments.size() != 0){
+                    commentList.addAll(comments);
+                }
+            }
+        }
+
+        baseResponse.setData(commentList);
+        baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        return baseResponse;
+    }
+
+
+
 }

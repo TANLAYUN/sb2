@@ -349,10 +349,31 @@ public class UserController {
         return baseResponse;
     }
 
-    @RequestMapping(value = "searchInformation", method = RequestMethod.POST)
-    public BaseResponse searchInformation(Integer userId){
+    @RequestMapping(value = "searchAnswerInfo", method = RequestMethod.POST)
+    public BaseResponse searchAnswerInfo(Integer userId){
         BaseResponse baseResponse = new BaseResponse();
-        baseResponse = userService.searchInformation(userId);
+        baseResponse = userService.searchAnswerInfo(userId);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "searchCommentInfo", method = RequestMethod.POST)
+    public BaseResponse searchCommentInfo(Integer userId){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = userService.searchCommentInfo(userId);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "readAnswer", method = RequestMethod.POST)
+    public BaseResponse readAnswer(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = answerService.readAnswer(ansId);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "readComment", method = RequestMethod.POST)
+    public BaseResponse readComment(Integer comId){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = commentService.readComment(comId);
         return baseResponse;
     }
 }
