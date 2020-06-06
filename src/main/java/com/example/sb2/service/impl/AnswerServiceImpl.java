@@ -173,6 +173,19 @@ public class AnswerServiceImpl implements AnswerService {
         return baseResponse;
     }
 
+    //根据回答id查看回答
+    public BaseResponse selectAnsByAnsId(Integer ansId){
+        BaseResponse baseResponse = new BaseResponse();
+        Answer answer = answermapper.selectByPrimaryKey(ansId);
+        if(answer == null){
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }else{
+            baseResponse.setData(answer);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        }
+        return baseResponse;
+    }
+
     //删除回答
     public BaseResponse deletePersonalAnswer(Integer ansId) {
         BaseResponse baseResponse = new BaseResponse();

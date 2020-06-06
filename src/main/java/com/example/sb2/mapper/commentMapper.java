@@ -42,9 +42,9 @@ public interface commentMapper {
 
     List<Comment> selectByUserAndState(Integer userId, Integer comState);
 
-    List<Comment> selectByAnsAndRead(Integer ansId, Integer isRead);
+    List<Comment> selectByAnsAndRead(Integer ansId);
 
-    List<Comment> selectByAnsComAndRead(Integer ansComId, Integer isRead);
+    List<Comment> selectByAnsComAndRead(Integer ansComId);
     //insert
     @Insert("insert into comment(user_id,ans_id,com_content,ans_com_id) values( #{userId}, #{ansId}, #{comContent}, #{ansComId} )")
     int insert(Integer userId, Integer ansId, String comContent, Integer ansComId);

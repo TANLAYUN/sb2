@@ -155,7 +155,6 @@ public class CommonController {
         return baseResponse;
     }
 
-
     @RequestMapping(value = "selectAnssByQuesId", method = RequestMethod.POST)
     public BaseResponse selectAnssByQuesId(Integer quesId) {
         BaseResponse baseResponse = new BaseResponse();
@@ -184,5 +183,10 @@ public class CommonController {
         return baseResponse;
     }
 
-
+    @RequestMapping(value = "searchAnswerByAnsId", method = RequestMethod.POST)
+    public BaseResponse searchAnswerByAnsId(Integer ansId) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = answerService.selectAnsByAnsId(ansId);
+        return baseResponse;
+    }
 }

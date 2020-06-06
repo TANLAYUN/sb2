@@ -15,6 +15,9 @@ public interface AnswerService {
     //根据问题id查看回答
     BaseResponse selectAnssByQuesId(Integer quesId);
 
+    //根据回答id查看回答
+    BaseResponse selectAnsByAnsId(Integer ansId);
+
     //删除回答
     BaseResponse deletePersonalAnswer(Integer ansId);
 

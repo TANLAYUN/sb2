@@ -382,7 +382,7 @@ public class UserServiceImpl implements UserService {
         if(questions.size() != 0){
             for(i=0;i<questions.size();i++){
                 Question question = questions.get(i);
-                List<Answer> answers = answermapper.selectByQuesAndRead(question.getQuesId(),0);
+                List<Answer> answers = answermapper.selectByQuesAndRead(question.getQuesId());
                 if(answers.size() != 0){
                     answerList.addAll(answers);
                 }
@@ -407,7 +407,7 @@ public class UserServiceImpl implements UserService {
         if(Answers.size() != 0){
             for(i=0;i<Answers.size();i++){
                 Answer answer = Answers.get(i);
-                List<Comment> comments = commentmapper.selectByAnsAndRead(answer.getAnsId(),0);
+                List<Comment> comments = commentmapper.selectByAnsAndRead(answer.getAnsId());
                 if(comments.size() != 0){
                     commentList.addAll(comments);
                 }
@@ -419,7 +419,7 @@ public class UserServiceImpl implements UserService {
         if(Comments.size() != 0){
             for(j=0;j<Comments.size();j++){
                 Comment comment = Comments.get(j);
-                List<Comment> comments = commentmapper.selectByAnsComAndRead(comment.getComId(),0);
+                List<Comment> comments = commentmapper.selectByAnsComAndRead(comment.getComId());
                 if(comments.size() != 0){
                     commentList.addAll(comments);
                 }

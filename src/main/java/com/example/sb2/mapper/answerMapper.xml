@@ -46,7 +46,7 @@
     ,
     <include refid="Blob_Column_List" />
     from answer
-    where ques_id = #{quesId,jdbcType=INTEGER} and is_read = #{isRead} order by ans_time desc
+    where ques_id = #{quesId,jdbcType=INTEGER} order by ans_time desc
   </select>
 
   <select id="sortByGoodCount" resultMap="ResultMapWithBLOBs">
