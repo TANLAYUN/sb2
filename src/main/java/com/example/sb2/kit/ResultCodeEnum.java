@@ -25,47 +25,48 @@ public enum ResultCodeEnum
     DB_FIND_FAILURE("2007","数据库查找失败，没有该条记录"),
     //
 
-    DB_WORNING_NULL_WRONGPARA("2008","该次查询结果为空_输入参数错误"),
+    DB_WRONG_NULL_WRONG_PARA("2008","该次查询结果为空_输入参数错误"),
     DB_DELETE_SUCCESS("2009","数据删除成功"),
     DB_DELETE_FAILURE("2010","数据删除失败"),
-    DB_WORNING_NULL("2011","请求参数为空"),
+    DB_WRONG_NULL("2011","请求参数为空"),
 
 
-    BESTANS_UPDATE_SUCCESS("2008","最佳答案修改成功"),
-    BESTANS_UPDATE_FAILURE_USER_NOT_EXIST("2009","最佳答案修改失败_用户不存在"),
-    BESTANS_UPDATE_FAILURE_ANS_NOT_EXIST("2010","最佳答案修改失败_回答不存在"),
+    BEST_ANS_UPDATE_SUCCESS("2008","最佳答案修改成功"),
+    BEST_ANS_UPDATE_FAILURE_USER_NOT_EXIST("2009","最佳答案修改失败_用户不存在"),
+    BEST_ANS_UPDATE_FAILURE_ANS_NOT_EXIST("2010","最佳答案修改失败_回答不存在"),
+    BEST_ANS_UPDATE_FAILURE_DB_ERROR("2011","最佳答案修改失败_数据库错误"),
 
     //
     QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL("2014","问题添加失败_积分不足"),
     QUESTION_ADD_SUCCESS("2015","问题添加成功"),
-    QUESTION_ADD_FAILURE("2016","问题添加失败"),
+    QUESTION_ADD_FAILURE_DB_ERROR("2016","问题添加失败_数据库错误"),
 
     //
     ANSWER_ADD_SUCCESS("2017","回答添加成功"),
-    ANSWER_ADD_FAILURE("2018","回答添加失败"),
+    ANSWER_ADD_FAILURE_DB_ERROR("2018","回答添加失败_数据库错误"),
 
     //
     COMMENT_ADD_SUCCESS("2019","评论添加成功"),
-    COMMENT_ADD_FAILURE("2020","评论添加失败"),
+    COMMENT_ADD_FAILURE_DB_ERROR("2020","评论添加失败_数据库错误"),
 
     //
     QUESTION_DELETE_SUCCESS("2021","问题删除成功"),
-    QUESTION_DELETE_FAILURE_DB_ERROR("2022","问题删除失败_数据库删除失败"),
+    QUESTION_DELETE_FAILURE_DB_ERROR("2022","问题删除失败_数据库错误"),
     QUESTION_DELETE_FAILURE_NOT_EXIST("2023","问题删除失败_不存在"),
 
     //
     ANSWER_DELETE_SUCCESS("2024","回答删除成功"),
-    ANSWER_DELETE_FAILURE_DB_ERROR("2025","回答删除失败_数据库删除失败"),
+    ANSWER_DELETE_FAILURE_DB_ERROR("2025","回答删除失败_数据库错误"),
     ANSWER_DELETE_FAILURE_NOT_EXIST("2026","回答删除失败_不存在"),
 
     //
     COMMENT_DELETE_SUCCESS("2027","评论删除成功"),
-    COMMENT_DELETE_FAILURE_DB_ERROR("2028","评论删除失败_数据库删除失败"),
+    COMMENT_DELETE_FAILURE_DB_ERROR("2028","评论删除失败_数据库错误"),
     COMMENT_DELETE_FAILURE_NOT_EXIST("2029","评论删除失败_不存在"),
 
     //
     ANSWER_UPDATE_SUCCESS("2034","回答更新成功"),
-    ANSWER_UPDATE_FAILURE_DB_ERROR("2035","回答更新失败_数据库更新失败"),
+    ANSWER_UPDATE_FAILURE_DB_ERROR("2035","回答更新失败_数据库错误"),
     ANSWER_UPDATE_FAILURE_NOT_EXIST("2036","回答更新失败_不存在"),
 
     //
@@ -75,18 +76,18 @@ public enum ResultCodeEnum
 
     //
     COLLECTION_ADD_SUCCESS("2042","收藏成功"),
-    COLLECTION_ADD_FAILURE("2043","收藏失败"),
+    COLLECTION_ADD_FAILURE_DB_REEOR("2043","收藏失败_数据库错误"),
     COLLECTION_EXISTED("2044","收藏失败_您已收藏了本条知识"),
 
     //
     QUES_ANS_STATE_UPDATE_SUCCESS("2045","问题解决状态更新成功"),
-    QUES_ANS_STATE_UPDATE_FAILURE_DB_ERROR("2046","问题解决状态更新失败_数据库更新失败"),
+    QUES_ANS_STATE_UPDATE_FAILURE_DB_ERROR("2046","问题解决状态更新失败_数据库错误"),
     QUES_ANS_STATE_UPDATE_FAILURE_NOT_EXIST("2047","问题解决状态更新失败_不存在"),
     QUES_ANS_STATE_UPDATE_FAILURE_WRONG_STATE("2048","问题解决状态更新失败_错误的问题解决状态"),
 
     //
     COLLECTION_DELETE_SUCCESS("2050","收藏删除成功"),
-    COLLECTION_DELETE_FAILURE("2051","收藏删除失败"),
+    COLLECTION_DELETE_FAILURE_DB_ERROR("2051","收藏删除失败_数据库错误"),
     COLLECTION_NO_EXIST("2052","收藏删除失败_您没有收藏过"),
 
     //
@@ -132,11 +133,10 @@ public enum ResultCodeEnum
 
     LOGOUT_SUCCESS("4005","退出登录成功"),
     NO_LOGIN_USER("4006","退出登录失败_用户未登录"),
-
     LOGIN_FAILURE_CODE_ERROR("4008", "登录失败_验证码错误"),
 
     //
-    INFO_UPDATE_SUCESS("5000","信息修改成功"),
+    INFO_UPDATE_SUCCESS("5000","信息修改成功"),
     INFO_UPDATE_FAILURE_PWD_ERROR("5001","信息修改失败_密码错误"),
     INFO_UPDATE_FAILURE_NO_EXIST_USER("5002","信息修改失败_该用户不存在"),
     INFO_UPDATE_FAILURE_USER_MAIL_EXIST("5003","信息修改失败_用户邮箱已被使用"),
@@ -158,23 +158,25 @@ public enum ResultCodeEnum
     STATE_CHANGE_FAILURE_NO_EXIST_ANSWER("6007","状态修改失败_回答不存在"),
     STATE_CHANGE_FAILURE_NO_EXIST_COMMENT("6008","状态修改失败_评论不存在"),
     STATE_CHANGE_FAILURE_AUDIT_FAILED("6009","状态修改失败_用户未通过审核"),
+
     //
     NOTICE_SEND_SUCCESS("7000","通知发送成功"),
-    NOTCE_SEND_FAILURE_MAILSYS_ERROR("7001","通知发送失败（部分用户未成功通知）"),
-    NOTCE_SEND_FAILURE_FIRM_NOTEXIST("7002","通知发送失败_用户不存在"),
+    NOTICE_SEND_FAILURE_MAIL_SYS_ERROR("7001","通知发送失败（部分用户未成功通知）"),
+    NOTICE_SEND_FAILURE_FIRM_NOT_EXIST("7002","通知发送失败_用户不存在"),
+
     //
-    CONFIRMCODE_SEND_SUCCESS("7003","验证码发送成功"),
-    CONFIRMCODE_SEND_FAILURE("7004","验证码发送失败"),
+    CONFIRM_CODE_SEND_SUCCESS("7003","验证码发送成功"),
+    CONFIRM_CODE_SEND_FAILURE("7004","验证码发送失败"),
 
 
     //
     REGISTER_SUCCESS("8000", "注册成功"),
     REGISTER_FAILURE_USER_MAIL_EXIST("8001","注册失败_用户邮箱已经存在"),
     REGISTER_FAILURE_USER_UNCHECKED("8002","注册失败_用户待审核"),
-    REGISTER_FAILURE_DB_ERROR("8002","注册失败_数据库错误"),
-    REGISTER_FAILURE_CONFIRMCODE_ERROR("8005","注册失败_验证码错误"),
-    REGISTER_FAILURE_NOT_APPLYED_MAILCODE("8006","注册失败_没有获取邮箱验证码");
-    //
+    REGISTER_FAILURE_DB_ERROR("8003","注册失败_数据库错误"),
+    REGISTER_FAILURE_CONFIRM_CODE_ERROR("8005","注册失败_验证码错误"),
+    REGISTER_FAILURE_NOT_APPLIED_MAIL_CODE("8006","注册失败_没有获取邮箱验证码");
+
 
     private String code;
     private String desc;

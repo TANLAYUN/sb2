@@ -117,7 +117,6 @@ public class QuestionServiceImpl implements QuestionService {
                 for(i=0;i<questions.size();i++){
                     question = questions.get(i);
                     user = usermapper.selectByUserId(question.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                     if(question != null){
                         jsonObject.put(("question"),question);
                         jsonObject.put(("user_name"),user.getName());
@@ -138,7 +137,6 @@ public class QuestionServiceImpl implements QuestionService {
                 for(i=0;i<questions.size();i++){
                     question = questions.get(i);
                     user = usermapper.selectByUserId(question.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                     if(question != null){
                         jsonObject.put(("question"),question);
                         jsonObject.put(("user_name"),user.getName());
@@ -171,7 +169,6 @@ public class QuestionServiceImpl implements QuestionService {
             for(i=0;i<questions.size();i++){
                 question = questions.get(i);
                 user = usermapper.selectByUserId(question.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                 if(question != null){
                     jsonObject.put(("question"),question);
                     jsonObject.put(("user_name"),user.getName());
@@ -190,58 +187,20 @@ public class QuestionServiceImpl implements QuestionService {
     //根据状态选取问题_用户
     public BaseResponse searchQuestionsByState(Integer userId, Integer quesState){
         BaseResponse baseResponse = new BaseResponse();
-        List<JSONObject> jsonObjects = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
         List<Question> questions;
-        Question question;
-//        User user;
 
+        //数据查找成功
+        //没有记录
         if(quesState.equals(3)){
-
             questions = questionmapper.selectAllByUser(userId);
-
-
-            if(questions.size()!= 0){
-//                int i;
-//                for(i=0;i<questions.size();i++){
-//                    question = questions.get(i);
-//                    user = usermapper.selectByUserId(userId);
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
-//                    if(question != null){
-//                        jsonObject.put(("question"),question);
-//                        jsonObject.put(("user_name"),user.getName());
-//                        jsonObjects.add(i,jsonObject);
-//                    }
-//                }
-//                baseResponse.setData(jsonObjects);
-                baseResponse.setData(questions);
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
-            }
-
         }else{
             questions = questionmapper.selectByUserAndState(userId,quesState);
-
-            if(questions.size()!= 0){
-//                int i;
-//                for(i=0;i<questions.size();i++){
-//                    question = questions.get(i);
-//                    user = usermapper.selectByUserId(userId);
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
-//                    if(question != null){
-//                        jsonObject.put(("question"),question);
-//                        jsonObject.put(("user_name"),user.getName());
-//                        jsonObjects.add(i,jsonObject);
-//                    }
-//                }
-//                baseResponse.setData(jsonObjects);
-                baseResponse.setData(questions);
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
-            }
-
+        }
+        if(questions.size()!= 0){
+            baseResponse.setData(questions);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+        }else{
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
         }
         return baseResponse;
     }
@@ -262,7 +221,6 @@ public class QuestionServiceImpl implements QuestionService {
             for(i=0;i<questions.size();i++){
                 question = questions.get(i);
                 user = usermapper.selectByUserId(userId);
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                 if(question != null){
                     jsonObject.put(("question"),question);
                     jsonObject.put(("user_name"),user.getName());
@@ -295,7 +253,7 @@ public class QuestionServiceImpl implements QuestionService {
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);
             }else if(a != 1 || b != 1){
-                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE);
+                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_DB_ERROR);
             }else{
                 baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
             }

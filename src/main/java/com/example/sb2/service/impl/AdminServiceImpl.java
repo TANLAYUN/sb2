@@ -9,6 +9,7 @@ import com.example.sb2.mapper.collectionMapper;
 import com.example.sb2.mapper.commentMapper;
 import com.example.sb2.mapper.userMapper;
 import com.example.sb2.service.AdminService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +30,15 @@ public class AdminServiceImpl implements AdminService {
 
         BaseResponse baseResponse=new BaseResponse();
         Admin admin = adminmapper.selectByPrimaryKey(mail);
-        System.out.println(admin);
+        JSONObject jsonObject = new JSONObject();
 
-        if(admin !=null){
+        if(admin != null){
             if(admin.getPwd().equals(pwd)){
-                baseResponse.setData(admin);
+                jsonObject.put("mail",admin.getMail());
+                jsonObject.put("adminId",admin.getAdminId());
+                jsonObject.put("name",admin.getName());
+                jsonObject.put("image",admin.getImage());
+                baseResponse.setData(jsonObject);
                 baseResponse.setResult(ResultCodeEnum.LOGIN_SUCCESS); // 登录成功
             } else {
                 baseResponse.setResult(ResultCodeEnum.LOGIN_FAILURE_PWD_ERROR); // 登录失败，账号或密码错误
@@ -50,8 +55,13 @@ public class AdminServiceImpl implements AdminService {
     public BaseResponse searchAdminInfoByAdminId(Integer adminId){
         BaseResponse baseResponse = new BaseResponse();
         Admin admin = adminmapper.selectByAdminId(adminId);
+        JSONObject jsonObject = new JSONObject();
         if(admin != null){
-            baseResponse.setData(admin);
+            jsonObject.put("mail",admin.getMail());
+            jsonObject.put("adminId",admin.getAdminId());
+            jsonObject.put("name",admin.getName());
+            jsonObject.put("image",admin.getImage());
+            baseResponse.setData(jsonObject);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
         }else if(admin == null){
             baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
@@ -66,6 +76,7 @@ public class AdminServiceImpl implements AdminService {
     public BaseResponse modifyAdminInfo(Integer adminId, String mail, String name, String pwd,String newPwd){
 
         BaseResponse baseResponse=new BaseResponse();
+        JSONObject jsonObject = new JSONObject();
         Admin admin = adminmapper.selectByAdminId(adminId);
         Admin admin1 = adminmapper.selectByPrimaryKey(mail);
         if(admin != null){
@@ -77,8 +88,12 @@ public class AdminServiceImpl implements AdminService {
                     int a = adminmapper.modifyAdminInfo(adminId,mail,name,newPwd);
                     if(a == 1){
                         admin = adminmapper.selectByPrimaryKey(mail);
-                        baseResponse.setData(admin);
-                        baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCESS); // 信息修改成功
+                        jsonObject.put("mail",admin.getMail());
+                        jsonObject.put("adminId",admin.getAdminId());
+                        jsonObject.put("name",admin.getName());
+                        jsonObject.put("image",admin.getImage());
+                        baseResponse.setData(jsonObject);
+                        baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCCESS); // 信息修改成功
                     }else{
                         baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);//信息修改失败，数据库更新错误
                     }
@@ -91,8 +106,12 @@ public class AdminServiceImpl implements AdminService {
                         int a = adminmapper.modifyAdminInfo(adminId,mail,name,newPwd);
                         if(a == 1){
                             admin = adminmapper.selectByPrimaryKey(mail);
-                            baseResponse.setData(admin);
-                            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCESS); // 信息修改成功
+                            jsonObject.put("mail",admin.getMail());
+                            jsonObject.put("adminId",admin.getAdminId());
+                            jsonObject.put("name",admin.getName());
+                            jsonObject.put("image",admin.getImage());
+                            baseResponse.setData(jsonObject);
+                            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCCESS); // 信息修改成功
                         }else{
                             baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);
                         }

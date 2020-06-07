@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
         if(a == 1 && b == 1){
             baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_SUCCESS);
         }else if(a != 1 || b != 1){
-            baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_FAILURE);
+            baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_FAILURE_DB_ERROR);
         }else{
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
@@ -167,7 +167,7 @@ public class CommentServiceImpl implements CommentService {
         return baseResponse;
     }
 
-    //根据状态选取问题_管理员
+    //根据状态选取评论_管理员
     public BaseResponse searchCommentsByState(Integer comState){
 
         BaseResponse baseResponse = new BaseResponse();
@@ -206,7 +206,6 @@ public class CommentServiceImpl implements CommentService {
                 for(i=0;i<comments.size();i++){
                     comment = comments.get(i);
                     user = usermapper.selectByUserId(comment.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                     if(comment != null){
                         jsonObject.put(("comment"),comment);
                         jsonObject.put(("user_name"),user.getName());
@@ -224,60 +223,25 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    //根据状态选取问题_用户
+    //根据状态选取评论_用户
     public BaseResponse searchCommentsByState(Integer userId, Integer comState){
 
         BaseResponse baseResponse = new BaseResponse();
-        List<JSONObject> jsonObjects = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
         List<Comment> comments;
-        Comment comment;
-//        User user;
-
         if(comState.equals(5)){
 
             comments = commentmapper.selectComsByUserId(userId);
 
-            if(comments.size()!= 0){
-//                int i;
-//                for(i=0;i<comments.size();i++){
-//                    comment = comments.get(i);
-//                    user = usermapper.selectByUserId(comment.getUserId());
-//                    if(comment != null){
-//                        jsonObject.put(("comment"),comment);
-//                        jsonObject.put(("user_name"),user.getName());
-//                        jsonObjects.add(i,jsonObject);
-//                    }
-//                }
-//                baseResponse.setData(jsonObjects);
-                baseResponse.setData(comments);
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
-            }
-
         }else{
             comments = commentmapper.selectByUserAndState(userId,comState);
 
-            if(comments.size()!= 0){
-//                int i;
-//                for(i=0;i<comments.size();i++){
-//                    comment = comments.get(i);
-//                    user = usermapper.selectByUserId(comment.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
-//                    if(comment != null){
-//                        jsonObject.put(("comment"),comment);
-//                        jsonObject.put(("user_name"),user.getName());
-//                        jsonObjects.add(i,jsonObject);
-//                    }
-//                }
-//                baseResponse.setData(jsonObjects);
-                baseResponse.setData(comments);
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
-            }
+        }
+        if(comments.size()!= 0){
 
+            baseResponse.setData(comments);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+        }else{
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
         }
         return baseResponse;
 

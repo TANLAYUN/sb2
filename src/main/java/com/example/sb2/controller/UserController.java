@@ -53,17 +53,14 @@ public class UserController {
             str.append(random.nextInt(10));
         }
         String confirmCode = str.toString();
-        System.out.println("mailCon的："+confirmCode);
-        String content = "欢迎注册在线问答系统，您的验证码是“" + confirmCode + "”,请将验证码填写至注册页面。若非本人操作，请忽略此邮件。";
+        String content = "欢迎注册探源问答系统，您的验证码是“" + confirmCode + "”,请将验证码填写至注册页面。若非本人操作，请忽略此邮件。";
         boolean succeed = sendMail.sendingMail(mail, mail, content);
         if (succeed) {
-            baseResponse.setResult(ResultCodeEnum.CONFIRMCODE_SEND_SUCCESS);
+            baseResponse.setResult(ResultCodeEnum.CONFIRM_CODE_SEND_SUCCESS);
         } else {
-            baseResponse.setResult(ResultCodeEnum.CONFIRMCODE_SEND_FAILURE);
+            baseResponse.setResult(ResultCodeEnum.CONFIRM_CODE_SEND_FAILURE);
         }
         mailCode.put(mail, confirmCode);
-        System.out.println("mailCon的：mail"+mailCode.get(mail));
-        System.out.println("mailCon的：mailCode"+mailCode);
         return baseResponse;
     }
 
@@ -73,20 +70,15 @@ public class UserController {
         BaseResponse baseResponse = new BaseResponse();
 
         String realCode = mailCode.get(mail);
-        System.out.println("register的：mailCode"+mailCode);
-
         //移除mail
         mailCode.remove(mail);
-        System.out.println("register的：mailCode"+mailCode);
-        System.out.println("register的：realCode"+realCode);
-
 
         if(realCode == null){
-            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_NOT_APPLYED_MAILCODE);//没有申请验证码
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_NOT_APPLIED_MAIL_CODE);//没有申请验证码
         } else if (realCode.equals(confirmCode)) {
             baseResponse = userService.register(mail, name, pwd);
         } else {
-            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_CONFIRMCODE_ERROR);//验证码错误
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_CONFIRM_CODE_ERROR);//验证码错误
         }
         return baseResponse;
     }
@@ -95,20 +87,14 @@ public class UserController {
     public BaseResponse login(String mail,String pwd){
         BaseResponse baseResponse;
         baseResponse = userService.login(mail,pwd);
-        JSONObject object = JSONObject.fromObject(baseResponse);
-        System.out.println(mail);
-        String jsonstr = object.toString();
-        System.out.println(baseResponse);
-        System.out.println(baseResponse.objtoString());
-        System.out.println(jsonstr);
-        return baseResponse;//baseResponse.objtoString();
+        return baseResponse;
     }
 
     @RequestMapping(value = "modifyUserInfo", method = RequestMethod.POST) //
     public BaseResponse modifyAdminInfo(Integer userId, String mail,String name,String pwd, String newPwd){
         BaseResponse baseResponse;
         baseResponse = userService.modifyUserInfo(userId,mail,name,pwd,newPwd);
-        return baseResponse;//baseResponse.objtoString();
+        return baseResponse;
     }
 
     @RequestMapping(value = "collect", method = RequestMethod.POST)

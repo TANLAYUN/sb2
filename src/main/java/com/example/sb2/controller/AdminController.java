@@ -224,9 +224,6 @@ public class AdminController {
             baseResponse = adminService.upload(adminId,"/static/"+filename);
             if(baseResponse.getResultCode() == "3000"){
                 file.transferTo(new File(savePath + filename));
-                System.out.println("savepath+filename:"+savePath+filename);
-                System.out.println("我存好了");
-                System.out.println(baseResponse.getResultDesc());
                 return baseResponse;
             }
             System.out.println(baseResponse.getResultDesc());
@@ -235,7 +232,6 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace();
             baseResponse.setResult(ResultCodeEnum.UPLOAD_FAILURE_SAVE_ERROR);//上传失败_保存文件失败
-            System.out.println("文件保存失败了："+baseResponse.getResultDesc());
             return baseResponse;
         }
 

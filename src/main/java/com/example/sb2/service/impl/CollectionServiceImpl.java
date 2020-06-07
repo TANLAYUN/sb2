@@ -23,6 +23,7 @@ public class CollectionServiceImpl implements CollectionService {
     @Autowired
     private questionMapper questionmapper;
 
+    //显示个人收藏列表
     public BaseResponse displayPersonalCollections(Integer userId){
 
         BaseResponse baseResponse = new BaseResponse();
@@ -35,8 +36,6 @@ public class CollectionServiceImpl implements CollectionService {
             for(i=0;i<collections.size();i++){
                 Question question=questionmapper.selectByPrimaryKey(collections.get(i).getColQuesId());
                 questions.add(i,question);
-                System.out.println("question的标题："+question.getQuesTitle());
-                System.out.println("questions的内容："+questions.toString());
             }
 
             baseResponse.setData(questions);
@@ -64,7 +63,7 @@ public class CollectionServiceImpl implements CollectionService {
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.COLLECTION_ADD_SUCCESS);
             }else{
-                baseResponse.setResult(ResultCodeEnum.COLLECTION_ADD_FAILURE);
+                baseResponse.setResult(ResultCodeEnum.COLLECTION_ADD_FAILURE_DB_REEOR);
             }
         }else if(collection != null){
             baseResponse.setResult(ResultCodeEnum.COLLECTION_EXISTED);
@@ -83,16 +82,13 @@ public class CollectionServiceImpl implements CollectionService {
         Question question = questionmapper.selectByPrimaryKey(colQuesId);
 
         if(collection != null && question != null){
-            System.out.println("问题&收藏不是空");
             int ques_col_num = question.getQuesColNum();
-            System.out.println("问题的收藏数据："+ques_col_num);
             int a = collectionmapper.deleteByUserIdAndQuesId(colUserId,colQuesId);
             int b = questionmapper.updateQuesColNumByQuesId(colQuesId,ques_col_num-1);
-            System.out.println("收藏删除情况："+a+"+问题收藏数减一情况:"+b);
             if(a == 1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.COLLECTION_DELETE_SUCCESS);
             }else{
-                baseResponse.setResult(ResultCodeEnum.COLLECTION_DELETE_FAILURE);
+                baseResponse.setResult(ResultCodeEnum.COLLECTION_DELETE_FAILURE_DB_ERROR);
             }
         }else if(collection == null){
             baseResponse.setResult(ResultCodeEnum.COLLECTION_NO_EXIST);

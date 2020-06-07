@@ -32,6 +32,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private likeOrNotMapper likeOrNotmapper;
 
+    //修改回答状态
     public BaseResponse modifyAnswerState(Integer ansId, Integer ansState) {
         BaseResponse baseResponse = new BaseResponse();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
@@ -49,7 +50,6 @@ public class AnswerServiceImpl implements AnswerService {
                     for (i = 0; i < comments.size(); i++) {
                         if (comments.get(i).getComState().equals(4)) {
                             commentmapper.updateComStateByComId(comments.get(i).getComId(), 0);
-                            System.out.println("评论" + i + "解除拉黑完成");
                         }
                     }
                 }
@@ -63,7 +63,6 @@ public class AnswerServiceImpl implements AnswerService {
                     for (i = 0; i < comments.size(); i++) {
                         if (comments.get(i).getComState().equals(0)) {
                             commentmapper.updateComStateByComId(comments.get(i).getComId(), 4);
-                            System.out.println("评论" + i + "拉黑完成");
                         }
                     }
                 }
@@ -87,13 +86,12 @@ public class AnswerServiceImpl implements AnswerService {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
         String ansTime = dateFormat.format(now);
-//        System.out.println("回答的时间："+ansTime);
         int a = answermapper.insert(userId, quesId, ansContent, ansTime);
         int b = questionmapper.updateQuesAnsNumByQuesId(quesId, question.getQuesAnsNum() + 1);
         if (a == 1 && b == 1) {
             baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);
         } else if (a != 1 || b != 1) {
-            baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_FAILURE);
+            baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_FAILURE_DB_ERROR);
         } else {
             baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
         }
@@ -237,19 +235,19 @@ public class AnswerServiceImpl implements AnswerService {
         Answer answer = answermapper.selectByPrimaryKey(ansId);
 
         if (answer == null) {
-            baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_ANS_NOT_EXIST);
+            baseResponse.setResult(ResultCodeEnum.BEST_ANS_UPDATE_FAILURE_ANS_NOT_EXIST);
         } else if (answer != null) {
             User user = usermapper.selectByUserId(answermapper.selectUserIdByAnsId(ansId));
             if (user == null) {
-                baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_FAILURE_USER_NOT_EXIST);
+                baseResponse.setResult(ResultCodeEnum.BEST_ANS_UPDATE_FAILURE_USER_NOT_EXIST);
             } else {
                 Question question = questionmapper.selectByPrimaryKey(answer.getQuesId());
                 int a = answermapper.updateBestAns(ansId);
                 int b = usermapper.updateUserCapital(user.getUserId(),user.getCapital()+question.getQuesReward());
                 if( a == 1 && b == 1){
-                    baseResponse.setResult(ResultCodeEnum.BESTANS_UPDATE_SUCCESS);
+                    baseResponse.setResult(ResultCodeEnum.BEST_ANS_UPDATE_SUCCESS);
                 }else{
-                    baseResponse.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+                    baseResponse.setResult(ResultCodeEnum.BEST_ANS_UPDATE_FAILURE_DB_ERROR);
                 }
             }
         } else {
@@ -315,7 +313,6 @@ public class AnswerServiceImpl implements AnswerService {
                 for(i=0;i<answers.size();i++){
                     answer = answers.get(i);
                     user = usermapper.selectByUserId(answer.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
                     if(answer != null){
                         jsonObject.put(("answer"),answer);
                         jsonObject.put(("user_name"),user.getName());
@@ -336,56 +333,24 @@ public class AnswerServiceImpl implements AnswerService {
     //根据状态选取回答_用户
     public BaseResponse searchAnswersByState(Integer userId, Integer ansState){
         BaseResponse baseResponse = new BaseResponse();
-        List<JSONObject> jsonObjects = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
         List<Answer> answers;
-        Answer answer;
-//        User user;
 
+
+        //数据查找成功
+        //没有记录
         if(ansState.equals(4)){
 
             answers = answermapper.selectAnssByUserId(userId);
 
-            if(answers.size()!= 0){
-//                int i;
-//                for(i=0;i<answers.size();i++){
-//                    answer = answers.get(i);
-//                    user = usermapper.selectByUserId(answer.getUserId());
-//                    if(answer != null){
-//                        jsonObject.put(("answer"),answer);
-//                        jsonObject.put(("user_name"),user.getName());
-//                        jsonObjects.add(i,jsonObject);
-//                    }
-//                }
-//                baseResponse.setData(jsonObjects);
-                baseResponse.setData(answers);
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
-            }
-
         }else{
             answers = answermapper.selectByUserAndState(userId,ansState);
 
-            if(answers.size()!= 0){
-//                int i;
-//                for(i=0;i<answers.size();i++){
-//                    answer = answers.get(i);
-//                    user = usermapper.selectByUserId(answer.getUserId());
-//                    System.out.println("question"+i+"的time显示："+question.getQuesTime());
-//                    if(answer != null){
-//                        jsonObject.put(("answer"),answer);
-//                        jsonObject.put(("user_name"),user.getName());
-//                        jsonObjects.add(i,jsonObject);
-//                    }
-//                }
-//                baseResponse.setData(jsonObjects);
-                baseResponse.setData(answers);
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
-            }
-
+        }
+        if(answers.size()!= 0){
+            baseResponse.setData(answers);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);//数据查找成功
+        }else{
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);//没有记录
         }
         return baseResponse;
 
