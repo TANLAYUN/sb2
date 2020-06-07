@@ -149,7 +149,7 @@ public enum ResultCodeEnum
 
     //
     STATE_CHANGE_SUCCESS("6000","状态修改成功"),
-    STATE_CHANGE_FAILURE_UPDATE_DB_ERROE("6001","状态修改失败_更新数据库错误"),
+    STATE_CHANGE_FAILURE_UPDATE_DB_ERROR("6001","状态修改失败_更新数据库错误"),
     STATE_CHANGE_FAILURE_INVALID_AUDIT_STATE("6002","状态修改失败_用户未经审核"),
     STATE_CHANGE_FAILURE_USER_BLOCKED("6003","状态修改失败_用户已被拉黑"),
     STATE_CHANGE_FAILURE_NO_EXIST_USER("6004","状态修改失败_用户不存在"),

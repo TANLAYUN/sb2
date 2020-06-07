@@ -45,10 +45,10 @@ public class CommentServiceImpl implements CommentService {
                 if(a == 1){
                     baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
                 }else{
-                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);//更新数据库失败
+                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);//更新数据库失败
                 }
             }else{
-                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
             }
         }else if(comment == null){
             baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_EXIST_COMMENT);//评论不存在
@@ -254,7 +254,7 @@ public class CommentServiceImpl implements CommentService {
         if(a == 1){
             baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
         }else{
-            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
         }
         return baseResponse;
     }

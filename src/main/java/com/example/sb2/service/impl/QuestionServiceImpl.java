@@ -88,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService {
                 }
                 baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
             }else{
-                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
             }
         }else if(question == null){
             baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_EXIST_QUESTION);//问题不存在

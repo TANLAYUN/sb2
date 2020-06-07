@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
                     if(a == 1){
                         baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//审核用户成功
                     }else{
-                        baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);//更新数据库失败
+                        baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);//更新数据库失败
                     }
                 }else if(user.getState().equals(2)){
                     //用户状态为2(被拉黑)
@@ -337,8 +337,17 @@ public class UserServiceImpl implements UserService {
     public BaseResponse viewUserInfo(String mail){
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByPrimaryKey(mail);
+        JSONObject jsonObject = new JSONObject();
         if(user != null){
-            baseResponse.setData(user);
+            jsonObject.put("mail",user.getMail());
+            jsonObject.put("userId",user.getUserId());
+            jsonObject.put("name",user.getName());
+            jsonObject.put("state",user.getState());
+            jsonObject.put("addTime",user.getAddTime());
+            jsonObject.put("capital",user.getCapital());
+            jsonObject.put("image",user.getImage());
+            jsonObject.put("reportNum",user.getReportNum());
+            baseResponse.setData(jsonObject);
             baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
         }else if(user == null){
              baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
@@ -369,7 +378,7 @@ public class UserServiceImpl implements UserService {
         return baseResponse;
     }
 
-    //回答
+    //收到的回答
     public BaseResponse searchAnswerInfo(Integer userId){
         BaseResponse baseResponse = new BaseResponse();
         List<Answer> answerList = new ArrayList<>();
@@ -392,12 +401,10 @@ public class UserServiceImpl implements UserService {
         return baseResponse;
     }
 
-    //评论
+    //收到的评论
     public BaseResponse searchCommentInfo(Integer userId){
         BaseResponse baseResponse = new BaseResponse();
         List<Comment> commentList = new ArrayList<>();
-        List<Comment> commentList2 = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject();
         int i,j;
         //1.查看回答的评论
         List<Answer> Answers = answermapper.selectAnssByUserId(userId);

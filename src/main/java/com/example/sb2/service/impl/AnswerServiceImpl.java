@@ -68,7 +68,7 @@ public class AnswerServiceImpl implements AnswerService {
                 }
                 baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
             } else {
-                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
             }
         } else if (answer == null) {
             baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_EXIST_ANSWER);//回答不存在
@@ -363,7 +363,7 @@ public class AnswerServiceImpl implements AnswerService {
         if(a == 1){
             baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
         }else{
-            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
         }
         return baseResponse;
     }

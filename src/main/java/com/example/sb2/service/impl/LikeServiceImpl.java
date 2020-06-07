@@ -109,10 +109,6 @@ public class LikeServiceImpl implements LikeService {
         if(likeOrNots.size() != 0){
             //有记录，可以取消
             LikeOrNot likeOrNot = likeOrNots.get(0);
-            System.out.println("likeOrNot的state："+likeOrNot.getLikeState());
-            System.out.println("likeOrNot的id："+likeOrNot.getId());
-            System.out.println("likeOrNot的ansId："+likeOrNot.getAnsId());
-            System.out.println("likeOrNot的userId："+likeOrNot.getUserId());
             int b;
             int a = likeOrNotmapper.delete(id);
             Answer answer = answermapper.selectByPrimaryKey(likeOrNot.getAnsId());

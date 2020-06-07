@@ -211,7 +211,7 @@ public class ReportServiceImpl implements ReportService {
             if(a ==1 && b == 1){
                 baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
             }else{
-                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROE);
+                baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
             }
 
         }else if(reportState.equals(2)){
