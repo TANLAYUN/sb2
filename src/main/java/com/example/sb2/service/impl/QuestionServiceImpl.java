@@ -45,9 +45,7 @@ public class QuestionServiceImpl implements QuestionService {
                 questionmapper.updateQuesStateByQuesId(quesId,quesState);
                 //回答修改状态
                 if(answers.size()!=0){
-                    System.out.println("answers的大小"+answers.size());
                     for(i=0;i<answers.size();i++){
-                        System.out.println("第"+i+"个answer的状态"+answers.get(i).getAnsState());
                         if(answers.get(i).getAnsState().equals(3)){
                             answermapper.updateAnsStateByAnsId(answers.get(i).getAnsId(),0);
                             List<Comment> comments = commentmapper.selectComsByAnsId(answers.get(i).getAnsId());
@@ -55,12 +53,10 @@ public class QuestionServiceImpl implements QuestionService {
                                 for(j=0;j<comments.size();j++){
                                     if(comments.get(j).getComState().equals(3)){
                                         commentmapper.updateComStateByComId(comments.get(j).getComId(),0);
-                                        System.out.println("评论"+j+"解除拉黑完成");
                                     }
                                 }
                             }
-                            System.out.println("回答"+i+"解除拉黑完成");
-                        }
+                         }
                     }
                 }
                 baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//状态修改成功
@@ -78,11 +74,9 @@ public class QuestionServiceImpl implements QuestionService {
                                 for(j=0;j<comments.size();j++){
                                     if(comments.get(j).getComState().equals(0)){
                                         commentmapper.updateComStateByComId(comments.get(j).getComId(),3);
-                                        System.out.println("评论"+j+"拉黑完成");
                                     }
                                 }
                             }
-                            System.out.println("回答"+i+"拉黑完成");
                         }
                     }
                 }
