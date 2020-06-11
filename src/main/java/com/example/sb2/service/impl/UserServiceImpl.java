@@ -31,8 +31,6 @@ public class UserServiceImpl implements UserService {
 
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByUserId(userId);
-        System.out.println("userId:"+userId);
-        System.out.println(user.getState());
         List<Question> questions = questionmapper.selectQuessByUserId(userId);
         if(user != null){
             if(user.getState().equals(userState)){
@@ -41,6 +39,7 @@ public class UserServiceImpl implements UserService {
             }else if(userState.equals(1)){
 
                 //将用户状态调至正常
+
                 if(user.getState().equals(0)){
                     //用户状态为0(未审核)
                     int a = usermapper.modifyUserState(userId,userState);
@@ -123,7 +122,12 @@ public class UserServiceImpl implements UserService {
                 }
 
             }else{
-                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+                int a = usermapper.modifyUserState(userId,userState);
+                if(a == 1){
+                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//用户成功
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
+                }
             }
         }else if(user == null){
             baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_NO_EXIST_USER);//用户不存在
