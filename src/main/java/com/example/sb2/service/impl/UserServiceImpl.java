@@ -161,16 +161,17 @@ public class UserServiceImpl implements UserService {
     //根据状态选取用户
     public BaseResponse searchUsersByState(Integer userState){
         BaseResponse baseResponse = new BaseResponse();
-        JSONObject jsonObject = new JSONObject();
         List<JSONObject> jsonObjects = new ArrayList<>();
+        int i;
 
         if(userState.equals(4)){
 
             List<User> users = usermapper.selectAll();
 
             if(users.size()!= 0){
-                for(int i=0;i<users.size();i++){
+                for(i=0;i<users.size();i++){
                     User user = users.get(i);
+                    JSONObject jsonObject = new JSONObject();
                     jsonObject.put("mail",user.getMail());
                     jsonObject.put("userId",user.getUserId());
                     jsonObject.put("name",user.getName());
@@ -191,8 +192,9 @@ public class UserServiceImpl implements UserService {
             List<User> users = usermapper.selectByState(userState);
 
             if(users.size()!= 0){
-                for(int i=0;i<users.size();i++){
+                for(i=0;i<users.size();i++){
                     User user = users.get(i);
+                    JSONObject jsonObject = new JSONObject();
                     jsonObject.put("mail",user.getMail());
                     jsonObject.put("userId",user.getUserId());
                     jsonObject.put("name",user.getName());
