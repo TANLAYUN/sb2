@@ -2,6 +2,8 @@ package com.example.sb2.service;
 
 import com.example.sb2.kit.BaseResponse;
 
+import java.text.ParseException;
+
 public interface UserService {
     //修改用户状态
     BaseResponse modifyUserState(Integer userId, Integer userState);
@@ -32,4 +34,10 @@ public interface UserService {
 
     //收到的评论
     BaseResponse searchCommentInfo(Integer userId);
+
+    //根据年数查看每月注册人数
+    BaseResponse viewRegnumByYear(String year);
+
+    //日期查看一周的注册人数
+    BaseResponse viewRegnumByDate(String date) throws ParseException;
 }

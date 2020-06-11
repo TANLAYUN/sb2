@@ -22,6 +22,7 @@ public interface userMapper {
 
     List<User> selectByState(Integer userState);
 
+    List<User> selectNumByString(String string);
     //update
     //修改用户状态
     @Update("update user set state=#{userState} where user_id=#{userId}")

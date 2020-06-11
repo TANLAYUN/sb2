@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.ParseException;
 import java.util.UUID;
 
 @RestController
@@ -188,6 +189,19 @@ public class AdminController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "viewRegnumByYear", method = RequestMethod.POST)
+    public BaseResponse viewRegnumByYear(String year){
+        BaseResponse baseResponse;
+        baseResponse = userService.viewRegnumByYear(year);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "viewRegnumByDate", method = RequestMethod.POST)
+    public BaseResponse viewRegnumByDate(String date) throws ParseException {
+        BaseResponse baseResponse;
+        baseResponse = userService.viewRegnumByDate(date);
+        return baseResponse;
+    }
     //文件上传
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;

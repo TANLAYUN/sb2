@@ -8,8 +8,12 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -441,5 +445,62 @@ public class UserServiceImpl implements UserService {
         return baseResponse;
     }
 
+    //根据年数查看每月注册人数
+    public BaseResponse viewRegnumByYear(String year){
+        BaseResponse baseResponse = new BaseResponse();
+        List list = new ArrayList();
+        int i=0,a=0;
+        for(i=0;i<12;i++){
+            String string;
+            if(i<9){
+                string = year+"-0"+(i+1);
+            }else{
+                string = year+"-"+(i+1);
+            }
+            System.out.println(string);
+//            System.out.println(usermapper.selectNumByString(string));
+            List<User> users = usermapper.selectNumByString(string);
+            System.out.println(users.size());
+            list.add(i,users.size());
+        }
+        baseResponse.setData(list);
+        baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        return baseResponse;
+    }
 
+    //日期查看一周的注册人数
+    public BaseResponse viewRegnumByDate(String date) throws ParseException {
+        BaseResponse baseResponse = new BaseResponse();
+        List list = new ArrayList();
+        int i=0,a=0;
+
+        for(i=0;i<7;i++){
+            String string=null;
+            if (i != 0) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date sDate = sdf.parse(date);//要实现日期+1 需要String转成Date类型
+
+                Format f = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println("Date结束日期:" + f.format(sDate));
+
+                Calendar c = Calendar.getInstance();
+                c.setTime(sDate);
+                c.add(Calendar.DAY_OF_MONTH, 1);      //利用Calendar 实现 Date日期+1天
+
+                sDate = c.getTime();
+                System.out.println("Date结束日期+1 " +f.format(sDate));//打印Date日期,显示成功+1天
+
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                date = sdf1.format(sDate);
+                System.out.println("Date类型转String类型  "+date);//将日期转成String类型 方便进入数据库比较
+
+            }
+            List<User> users = usermapper.selectNumByString(date);
+            System.out.println(users.size());
+            list.add(i,users.size());
+        }
+        baseResponse.setData(list);
+        baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        return baseResponse;
+    }
 }
