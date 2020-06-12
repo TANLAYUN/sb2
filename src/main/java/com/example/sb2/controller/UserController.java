@@ -364,4 +364,10 @@ public class UserController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "readReport", method = RequestMethod.POST)
+    public BaseResponse readReport(Integer reportId){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = reportService.readAReport(reportId);
+        return baseResponse;
+    }
 }

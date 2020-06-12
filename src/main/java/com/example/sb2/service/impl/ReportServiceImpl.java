@@ -226,5 +226,15 @@ public class ReportServiceImpl implements ReportService {
         return baseResponse;
     }
 
-
+    //回答已读
+    public BaseResponse readAReport(Integer reportId){
+        BaseResponse baseResponse = new BaseResponse();
+        int a = reportmapper.readReport(reportId);
+        if(a == 1){
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
+        }else{
+            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
+        }
+        return baseResponse;
+    }
 }

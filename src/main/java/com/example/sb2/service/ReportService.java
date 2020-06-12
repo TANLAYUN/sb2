@@ -18,4 +18,7 @@ public interface ReportService {
 
     //修改举报处理状态
     BaseResponse modifyReportState(Integer reportId, Integer reportState);
+
+    //阅读举报
+    BaseResponse readAReport(Integer reportId);
 }

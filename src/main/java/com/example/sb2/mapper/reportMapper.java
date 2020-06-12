@@ -53,4 +53,6 @@ public interface reportMapper {
     @Update("update report set report_state = #{reportState} where report_id = #{reportId}")
     int updateReportState(Integer reportId, Integer reportState);
 
+    @Update("update report set is_read = 1 where report_id=#{reportId}")
+    int readReport(Integer reportId);
 }
