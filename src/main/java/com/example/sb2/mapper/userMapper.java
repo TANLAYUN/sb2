@@ -42,6 +42,9 @@ public interface userMapper {
     @Update("update user set report_num = #{reportNum} where user_id = #{userId}")
     int updateReportNum(Integer userId, Integer reportNum);
 
+    @Update("update user set pwd = #{pwd} where mail = #{mail}")
+    int updatePwd(String mail, String pwd);
+
     //delete
     int deleteByPrimaryKey(String mail);
 

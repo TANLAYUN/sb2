@@ -40,4 +40,7 @@ public interface UserService {
 
     //日期查看一周的注册人数
     BaseResponse viewRegnumByDate(String date) throws ParseException;
+
+    //忘记密码
+    BaseResponse forgetPwd(String mail, String pwd);
 }

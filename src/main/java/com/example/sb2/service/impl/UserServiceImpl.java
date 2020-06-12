@@ -525,4 +525,21 @@ public class UserServiceImpl implements UserService {
         baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
         return baseResponse;
     }
+
+    //忘记密码
+    public BaseResponse forgetPwd(String mail, String pwd){
+        BaseResponse baseResponse = new BaseResponse();
+        User user = usermapper.selectByPrimaryKey(mail);
+        if(user != null){
+            int a = usermapper.updatePwd(mail,pwd);
+            if(a == 1){
+                baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_SUCCESS);
+            }else{
+                baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);
+            }
+        }else{
+            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_USER_MAIL_EXIST);
+        }
+        return baseResponse;
+    }
 }

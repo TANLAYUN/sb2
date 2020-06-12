@@ -84,6 +84,25 @@ public class UserController {
         return baseResponse;
     }
 
+    @RequestMapping(value = "forgetPwd", method = RequestMethod.POST)
+    public BaseResponse forgetPwd(String mail, String pwd, String confirmCode) {
+
+        BaseResponse baseResponse = new BaseResponse();
+
+        String realCode = mailCode.get(mail);
+        //移除mail
+        mailCode.remove(mail);
+
+        if(realCode == null){
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_NOT_APPLIED_MAIL_CODE);//没有申请验证码
+        } else if (realCode.equals(confirmCode)) {
+            baseResponse = userService.forgetPwd(mail,pwd);
+        } else {
+            baseResponse.setResult(ResultCodeEnum.REGISTER_FAILURE_CONFIRM_CODE_ERROR);//验证码错误
+        }
+        return baseResponse;
+    }
+
     @RequestMapping(value = "login", method = RequestMethod.POST) //
     public BaseResponse login(String mail,String pwd){
         BaseResponse baseResponse;
