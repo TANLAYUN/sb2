@@ -240,7 +240,6 @@ public class QuestionServiceImpl implements QuestionService {
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByUserId(userId);
 
-        JSONObject jsonObject = new JSONObject();
         org.json.JSONObject result1 = BaiDuAiCheck.checkText(quesTitle);
         org.json.JSONObject result2 = BaiDuAiCheck.checkText(quesContent);
         System.out.println(result1);

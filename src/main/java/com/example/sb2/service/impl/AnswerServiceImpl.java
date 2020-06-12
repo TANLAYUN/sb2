@@ -1,6 +1,7 @@
 package com.example.sb2.service.impl;
 
 import com.example.sb2.entity.*;
+import com.example.sb2.kit.BaiDuAiCheck;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.*;
@@ -82,18 +83,26 @@ public class AnswerServiceImpl implements AnswerService {
     public BaseResponse answer(Integer userId, Integer quesId, String ansContent) {
         BaseResponse baseResponse = new BaseResponse();
         Question question = questionmapper.selectByPrimaryKey(quesId);
-        //获取系统时间
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
-        String ansTime = dateFormat.format(now);
-        int a = answermapper.insert(userId, quesId, ansContent, ansTime);
-        int b = questionmapper.updateQuesAnsNumByQuesId(quesId, question.getQuesAnsNum() + 1);
-        if (a == 1 && b == 1) {
-            baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);
-        } else if (a != 1 || b != 1) {
-            baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_FAILURE_DB_ERROR);
-        } else {
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+
+        org.json.JSONObject result1 = BaiDuAiCheck.checkText(ansContent);
+        if (result1.get("conclusion").equals("合规")) {
+            System.out.println("审核通过");
+            //获取系统时间
+            Date now = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+            String ansTime = dateFormat.format(now);
+            int a = answermapper.insert(userId, quesId, ansContent, ansTime);
+            int b = questionmapper.updateQuesAnsNumByQuesId(quesId, question.getQuesAnsNum() + 1);
+            if (a == 1 && b == 1) {
+                baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_SUCCESS);
+            } else if (a != 1 || b != 1) {
+                baseResponse.setResult(ResultCodeEnum.ANSWER_ADD_FAILURE_DB_ERROR);
+            } else {
+                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+            }
+        }else{
+            System.out.println("审核失败");
+            baseResponse.setResult(ResultCodeEnum.CONTENT_CHECK_FAILURE);
         }
         return baseResponse;
     }
@@ -212,20 +221,25 @@ public class AnswerServiceImpl implements AnswerService {
         BaseResponse baseResponse = new BaseResponse();
         Answer answer = answermapper.selectByPrimaryKey(ansId);
 
-        if (answer != null) {
-            int a = answermapper.updateAnsByAnsId(ansId, ansContent);
-            if (a == 1) {
-                baseResponse.setData(answermapper.selectByPrimaryKey(ansId));
-                baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_SUCCESS);//更新成功
+        org.json.JSONObject result1 = BaiDuAiCheck.checkText(ansContent);
+        if (result1.get("conclusion").equals("合规")) {
+            if (answer != null) {
+                int a = answermapper.updateAnsByAnsId(ansId, ansContent);
+                if (a == 1) {
+                    baseResponse.setData(answermapper.selectByPrimaryKey(ansId));
+                    baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_SUCCESS);//更新成功
+                } else {
+                    baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_DB_ERROR);
+                }
+            } else if (answer == null) {
+                baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_NOT_EXIST);
             } else {
-                baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_DB_ERROR);
+                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
             }
-        } else if (answer == null) {
-            baseResponse.setResult(ResultCodeEnum.ANSWER_UPDATE_FAILURE_NOT_EXIST);
-        } else {
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+        }else{
+            System.out.println("审核失败");
+            baseResponse.setResult(ResultCodeEnum.CONTENT_CHECK_FAILURE);
         }
-
         return baseResponse;
     }
 

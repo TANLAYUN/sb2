@@ -4,6 +4,7 @@ import com.example.sb2.entity.Answer;
 import com.example.sb2.entity.Comment;
 import com.example.sb2.entity.Question;
 import com.example.sb2.entity.User;
+import com.example.sb2.kit.BaiDuAiCheck;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.answerMapper;
@@ -61,16 +62,22 @@ public class CommentServiceImpl implements CommentService {
     //用户评论
     public BaseResponse comment(Integer userId, Integer ansId, String comContent, Integer ansComId){
         BaseResponse baseResponse = new BaseResponse();
-        int a = commentmapper.insert(userId,ansId,comContent,ansComId);
-        int b = answermapper.updateAnsComNumByAnsId(ansId,answermapper.selectByPrimaryKey(ansId).getAnsComNum()+1);
-        if(a == 1 && b == 1){
-            baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_SUCCESS);
-        }else if(a != 1 || b != 1){
-            baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_FAILURE_DB_ERROR);
-        }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
-        }
 
+        org.json.JSONObject result1 = BaiDuAiCheck.checkText(comContent);
+        if (result1.get("conclusion").equals("合规")) {
+            int a = commentmapper.insert(userId, ansId, comContent, ansComId);
+            int b = answermapper.updateAnsComNumByAnsId(ansId, answermapper.selectByPrimaryKey(ansId).getAnsComNum() + 1);
+            if (a == 1 && b == 1) {
+                baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_SUCCESS);
+            } else if (a != 1 || b != 1) {
+                baseResponse.setResult(ResultCodeEnum.COMMENT_ADD_FAILURE_DB_ERROR);
+            } else {
+                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+            }
+        }else{
+            System.out.println("审核失败");
+            baseResponse.setResult(ResultCodeEnum.CONTENT_CHECK_FAILURE);
+        }
         return baseResponse;
     }
 
@@ -149,21 +156,25 @@ public class CommentServiceImpl implements CommentService {
     public BaseResponse modifyPersonalComment(Integer comId, String comContent){
         BaseResponse baseResponse = new BaseResponse();
         Comment comment = commentmapper.selectByPrimaryKey(comId);
-
-        if(comment != null){
-            int a = commentmapper.updateComByComId(comId,comContent);
-            if(a == 1){
-                baseResponse.setData(commentmapper.selectByPrimaryKey(comId));
-                baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_SUCCESS);//更新成功
-            }else{
-                baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_FAILURE_DB_ERROR);
+        org.json.JSONObject result1 = BaiDuAiCheck.checkText(comContent);
+        if (result1.get("conclusion").equals("合规")) {
+            if (comment != null) {
+                int a = commentmapper.updateComByComId(comId, comContent);
+                if (a == 1) {
+                    baseResponse.setData(commentmapper.selectByPrimaryKey(comId));
+                    baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_SUCCESS);//更新成功
+                } else {
+                    baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_FAILURE_DB_ERROR);
+                }
+            } else if (comment == null) {
+                baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_FAILURE_NOT_EXIST);
+            } else {
+                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
             }
-        }else if(comment == null){
-            baseResponse.setResult(ResultCodeEnum.COMMENT_UPDATE_FAILURE_NOT_EXIST);
         }else{
-            baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+            System.out.println("审核失败");
+            baseResponse.setResult(ResultCodeEnum.CONTENT_CHECK_FAILURE);
         }
-
         return baseResponse;
     }
 
