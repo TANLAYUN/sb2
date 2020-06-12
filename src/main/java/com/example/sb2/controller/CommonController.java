@@ -189,4 +189,11 @@ public class CommonController {
         baseResponse = answerService.selectAnsByAnsId(ansId);
         return baseResponse;
     }
+
+    @RequestMapping(value = "searchCommentByComId", method = RequestMethod.POST)
+    public BaseResponse searchCommentByComId(Integer comId) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse = commentService.selectComByComId(comId);
+        return baseResponse;
+    }
 }

@@ -538,7 +538,7 @@ public class UserServiceImpl implements UserService {
                 baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_DB_UPDATE_ERROR);
             }
         }else{
-            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_USER_MAIL_EXIST);
+            baseResponse.setResult(ResultCodeEnum.INFO_UPDATE_FAILURE_NO_EXIST_USER);
         }
         return baseResponse;
     }

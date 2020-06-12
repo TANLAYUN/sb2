@@ -30,4 +30,7 @@ public interface CommentService {
 
     //评论已读
     BaseResponse readComment(Integer comId);
+
+    //根据评论id查看评论
+    BaseResponse selectComByComId(Integer comId);
 }

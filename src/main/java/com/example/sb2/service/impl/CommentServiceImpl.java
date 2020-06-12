@@ -269,4 +269,17 @@ public class CommentServiceImpl implements CommentService {
         }
         return baseResponse;
     }
+
+    //根据评论id查看评论
+    public BaseResponse selectComByComId(Integer comId){
+        BaseResponse baseResponse = new BaseResponse();
+        Comment comment = commentmapper.selectByPrimaryKey(comId);
+        if(comment == null){
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }else{
+            baseResponse.setData(comment);
+            baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
+        }
+        return baseResponse;
+    }
 }
