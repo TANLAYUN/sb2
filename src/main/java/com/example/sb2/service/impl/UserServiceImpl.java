@@ -449,7 +449,9 @@ public class UserServiceImpl implements UserService {
     public BaseResponse viewRegnumByYear(String year){
         BaseResponse baseResponse = new BaseResponse();
         List list = new ArrayList();
-        int i=0,a=0;
+        JSONObject jsonObject = new JSONObject();
+        int all = 0;
+        int i=0;
         for(i=0;i<12;i++){
             String string;
             if(i<9){
@@ -458,12 +460,13 @@ public class UserServiceImpl implements UserService {
                 string = year+"-"+(i+1);
             }
             System.out.println(string);
-//            System.out.println(usermapper.selectNumByString(string));
             List<User> users = usermapper.selectNumByString(string);
-            System.out.println(users.size());
+            all = all+users.size();
             list.add(i,users.size());
         }
-        baseResponse.setData(list);
+        jsonObject.put("list",list);
+        jsonObject.put("all",all);
+        baseResponse.setData(jsonObject);
         baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
         return baseResponse;
     }
@@ -472,34 +475,42 @@ public class UserServiceImpl implements UserService {
     public BaseResponse viewRegnumByDate(String date) throws ParseException {
         BaseResponse baseResponse = new BaseResponse();
         List list = new ArrayList();
-        int i=0,a=0;
+        JSONObject jsonObject = new JSONObject();
+        int i=0,all=0;
 
         for(i=0;i<7;i++){
-            String string=null;
+            System.out.println("i："+i);
             if (i != 0) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date sDate = sdf.parse(date);//要实现日期+1 需要String转成Date类型
 
                 Format f = new SimpleDateFormat("yyyy-MM-dd");
-                System.out.println("Date结束日期:" + f.format(sDate));
 
                 Calendar c = Calendar.getInstance();
                 c.setTime(sDate);
                 c.add(Calendar.DAY_OF_MONTH, 1);      //利用Calendar 实现 Date日期+1天
 
                 sDate = c.getTime();
-                System.out.println("Date结束日期+1 " +f.format(sDate));//打印Date日期,显示成功+1天
 
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                 date = sdf1.format(sDate);
-                System.out.println("Date类型转String类型  "+date);//将日期转成String类型 方便进入数据库比较
 
+            }else{
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date sDate = sdf.parse(date);//要实现日期+1 需要String转成Date类型
+
+                Format f = new SimpleDateFormat("yyyy-MM-dd");
+
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                date = sdf1.format(sDate);
             }
             List<User> users = usermapper.selectNumByString(date);
-            System.out.println(users.size());
+            all = all+users.size();
             list.add(i,users.size());
         }
-        baseResponse.setData(list);
+        jsonObject.put("list",list);
+        jsonObject.put("all",all);
+        baseResponse.setData(jsonObject);
         baseResponse.setResult(ResultCodeEnum.DB_FIND_SUCCESS);
         return baseResponse;
     }
