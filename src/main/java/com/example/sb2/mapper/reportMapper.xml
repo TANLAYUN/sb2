@@ -10,9 +10,10 @@
         <result column="report_content" jdbcType="LONGVARCHAR" property="reportContent" />
         <result column="report_time" jdbcType="DATE" property="reportTime" />
         <result column="report_state" jdbcType="BIT" property="reportState" />
+        <result column="is_read" jdbcType="BIT" property="isRead" />
     </resultMap>
     <sql id="Base_Column_List">
-    report_id, report_user_id, report_type, report_type_id, reported_user_id, report_content, report_time, report_state
+    report_id, report_user_id, report_type, report_type_id, reported_user_id, report_content, report_time, report_state, is_read
   </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

@@ -10,6 +10,15 @@ public class Report {
     private String reportContent;
     private String reportTime;
     private Integer reportState;
+    private Integer isRead;
+
+    public Integer getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Integer isRead) {
+        this.isRead = isRead;
+    }
 
     public Integer getReportId() {
         return reportId;
