@@ -132,7 +132,14 @@ public class UserServiceImpl implements UserService {
             }else{
                 int a = usermapper.modifyUserState(userId,userState);
                 if(a == 1){
-                    baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//用户成功
+                    SendMail sendMail = new SendMail();
+                    String content = "您好，您的注册申请已经被管理员拒绝。若非本人操作，请忽略此邮件。";
+                    boolean succeed = sendMail.sendingMail(user.getName(), user.getMail(), content);
+                    if (succeed) {
+                        baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//用户成功
+                    } else {
+                        baseResponse.setResult(ResultCodeEnum.NOTICE_SEND_FAILURE_FIRM_NOT_EXIST);
+                    }
                 }else{
                     baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);
                 }
