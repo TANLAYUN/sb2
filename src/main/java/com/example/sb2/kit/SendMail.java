@@ -20,7 +20,7 @@ public class SendMail extends HttpServlet {
     private String mailBodyString;
     private String mailCopyToString = null;
     private String mailBCopyToString = null;
-    private String mailSubjectString = "系统消息"; // 根据实际情况传入
+    private String mailSubjectString = "探源问答系统——系统消息"; // 根据实际情况传入
 
     public SendMail() {
 

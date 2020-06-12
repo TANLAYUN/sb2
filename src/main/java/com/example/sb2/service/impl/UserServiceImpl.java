@@ -12,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -48,7 +45,14 @@ public class UserServiceImpl implements UserService {
                     //用户状态为0(未审核)
                     int a = usermapper.modifyUserState(userId,userState);
                     if(a == 1){
-                        baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);//审核用户成功
+                        SendMail sendMail = new SendMail();
+                        String content = "您好，您的注册申请已经被管理员同意,欢迎加入探源在线问答系统。若非本人操作，请忽略此邮件。";
+                        boolean succeed = sendMail.sendingMail(user.getName(), user.getMail(), content);
+                        if (succeed) {
+                            baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_SUCCESS);
+                        } else {
+                            baseResponse.setResult(ResultCodeEnum.NOTICE_SEND_FAILURE_FIRM_NOT_EXIST);
+                        }
                     }else{
                         baseResponse.setResult(ResultCodeEnum.STATE_CHANGE_FAILURE_UPDATE_DB_ERROR);//更新数据库失败
                     }
