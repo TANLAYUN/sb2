@@ -99,6 +99,13 @@
     from question where user_id = #{userId,jdbcType=INTEGER} order by ques_time desc
   </select>
 
+  <select id="selectNumByString" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question where ques_time like '%${string}%'
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from question

@@ -37,6 +37,7 @@ public interface questionMapper {
 
     List<Question> selectByUserAndQuesAnsState(Integer userId, Integer quesAnsState);
 
+    List<Question> selectNumByString(String string);
     //update
     @Update("update question set ques_state=#{quesState} where ques_id=#{quesId}")
     int updateQuesStateByQuesId(Integer quesId,Integer quesState);

@@ -202,6 +202,20 @@ public class AdminController {
         baseResponse = userService.viewRegnumByDate(date);
         return baseResponse;
     }
+
+    @RequestMapping(value = "viewQuesnumByYear", method = RequestMethod.POST)
+    public BaseResponse viewQuesnumByYear(String year){
+        BaseResponse baseResponse;
+        baseResponse = questionService.viewQuesnumByYear(year);
+        return baseResponse;
+    }
+
+    @RequestMapping(value = "viewQuesnumByDate", method = RequestMethod.POST)
+    public BaseResponse viewQuesnumByDate(String date) throws ParseException {
+        BaseResponse baseResponse;
+        baseResponse = questionService.viewQuesnumByDate(date);
+        return baseResponse;
+    }
     //文件上传
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;
