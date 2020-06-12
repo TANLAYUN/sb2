@@ -73,6 +73,12 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+<!--        百度文本审核-->
+        <dependency>
+            <groupId>com.baidu.aip</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>4.12.0</version>
+        </dependency>
     </dependencies>
 
     <build>

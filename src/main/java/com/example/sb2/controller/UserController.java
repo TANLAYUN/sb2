@@ -1,5 +1,6 @@
 package com.example.sb2.controller;
 
+import com.example.sb2.kit.BaiDuAiCheck;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.kit.SendMail;
@@ -362,4 +363,5 @@ public class UserController {
         baseResponse = commentService.readComment(comId);
         return baseResponse;
     }
+
 }

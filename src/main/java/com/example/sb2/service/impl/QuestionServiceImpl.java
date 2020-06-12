@@ -2,6 +2,7 @@ package com.example.sb2.service.impl;
 
 import com.example.sb2.entity.*;
 import com.example.sb2.entity.Question;
+import com.example.sb2.kit.BaiDuAiCheck;
 import com.example.sb2.kit.BaseResponse;
 import com.example.sb2.kit.ResultCodeEnum;
 import com.example.sb2.mapper.*;
@@ -238,24 +239,36 @@ public class QuestionServiceImpl implements QuestionService {
 
         BaseResponse baseResponse = new BaseResponse();
         User user = usermapper.selectByUserId(userId);
-        if(user.getCapital() < quesReward){
-            baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL);
-        }else{
-            //获取系统时间
-            Date now = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
-            String quesTime = dateFormat.format(now);
-            int a = questionmapper.insert(userId,quesTitle,quesContent,quesReward,quesTime);
-            int b = usermapper.updateUserCapital(userId,(user.getCapital()-quesReward));
-            if(a == 1 && b == 1){
-                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);
-            }else if(a != 1 || b != 1){
-                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_DB_ERROR);
-            }else{
-                baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
-            }
-        }
 
+        JSONObject jsonObject = new JSONObject();
+        org.json.JSONObject result1 = BaiDuAiCheck.checkText(quesTitle);
+        org.json.JSONObject result2 = BaiDuAiCheck.checkText(quesContent);
+        System.out.println(result1);
+        System.out.println(result2);
+
+        if (result1.get("conclusion").equals("合规") && result2.get("conclusion").equals("合规")){
+            System.out.println("审核通过");
+            if(user.getCapital() < quesReward){
+                baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL);
+            }else{
+                //获取系统时间
+                Date now = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+                String quesTime = dateFormat.format(now);
+                int a = questionmapper.insert(userId,quesTitle,quesContent,quesReward,quesTime);
+                int b = usermapper.updateUserCapital(userId,(user.getCapital()-quesReward));
+                if(a == 1 && b == 1){
+                    baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_SUCCESS);
+                }else if(a != 1 || b != 1){
+                    baseResponse.setResult(ResultCodeEnum.QUESTION_ADD_FAILURE_DB_ERROR);
+                }else{
+                    baseResponse.setResult(ResultCodeEnum.UNKOWN_ERROE);
+                }
+            }
+        }else {
+            System.out.println("审核失败");
+            baseResponse.setResult(ResultCodeEnum.CONTENT_CHECK_FAILURE);
+        }
 
         return baseResponse;
     }

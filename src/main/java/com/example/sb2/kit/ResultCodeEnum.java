@@ -36,6 +36,8 @@ public enum ResultCodeEnum
     BEST_ANS_UPDATE_FAILURE_ANS_NOT_EXIST("2010","最佳答案修改失败_回答不存在"),
     BEST_ANS_UPDATE_FAILURE_DB_ERROR("2011","最佳答案修改失败_数据库错误"),
 
+
+    CONTENT_CHECK_FAILURE("2012","内容审核失败_请合法合理文明用语"),
     //
     QUESTION_ADD_FAILURE_INSUFFICIENT_CAPITAL("2014","问题添加失败_积分不足"),
     QUESTION_ADD_SUCCESS("2015","问题添加成功"),
