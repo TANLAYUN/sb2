@@ -43,7 +43,7 @@ public class SendMail extends HttpServlet {
 
         try {
             mailToString = stuEmailString;
-            mailBodyString = "<p>尊敬的 " + stuNameString + ",<br/><br/>您在系统中收到如下信息：</p>" + "<p>" + contentString + "</p>";
+            mailBodyString = "<p>尊敬的 " + stuNameString + ",您在系统中收到如下信息：</p>" + "<p>" + contentString + "</p>";
             // 创建MIME邮件对象
             mimeMessage = new MimeMessage(mailSession);
             // 设置发信人

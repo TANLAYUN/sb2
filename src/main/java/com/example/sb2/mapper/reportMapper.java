@@ -15,7 +15,7 @@ import java.util.Map;
 public interface reportMapper {
     //insert
     @Insert("insert into report(report_user_id,report_type,report_type_id,reported_user_id,report_content,report_time) values( #{reportUserId}, #{reportType}, #{reportTypeId}, #{reportedUserId}, #{reportContent}, #{reportTime} )")
-    int insert(Integer reportUserId, Integer reportType, Integer report_type_id, Integer reportedUserId, String reportContent, String reportTime);
+    int insert(Integer reportUserId, Integer reportType, Integer reportTypeId, Integer reportedUserId, String reportContent, String reportTime);
 
     //select
     Report selectByPrimaryKey(Integer reportId);
