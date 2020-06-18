@@ -15,10 +15,18 @@ spring:
   datasource:
     #   数据源基本配置
     username: root
-    password: root
+#    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ZVD6jD6i/EWCFPW+24KjZ3ZQiQ00jt9oTX218BdKQ9kqJ407TA3HvxoSaDPzROR66P5wuFKRcXa04BM8dLaRkQ==
     url: jdbc:mysql://localhost:3306/online_answer?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-    # type: com.alibaba.druid.pool.DruidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ1dt92eI7k/Yp1vo1OShPIBEEFSG4h7vu096CLPNiWQSKtgvd29Xpun5HyaFl8K/Dec1Iwh2lUcRy6FVyRvyKkCAwEAAQ==
+      connection-properties: config.decrypt=true;config.decrypt.key=${spring.datasource.druid.publicKey}
+      filter:
+        config:
+          enabled: true
+
     #   数据源其他配置
     initialSize: 5    #连接池初始数量
     minIdle: 5        #最大空闲数，数据库连接的最大空闲时间。超过空闲时间，数据库连接将被标记为不可用，然后被释放。设为0表示无限制。
@@ -33,3 +41,7 @@ spring:
     mybatis:
       mapper-locations: classpath:com.example.sb2.mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
       type-aliases-package: com.example.sb2.entity  # 注意：对应实体类的路径
+
+    data:
+      elasticsearch:
+        cluster-nodes:
